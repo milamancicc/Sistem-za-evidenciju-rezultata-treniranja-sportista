@@ -24,9 +24,6 @@ public class StavkaTestiranjaConverter implements Converter<StavkaTestiranja, St
             return null;
         StavkaTestiranja entity = new StavkaTestiranja();
         
-        StavkaTestiranjaId id = new StavkaTestiranjaId();
-        id.setRb(dto.getRb());
-        entity.setId(id);
         entity.setOstvareniRezultat(dto.getOstvareniRezultat());
         entity.setProsaoTest(dto.isProsaoTest());
         entity.setKomentar(dto.getKomentar());

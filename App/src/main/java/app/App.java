@@ -37,6 +37,12 @@ public class App {
         App app = container.getBean(App.class);
         
         List<StavkaTestiranjaDto> stavke = new ArrayList<>();
+        StavkaTestiranjaDto s1 = new StavkaTestiranjaDto(100, true, "Odradjeno", 1L);
+        stavke.add(s1);
+        StavkaTestiranjaDto s2 = new StavkaTestiranjaDto(202, false, "Nije dobra forma", 1L);
+        stavke.add(s2);
+        StavkaTestiranjaDto s3 = new StavkaTestiranjaDto(788, true, "Ocajna forma", 1L);
+        stavke.add(s3);
         EvidencijaTestiranjaDto dto = new EvidencijaTestiranjaDto(LocalDate.now(), 2, 1, 1, true, 50, 2L, 1L, stavke);
         app.sacuvajEvidencijuTestiranja(dto);
         System.out.println("Uspesno!");

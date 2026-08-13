@@ -54,6 +54,15 @@ public class EvidencijaTestiranjaDto {
         this.stavke = stavke;
     }
 
+    public EvidencijaTestiranjaDto(LocalDate datum, Long trenerId, Long sportistaId, List<StavkaTestiranjaDto> stavke) {
+        this.datum = datum;
+        this.trenerId = trenerId;
+        this.sportistaId = sportistaId;
+        this.stavke = stavke;
+    }
+    
+    
+
     public Long getIdTestiranja() {
         return idTestiranja;
     }

@@ -8,6 +8,7 @@ import app.converter.Converter;
 import app.domain.EvidencijaTestiranja;
 import app.domain.Sportista;
 import app.domain.StavkaTestiranja;
+import app.domain.StavkaTestiranjaId;
 import app.domain.Trener;
 import app.dto.EvidencijaTestiranjaDto;
 import app.dto.StavkaTestiranjaDto;
@@ -42,11 +43,6 @@ public class EvidencijaTestiranjaConverter implements Converter<EvidencijaTestir
         if(dto.getIdTestiranja() != null)
             entity.setIdTestiranja(dto.getIdTestiranja());
         entity.setDatum(dto.getDatum());
-        entity.setBrojTestova(dto.getBrojTestova());
-        entity.setBrojPolozenih(dto.getBrojPolozenih());
-        entity.setBrojPalih(dto.getBrojPalih());
-        entity.setProsaoTestiranje(dto.isProsaoTestiranje());
-        entity.setRezultatTestiranja(dto.getRezultatTestiranja());
         
         if(dto.getTrenerId() != null){
             Trener trener = new Trener();
@@ -62,10 +58,14 @@ public class EvidencijaTestiranjaConverter implements Converter<EvidencijaTestir
         
         if(dto.getStavke() != null){
             List<StavkaTestiranja> stavke = new ArrayList<>();
+            int brojac = 1;
             for(StavkaTestiranjaDto stavkaDto: dto.getStavke()){
                 StavkaTestiranja st = stavkaConverter.toEntity(stavkaDto);
                 if(st != null){
                     st.setEvidencijaTestiranja(entity);
+                    if(st.getId() == null)
+                        st.setId(new StavkaTestiranjaId());
+                    st.getId().setRb(brojac++);
                     stavke.add(st);
                 }
             }

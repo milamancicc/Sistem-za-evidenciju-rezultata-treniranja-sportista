@@ -27,6 +27,15 @@ public class StavkaTestiranjaDto {
         this.vezbaId = vezbaId;
     }
 
+    public StavkaTestiranjaDto(double ostvareniRezultat, boolean prosaoTest, String komentar, Long vezbaId) {
+        this.ostvareniRezultat = ostvareniRezultat;
+        this.prosaoTest = prosaoTest;
+        this.komentar = komentar;
+        this.vezbaId = vezbaId;
+    }
+    
+    
+
     public int getRb() {
         return rb;
     }

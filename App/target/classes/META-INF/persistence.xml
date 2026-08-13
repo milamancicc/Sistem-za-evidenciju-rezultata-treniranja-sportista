@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="3.0"
+             xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+
+  <persistence-unit name="AppPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+    <class>app.domain.EvidencijaTestiranja</class>
+    <class>app.domain.Klub</class>
+    <class>app.domain.Korisnik</class>
+    <class>app.domain.Mesto</class>
+    <class>app.domain.Norma</class>
+    <class>app.domain.SpecijalistickiPodaci</class>
+    <class>app.domain.Specijalizacija</class>
+    <class>app.domain.Sportista</class>
+    <class>app.domain.StavkaTestiranja</class>
+    <class>app.domain.Trener</class>
+    <class>app.domain.Vezba</class>
+
+    <properties>
+      <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/baza"/>
+      <property name="jakarta.persistence.jdbc.user" value="root"/>
+      <property name="jakarta.persistence.jdbc.password" value=""/>
+
+      <property name="eclipselink.target-database" value="MySQL"/>
+      <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
+      <property name="eclipselink.ddl-generation.output-mode" value="database"/>
+      <property name="jakarta.persistence.schema-generation.database.action" value="none"/>
+      <property name="eclipselink.logging.level" value="FINE"/>
+    </properties>
+  </persistence-unit>
+</persistence>

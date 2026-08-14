@@ -43,7 +43,7 @@ public class EvidencijaTestiranja {
     private int brojPalih;
     
     @Column 
-    private boolean prosaoTestiranje;
+    private Boolean prosaoTestiranje;
     
     @Column 
     private double rezultatTestiranja;
@@ -62,7 +62,7 @@ public class EvidencijaTestiranja {
     public EvidencijaTestiranja() {
     }
 
-    public EvidencijaTestiranja(Long idTestiranja, LocalDate datum, int brojTestova, int brojPolozenih, int brojPalih, boolean prosaoTestiranje, double rezultatTestiranja, Trener trener, Sportista sportista, List<StavkaTestiranja> stavke) {
+    public EvidencijaTestiranja(Long idTestiranja, LocalDate datum, int brojTestova, int brojPolozenih, int brojPalih, Boolean prosaoTestiranje, double rezultatTestiranja, Trener trener, Sportista sportista, List<StavkaTestiranja> stavke) {
         this.idTestiranja = idTestiranja;
         this.datum = datum;
         this.brojTestova = brojTestova;
@@ -115,11 +115,11 @@ public class EvidencijaTestiranja {
         this.brojPalih = brojPalih;
     }
 
-    public boolean isProsaoTestiranje() {
+    public Boolean isProsaoTestiranje() {
         return prosaoTestiranje;
     }
 
-    public void setProsaoTestiranje(boolean prosaoTestiranje) {
+    public void setProsaoTestiranje(Boolean prosaoTestiranje) {
         this.prosaoTestiranje = prosaoTestiranje;
     }
 

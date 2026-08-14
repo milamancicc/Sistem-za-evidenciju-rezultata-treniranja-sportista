@@ -18,7 +18,7 @@ public class EvidencijaTestiranjaDto {
     private int brojTestova;
     private int brojPolozenih;
     private int brojPalih;
-    private boolean prosaoTestiranje;
+    private Boolean prosaoTestiranje;
     private double rezultatTestiranja;
     private Long trenerId;
     private Long sportistaId;
@@ -27,7 +27,7 @@ public class EvidencijaTestiranjaDto {
     public EvidencijaTestiranjaDto() {
     }
 
-    public EvidencijaTestiranjaDto(LocalDate datum, int brojTestova, int brojPolozenih, int brojPalih, boolean prosaoTestiranje, double rezultatTestiranja, Long trenerId, Long sportistaId, List<StavkaTestiranjaDto> stavke) {
+    public EvidencijaTestiranjaDto(LocalDate datum, int brojTestova, int brojPolozenih, int brojPalih, Boolean prosaoTestiranje, double rezultatTestiranja, Long trenerId, Long sportistaId, List<StavkaTestiranjaDto> stavke) {
         this.datum = datum;
         this.brojTestova = brojTestova;
         this.brojPolozenih = brojPolozenih;
@@ -103,11 +103,11 @@ public class EvidencijaTestiranjaDto {
         this.brojPalih = brojPalih;
     }
 
-    public boolean isProsaoTestiranje() {
+    public Boolean isProsaoTestiranje() {
         return prosaoTestiranje;
     }
 
-    public void setProsaoTestiranje(boolean prosaoTestiranje) {
+    public void setProsaoTestiranje(Boolean prosaoTestiranje) {
         this.prosaoTestiranje = prosaoTestiranje;
     }
 

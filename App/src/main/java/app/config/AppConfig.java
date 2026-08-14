@@ -5,9 +5,12 @@
 package app.config;
 
 import app.converter.impl.EvidencijaTestiranjaConverter;
+import app.converter.impl.SportistaConverter;
 import app.converter.impl.StavkaTestiranjaConverter;
 import app.repository.EvidencijaTestiranjaRepository;
+import app.repository.SportistaRepository;
 import app.service.EvidencijaTestiranjaService;
+import app.service.SportistaService;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.springframework.context.annotation.Bean;
@@ -36,9 +39,19 @@ public class AppConfig {
         return new EvidencijaTestiranjaConverter(stavkaTestiranjaConverter);
     }
     
+    @Bean
+    public SportistaConverter sportistaConverter(){
+        return new SportistaConverter();
+    }
+    
     @Bean(value = "evidencijaTestiranja-service")
     public EvidencijaTestiranjaService evidencijaTestiranjaService(EvidencijaTestiranjaRepository repository, EvidencijaTestiranjaConverter converter){
         return new EvidencijaTestiranjaService(repository, converter);
+    }
+    
+    @Bean(value = "sportista-service")
+    public SportistaService sportistaService(SportistaRepository sportistaRepository, SportistaConverter sportistaConverter){
+        return new SportistaService(sportistaRepository, sportistaConverter);
     }
     
 }

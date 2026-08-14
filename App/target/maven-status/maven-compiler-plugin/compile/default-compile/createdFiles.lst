@@ -1,9 +1,12 @@
 app\App.class
 app\domain\Pol.class
+app\service\SportistaService.class
 app\repository\EvidencijaTestiranjaRepository.class
 app\converter\impl\EvidencijaTestiranjaConverter.class
+app\repository\SportistaRepository.class
 app\domain\TipKorisnika.class
 app\domain\Vezba.class
+app\converter\impl\SportistaConverter.class
 app\domain\Specijalizacija.class
 app\domain\Norma.class
 app\domain\JedinicaMere.class
@@ -11,6 +14,7 @@ app\domain\Klub.class
 app\domain\StavkaTestiranjaId.class
 app\config\AppConfig.class
 app\domain\EvidencijaTestiranja.class
+app\dto\SportistaDto.class
 app\dto\EvidencijaTestiranjaDto.class
 app\converter\Converter.class
 app\domain\Korisnik.class

@@ -9,6 +9,9 @@ import app.domain.EvidencijaTestiranja;
 import app.domain.StavkaTestiranja;
 import app.dto.EvidencijaTestiranjaDto;
 import app.repository.EvidencijaTestiranjaRepository;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +38,37 @@ public class EvidencijaTestiranjaService {
         EvidencijaTestiranja saved = evidencijaTestiranjaRepository.sacuvajEvidencijuTestiranja(entity);
         
         return evidencijaTestiranjaConverter.toDto(saved);
+    }
+    
+    public List<EvidencijaTestiranjaDto> pretraziPoTreneru(Long idTrenera){
+        List<EvidencijaTestiranja> lista = evidencijaTestiranjaRepository.pretraziPoTreneru(idTrenera);
+        if(lista == null || lista.isEmpty()){
+            throw new RuntimeException("Sistem ne moze da nadje evidencije testiranja po zadatim kriterijumima.");
+        }
+        List<EvidencijaTestiranjaDto> listaDto = new ArrayList<>();
+        for(EvidencijaTestiranja et: lista){
+            listaDto.add(evidencijaTestiranjaConverter.toDto(et));
+        }
+        return listaDto;
+    }
+    
+    public List<EvidencijaTestiranjaDto> pretraziPoKriterijumima(Long idTrenera, Long idSportiste, LocalDate datum, Boolean prosaoTestiranje, Double rezultatTestiranja){
+        List<EvidencijaTestiranja> lista = evidencijaTestiranjaRepository.pretraziPoKriterijumima(idTrenera, idSportiste, datum, prosaoTestiranje, rezultatTestiranja);
+        if(lista == null || lista.isEmpty()){
+            throw new RuntimeException("Sistem ne moze da nadje evidencije testiranja po zadatim kriterijumima.");
+        }
+        List<EvidencijaTestiranjaDto> listaDto = new ArrayList<>();
+        for(EvidencijaTestiranja et: lista){
+            listaDto.add(evidencijaTestiranjaConverter.toDto(et));
+        }
+        return listaDto;
+    }
+    
+    public EvidencijaTestiranjaDto nadjiPoId(Long id){
+        EvidencijaTestiranja et = evidencijaTestiranjaRepository.nadjiPoId(id);
+        if(et == null)
+            throw new RuntimeException("Sistem ne moze da nadje evidenciju testiranja.");
+        return evidencijaTestiranjaConverter.toDto(et);
     }
     
     private void izracunajStatistiku(EvidencijaTestiranja entity){

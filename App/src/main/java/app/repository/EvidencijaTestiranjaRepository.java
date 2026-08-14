@@ -9,6 +9,8 @@ import app.domain.Sportista;
 import app.domain.Trener;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import java.time.LocalDate;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -64,4 +66,55 @@ public class EvidencijaTestiranjaRepository{
         }
     }
     
+    public List<EvidencijaTestiranja> pretraziPoTreneru(Long trenerId){
+        EntityManager em = emf.createEntityManager();
+        try{
+            if(trenerId == null)
+                throw new IllegalArgumentException("Id trenera ne sme biti null");
+            List<EvidencijaTestiranja> lista = em.createQuery("SELECT e FROM EvidencijaTestiranja e WHERE e.trener.id = :tId", EvidencijaTestiranja.class).setParameter("tId", trenerId).getResultList();
+            return lista;
+            
+        }finally{
+            em.close();
+        }
+    }
+    
+    public EvidencijaTestiranja nadjiPoId(Long id){
+        EntityManager em = emf.createEntityManager();
+        try{
+            String query = "SELECT DISTINCT e FROM EvidencijaTestiranja e "
+                    + "LEFT JOIN FETCH e.stavke "
+                    + "WHERE e.idTestiranja = :id";
+            List<EvidencijaTestiranja> lista = em.createQuery(query , EvidencijaTestiranja.class)
+                    .setParameter("id", id)
+                    .getResultList();
+            return lista.isEmpty() ? null : lista.get(0);
+        }finally{
+            em.close();
+        }
+    }
+    
+    public List<EvidencijaTestiranja> pretraziPoKriterijumima(Long idTrenera, Long idSportiste, LocalDate datum, Boolean prosaoTestiranje, Double  rezultatTestiranja){
+        EntityManager em = emf.createEntityManager();
+        
+        try{
+            String query = "SELECT DISTINCT e FROM EvidencijaTestiranja e "
+                    + "LEFT JOIN FETCH e.stavke "
+                    + "WHERE (:idSportiste IS NULL OR e.sportista.id = :idSportiste) "
+                    + "AND (:idTrenera IS NULL OR e.trener.id = :idTrenera) "
+                    + "AND (:datum IS NULL OR e.datum >= :datum) "
+                    + "AND (:prosaoTestiranje IS NULL OR e.prosaoTestiranje = :prosaoTestiranje) "
+                    + "AND (:rezultatTestiranja IS NULL OR e.rezultatTestiranja >= :rezultatTestiranja)";
+            return em.createQuery(query, EvidencijaTestiranja.class)
+                    .setParameter("idTrenera", idTrenera)
+                    .setParameter("idSportiste", idSportiste)
+                    .setParameter("datum", datum)
+                    .setParameter("prosaoTestiranje", prosaoTestiranje)
+                    .setParameter("rezultatTestiranja", rezultatTestiranja)
+                    .getResultList();
+        }finally{
+            em.close();
+        }
+    }
+       
 }

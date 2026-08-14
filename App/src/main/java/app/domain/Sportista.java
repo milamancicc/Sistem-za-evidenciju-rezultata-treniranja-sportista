@@ -8,9 +8,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -30,10 +27,10 @@ public class Sportista extends Korisnik{
     private LocalDate datumRodjenja;
     
     @Column
-    private double visina;
+    private Double visina;
     
     @Column
-    private double tezina;
+    private Double tezina;
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -54,7 +51,7 @@ public class Sportista extends Korisnik{
     public Sportista() {
     }
 
-    public Sportista(LocalDate datumRodjenja, double visina, double tezina, Pol pol, StarosnaKategorija starosnaKategorija, Mesto mestoPorekla, Klub klub) {
+    public Sportista(LocalDate datumRodjenja, Double visina, Double tezina, Pol pol, StarosnaKategorija starosnaKategorija, Mesto mestoPorekla, Klub klub) {
         this.datumRodjenja = datumRodjenja;
         this.visina = visina;
         this.tezina = tezina;
@@ -64,7 +61,7 @@ public class Sportista extends Korisnik{
         this.klub = klub;
     }
 
-    public Sportista(LocalDate datumRodjenja, double visina, double tezina, Pol pol, StarosnaKategorija starosnaKategorija, Mesto mestoPorekla, Klub klub, String korisnickoIme, String sifra, String ime, String prezime, String email, String kontakt, TipKorisnika tipKorisnika) {
+    public Sportista(LocalDate datumRodjenja, Double visina, Double tezina, Pol pol, StarosnaKategorija starosnaKategorija, Mesto mestoPorekla, Klub klub, String korisnickoIme, String sifra, String ime, String prezime, String email, String kontakt, TipKorisnika tipKorisnika) {
         super(korisnickoIme, sifra, ime, prezime, email, kontakt, tipKorisnika);
         this.datumRodjenja = datumRodjenja;
         this.visina = visina;
@@ -83,19 +80,19 @@ public class Sportista extends Korisnik{
         this.datumRodjenja = datumRodjenja;
     }
 
-    public double getVisina() {
+    public Double getVisina() {
         return visina;
     }
 
-    public void setVisina(double visina) {
+    public void setVisina(Double visina) {
         this.visina = visina;
     }
 
-    public double getTezina() {
+    public Double getTezina() {
         return tezina;
     }
 
-    public void setTezina(double tezina) {
+    public void setTezina(Double tezina) {
         this.tezina = tezina;
     }
 

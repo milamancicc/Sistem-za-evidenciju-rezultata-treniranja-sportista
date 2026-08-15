@@ -24,6 +24,9 @@ C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\dto
 C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\dto\SportistaDto.java
 C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\dto\StavkaTestiranjaDto.java
 C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\repository\EvidencijaTestiranjaRepository.java
+C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\repository\KorisnikRepository.java
 C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\repository\SportistaRepository.java
+C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\security\PasswordHash.java
 C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\service\EvidencijaTestiranjaService.java
+C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\service\LoginService.java
 C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\service\SportistaService.java

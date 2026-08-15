@@ -5,6 +5,7 @@
 package app;
 
 import app.config.AppConfig;
+import app.domain.Korisnik;
 import app.domain.Pol;
 import app.domain.StarosnaKategorija;
 import app.domain.TipKorisnika;
@@ -12,7 +13,10 @@ import app.dto.EvidencijaTestiranjaDto;
 import app.dto.SportistaDto;
 import app.dto.StavkaTestiranjaDto;
 import app.service.EvidencijaTestiranjaService;
+import app.service.LoginService;
 import app.service.SportistaService;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -32,19 +36,21 @@ public class App {
 
     private final EvidencijaTestiranjaService evidencijaTestiranjaService;
     private final SportistaService sportistaService;
+    private final LoginService loginService;
     
     @Autowired
     public App(@Qualifier(value = "evidencijaTestiranja-service")EvidencijaTestiranjaService evidencijaTestiranjaService,
-            @Qualifier(value = "sportista-service")SportistaService sportistaService) {
+            @Qualifier(value = "sportista-service")SportistaService sportistaService,
+            @Qualifier(value = "login-service") LoginService loginService) {
         this.evidencijaTestiranjaService = evidencijaTestiranjaService;
         this.sportistaService = sportistaService;
+        this.loginService = loginService;
     }
     
     public static void main(String[] args) throws Exception {
         System.out.println("Hello World!");
         ApplicationContext container = new AnnotationConfigApplicationContext(AppConfig.class);
         App app = container.getBean(App.class);
-        
         
         
         System.out.println("Uspesno!");
@@ -80,6 +86,10 @@ public class App {
     
     public void obrisiSportistu(Long id) throws Exception{
         sportistaService.obrisiSportistu(id);
+    }
+    
+    public Korisnik login(String korisnickoIme, String unetaSifra, String izabraniKorisnik) throws NoSuchAlgorithmException, InvalidKeySpecException{
+        return loginService.login(korisnickoIme, unetaSifra, izabraniKorisnik);
     }
     
 }

@@ -8,8 +8,10 @@ import app.converter.impl.EvidencijaTestiranjaConverter;
 import app.converter.impl.SportistaConverter;
 import app.converter.impl.StavkaTestiranjaConverter;
 import app.repository.EvidencijaTestiranjaRepository;
+import app.repository.KorisnikRepository;
 import app.repository.SportistaRepository;
 import app.service.EvidencijaTestiranjaService;
+import app.service.LoginService;
 import app.service.SportistaService;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -52,6 +54,11 @@ public class AppConfig {
     @Bean(value = "sportista-service")
     public SportistaService sportistaService(SportistaRepository sportistaRepository, SportistaConverter sportistaConverter){
         return new SportistaService(sportistaRepository, sportistaConverter);
+    }
+    
+    @Bean(value = "login-service")
+    public LoginService loginService(KorisnikRepository korisnikRepository){
+        return new LoginService(korisnikRepository);
     }
     
 }

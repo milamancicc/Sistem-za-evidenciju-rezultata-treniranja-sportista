@@ -26,6 +26,7 @@ public class Trener extends Korisnik {
     private List<EvidencijaTestiranja> evidencije;
 
     public Trener() {
+        setTipKorisnika(TipKorisnika.TRENER);
     }
 
     public Trener(List<SpecijalistickiPodaci> specijalistickiPodaci, List<EvidencijaTestiranja> evidencije, String korisnickoIme, String sifra, String ime, String prezime, String email, String kontakt, TipKorisnika tipKorisnika) {

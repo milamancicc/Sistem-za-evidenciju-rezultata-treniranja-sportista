@@ -49,6 +49,7 @@ public class Sportista extends Korisnik{
     private Klub klub;
 
     public Sportista() {
+        setTipKorisnika(TipKorisnika.SPORTISTA);
     }
 
     public Sportista(LocalDate datumRodjenja, Double visina, Double tezina, Pol pol, StarosnaKategorija starosnaKategorija, Mesto mestoPorekla, Klub klub) {

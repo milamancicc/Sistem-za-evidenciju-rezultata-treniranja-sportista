@@ -11,6 +11,7 @@ import app.domain.StarosnaKategorija;
 import app.domain.TipKorisnika;
 import app.dto.SportistaDto;
 import app.repository.SportistaRepository;
+import app.security.PasswordHash;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -38,9 +39,11 @@ public class SportistaService {
             StarosnaKategorija starosnaKategorija = odrediStarosnuKategoriju(dto.getDatumRodjenja());
             dto.setStarosnaKategorija(starosnaKategorija);
             dto.setTipKorisnika(TipKorisnika.SPORTISTA);
+            String hasiranaSifra = PasswordHash.createHash(dto.getSifra());
             Sportista entity = sportistaConverter.toEntity(dto);
+            entity.setSifra(hasiranaSifra);
             Sportista sacuvani = sportistaRepository.sacuvajSportistu(entity);
-            return sportistaConverter.toDto(entity);
+            return sportistaConverter.toDto(sacuvani);
         }catch(IllegalArgumentException e){
             throw e;
         }catch(Exception e){

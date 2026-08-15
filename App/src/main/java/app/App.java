@@ -40,10 +40,11 @@ public class App {
         this.sportistaService = sportistaService;
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         System.out.println("Hello World!");
         ApplicationContext container = new AnnotationConfigApplicationContext(AppConfig.class);
         App app = container.getBean(App.class);
+        
         
         
         System.out.println("Uspesno!");
@@ -75,6 +76,10 @@ public class App {
     
     public List<SportistaDto> pretraziSportistePoKriterijumima(String imePrezime, Pol pol, Integer godineOd, Integer godineDo, List<StarosnaKategorija> starosneKategorije, List<Long> kluboviId, List<Long> mestaId){
         return sportistaService.pretraziPoKriterijumima(imePrezime, pol, godineOd, godineDo, starosneKategorije, kluboviId, mestaId);
+    }
+    
+    public void obrisiSportistu(Long id) throws Exception{
+        sportistaService.obrisiSportistu(id);
     }
     
 }

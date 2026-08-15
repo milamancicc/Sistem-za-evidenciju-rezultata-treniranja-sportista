@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+import jdk.jshell.spi.ExecutionControl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -45,6 +46,11 @@ public class SportistaService {
         }catch(Exception e){
             throw new RuntimeException("Sistem ne moze da zapamti sportistu." + e.getMessage());
         }
+    }
+    
+    public void obrisiSportistu(Long id) throws Exception{
+        sportistaRepository.obrisiSportistu(id);
+        
     }
     
     public List<SportistaDto> pretraziPoKriterijumima(String imePrezime, Pol pol, Integer godineOd, Integer godineDo, List<StarosnaKategorija> starosneKategorije, List<Long> kluboviId, List<Long> mestaId){

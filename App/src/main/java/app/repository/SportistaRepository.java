@@ -72,6 +72,27 @@ public class SportistaRepository {
         }
     }
     
+    public void obrisiSportistu(Long id){
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            Sportista sportista = em.find(Sportista.class, id);
+            if(sportista != null){
+                em.remove(sportista);
+            }else{
+                throw  new IllegalArgumentException("Sportista ne postoji.");
+            }
+            
+            em.getTransaction().commit();
+        }catch(Exception e){
+            if(em.getTransaction().isActive()){
+                em.getTransaction().rollback();
+            }
+            throw e;
+        }finally{
+            em.close();
+        }
+    }
     
     public List<Sportista> pretraziPoKriterijumima(String imePrezime, Pol pol, Integer godineOd, Integer godineDo, List<StarosnaKategorija> starosneKategorije, List<Long> kluboviId, List<Long> mestaId){
         EntityManager em = emf.createEntityManager();

@@ -55,6 +55,11 @@ public class AppConfig {
     }
     
     @Bean
+    public SpecijalistickiPodaciConverter specijalistickiPodaciConverter(){
+        return new SpecijalistickiPodaciConverter();
+    }
+    
+    @Bean
     public TrenerConverter trenerConverter(SpecijalistickiPodaciConverter specijalistickiPodaciConverter, EvidencijaTestiranjaConverter evidencijaTestiranjaConverter){
         return new TrenerConverter(specijalistickiPodaciConverter, evidencijaTestiranjaConverter);
     }
@@ -80,8 +85,8 @@ public class AppConfig {
     }
     
     @Bean (value = "trener-service")
-    public TrenerService trenerService(TrenerRepository trenerRepository, TrenerConverter trenerConverter){
-        return new TrenerService(trenerRepository, trenerConverter);
+    public TrenerService trenerService(TrenerRepository trenerRepository, TrenerConverter trenerConverter, SpecijalistickiPodaciConverter specijalistickiPodaciConverter){
+        return new TrenerService(trenerRepository, trenerConverter, specijalistickiPodaciConverter);
     }
     
 }

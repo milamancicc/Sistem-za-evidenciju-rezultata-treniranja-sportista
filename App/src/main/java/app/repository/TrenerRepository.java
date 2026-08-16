@@ -4,9 +4,12 @@
  */
 package app.repository;
 
+import app.domain.SpecijalistickiPodaci;
+import app.domain.Specijalizacija;
 import app.domain.Trener;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -34,6 +37,30 @@ public class TrenerRepository {
             
             em.getTransaction().commit();
             return trener;
+        }catch(Exception e){
+            if(em.getTransaction().isActive())
+                em.getTransaction().rollback();
+            throw e;
+        }finally{
+            em.close();
+        }
+    }
+    
+    public void dodajSpecijalistickiPodatak(Long trenerId, SpecijalistickiPodaci sp){
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            Trener trener = em.find(Trener.class, trenerId);
+            if(trener == null)
+                throw new RuntimeException("Trener za kog zelite da dodate specijalisticki podatak ne postoji.");
+            Specijalizacija s = em.find(Specijalizacija.class, sp.getSpecijalizacija().getIdSpecijalizacije());
+            if(s == null)
+                throw new RuntimeException("Specijalizacija za koju se dodaje specijalisticki podatak ne postoji.");
+            sp.setTrener(trener);
+            trener.getSpecijalistickiPodaci().add(sp);
+            em.persist(sp);
+            em.getTransaction().commit();
+            
         }catch(Exception e){
             if(em.getTransaction().isActive())
                 em.getTransaction().rollback();

@@ -37,12 +37,12 @@ public class SpecijalistickiPodaci {
     private Specijalizacija specijalizacija;
     
     @Column
-    private int godinaPostizanja;
+    private Integer godinaPostizanja;
 
     public SpecijalistickiPodaci() {
     }
 
-    public SpecijalistickiPodaci(int godinaPostizanja) {
+    public SpecijalistickiPodaci(Integer godinaPostizanja) {
         this.godinaPostizanja = godinaPostizanja;
     }
 
@@ -70,11 +70,11 @@ public class SpecijalistickiPodaci {
         this.specijalizacija = specijalizacija;
     }
 
-    public int getGodinaPostizanja() {
+    public Integer getGodinaPostizanja() {
         return godinaPostizanja;
     }
 
-    public void setGodinaPostizanja(int godinaPostizanja) {
+    public void setGodinaPostizanja(Integer godinaPostizanja) {
         this.godinaPostizanja = godinaPostizanja;
     }
     

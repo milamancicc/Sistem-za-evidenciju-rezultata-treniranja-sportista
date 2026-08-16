@@ -10,6 +10,7 @@ import app.domain.Pol;
 import app.domain.StarosnaKategorija;
 import app.domain.TipKorisnika;
 import app.dto.EvidencijaTestiranjaDto;
+import app.dto.SpecijalistickiPodaciDto;
 import app.dto.SpecijalizacijaDto;
 import app.dto.SportistaDto;
 import app.dto.StavkaTestiranjaDto;
@@ -63,17 +64,7 @@ public class App {
         ApplicationContext container = new AnnotationConfigApplicationContext(AppConfig.class);
         App app = container.getBean(App.class);
         
-        List<StavkaTestiranjaDto> stavke = new ArrayList<>();
-        StavkaTestiranjaDto s1 = new StavkaTestiranjaDto();
-        StavkaTestiranjaDto s2 = new StavkaTestiranjaDto();
-        s1.setVezbaId(1L);
-        s1.setOstvareniRezultat(100);
-        stavke.add(s1);
-        s2.setVezbaId(2L);
-        s2.setOstvareniRezultat(40);
-        stavke.add(s2);
-        EvidencijaTestiranjaDto dto = new EvidencijaTestiranjaDto(LocalDate.now(), 14L, 3L, stavke);
-        app.sacuvajEvidencijuTestiranja(dto);
+        
         
         System.out.println("Uspesno!");
     }
@@ -120,6 +111,10 @@ public class App {
     
     public TrenerDto sacuvajTrenera(TrenerDto dto, Korisnik ulogovaniKorisnik){
         return trenerService.sacuvajTrenera(dto, ulogovaniKorisnik);
+    }
+    
+    public void dodajSpecijalistickiPodatakTreneru(SpecijalistickiPodaciDto dto){
+        trenerService.dodajSpecijalistickiPodatak(dto);
     }
     
 }

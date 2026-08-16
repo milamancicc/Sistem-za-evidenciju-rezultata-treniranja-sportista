@@ -12,13 +12,13 @@ public class SpecijalistickiPodaciDto {
     
     private Long idSpecijalizacije;
     private Long idTrenera;
-    private int godinaPostizanja;
+    private Integer godinaPostizanja;
     private String nazivSpecijalizacije;
 
     public SpecijalistickiPodaciDto() {
     }
 
-    public SpecijalistickiPodaciDto(Long idSpecijalizacije, Long idTrenera, int godinaPostizanja, String nazivSpecijalizacije) {
+    public SpecijalistickiPodaciDto(Long idSpecijalizacije, Long idTrenera, Integer godinaPostizanja, String nazivSpecijalizacije) {
         this.idSpecijalizacije = idSpecijalizacije;
         this.idTrenera = idTrenera;
         this.godinaPostizanja = godinaPostizanja;
@@ -41,11 +41,11 @@ public class SpecijalistickiPodaciDto {
         this.idTrenera = idTrenera;
     }
 
-    public int getGodinaPostizanja() {
+    public Integer getGodinaPostizanja() {
         return godinaPostizanja;
     }
 
-    public void setGodinaPostizanja(int godinaPostizanja) {
+    public void setGodinaPostizanja(Integer godinaPostizanja) {
         this.godinaPostizanja = godinaPostizanja;
     }
 

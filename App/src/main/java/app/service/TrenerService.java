@@ -4,11 +4,17 @@
  */
 package app.service;
 
+import app.converter.impl.SpecijalistickiPodaciConverter;
+import app.converter.impl.SpecijalizacijaConverter;
 import app.converter.impl.TrenerConverter;
 import app.domain.Korisnik;
+import app.domain.SpecijalistickiPodaci;
+import app.domain.Specijalizacija;
 import app.domain.TipKorisnika;
 import app.domain.Trener;
+import app.dto.SpecijalistickiPodaciDto;
 import app.dto.TrenerDto;
+import app.repository.SpecijalizacijaRepository;
 import app.repository.TrenerRepository;
 import app.security.PasswordHash;
 import org.springframework.stereotype.Service;
@@ -22,10 +28,12 @@ public class TrenerService {
     
     private final TrenerRepository trenerRepository;
     private final TrenerConverter trenerConverter;
+    private final SpecijalistickiPodaciConverter specijalistickiPodaciConverter;
 
-    public TrenerService(TrenerRepository trenerRepository, TrenerConverter trenerConverter) {
+    public TrenerService(TrenerRepository trenerRepository, TrenerConverter trenerConverter, SpecijalistickiPodaciConverter specijalistickiPodaciConverter) {
         this.trenerRepository = trenerRepository;
         this.trenerConverter = trenerConverter;
+        this.specijalistickiPodaciConverter = specijalistickiPodaciConverter;
     }
     
     public TrenerDto sacuvajTrenera(TrenerDto dto, Korisnik ulogovaniKorisnik){
@@ -46,6 +54,14 @@ public class TrenerService {
         }catch(Exception e){
             throw new RuntimeException("Sistem ne moze da zapamti trenera.");
         }
+    }
+    
+    public void dodajSpecijalistickiPodatak(SpecijalistickiPodaciDto dto){
+        if(dto == null || dto.getIdTrenera() == null || dto.getIdSpecijalizacije() == null)
+            throw new IllegalArgumentException("Nedostaju obavezni podaci za specijalizaciju.");
+        SpecijalistickiPodaci sp = specijalistickiPodaciConverter.toEntity(dto);
+        trenerRepository.dodajSpecijalistickiPodatak(dto.getIdTrenera(), sp);
+        
     }
     
     private void proveriPodatke(TrenerDto dto){

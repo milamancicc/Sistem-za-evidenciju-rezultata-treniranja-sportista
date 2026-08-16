@@ -13,11 +13,13 @@ import app.domain.TipKorisnika;
 import app.dto.SportistaDto;
 import java.time.LocalDate;
 import java.time.Period;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author PC
  */
+@Component
 public class SportistaConverter implements Converter<Sportista, SportistaDto> {
 
     @Override

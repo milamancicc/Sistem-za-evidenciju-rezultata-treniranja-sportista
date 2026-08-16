@@ -5,14 +5,22 @@
 package app.config;
 
 import app.converter.impl.EvidencijaTestiranjaConverter;
+import app.converter.impl.SpecijalistickiPodaciConverter;
+import app.converter.impl.SpecijalizacijaConverter;
 import app.converter.impl.SportistaConverter;
 import app.converter.impl.StavkaTestiranjaConverter;
+import app.converter.impl.TrenerConverter;
 import app.repository.EvidencijaTestiranjaRepository;
 import app.repository.KorisnikRepository;
+import app.repository.NormaRepository;
+import app.repository.SpecijalizacijaRepository;
 import app.repository.SportistaRepository;
+import app.repository.TrenerRepository;
 import app.service.EvidencijaTestiranjaService;
 import app.service.LoginService;
+import app.service.SpecijalizacijaService;
 import app.service.SportistaService;
+import app.service.TrenerService;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.springframework.context.annotation.Bean;
@@ -46,9 +54,14 @@ public class AppConfig {
         return new SportistaConverter();
     }
     
+    @Bean
+    public TrenerConverter trenerConverter(SpecijalistickiPodaciConverter specijalistickiPodaciConverter, EvidencijaTestiranjaConverter evidencijaTestiranjaConverter){
+        return new TrenerConverter(specijalistickiPodaciConverter, evidencijaTestiranjaConverter);
+    }
+    
     @Bean(value = "evidencijaTestiranja-service")
-    public EvidencijaTestiranjaService evidencijaTestiranjaService(EvidencijaTestiranjaRepository repository, EvidencijaTestiranjaConverter converter){
-        return new EvidencijaTestiranjaService(repository, converter);
+    public EvidencijaTestiranjaService evidencijaTestiranjaService(EvidencijaTestiranjaRepository repository, EvidencijaTestiranjaConverter converter, NormaRepository normaRepository){
+        return new EvidencijaTestiranjaService(repository, converter, normaRepository);
     }
     
     @Bean(value = "sportista-service")
@@ -59,6 +72,16 @@ public class AppConfig {
     @Bean(value = "login-service")
     public LoginService loginService(KorisnikRepository korisnikRepository){
         return new LoginService(korisnikRepository);
+    }
+    
+    @Bean(value = "specijalizacija-service")
+    public SpecijalizacijaService specijalizacijaService(SpecijalizacijaRepository specijalizacijaRepository, SpecijalizacijaConverter specijalizacijaConverter){
+        return new SpecijalizacijaService(specijalizacijaRepository, specijalizacijaConverter);
+    }
+    
+    @Bean (value = "trener-service")
+    public TrenerService trenerService(TrenerRepository trenerRepository, TrenerConverter trenerConverter){
+        return new TrenerService(trenerRepository, trenerConverter);
     }
     
 }

@@ -6,9 +6,15 @@ package app.service;
 
 import app.converter.impl.EvidencijaTestiranjaConverter;
 import app.domain.EvidencijaTestiranja;
+import app.domain.JedinicaMere;
+import app.domain.Norma;
+import app.domain.Pol;
+import app.domain.Sportista;
+import app.domain.StarosnaKategorija;
 import app.domain.StavkaTestiranja;
 import app.dto.EvidencijaTestiranjaDto;
 import app.repository.EvidencijaTestiranjaRepository;
+import app.repository.NormaRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +30,14 @@ public class EvidencijaTestiranjaService {
     
     private final EvidencijaTestiranjaRepository evidencijaTestiranjaRepository;
     private final EvidencijaTestiranjaConverter evidencijaTestiranjaConverter;
+    private final NormaRepository normaRepository;
     
     @Autowired
 
-    public EvidencijaTestiranjaService(EvidencijaTestiranjaRepository evidencijaTestiranjaRepository, EvidencijaTestiranjaConverter evidencijaTestiranjaConverter) {
+    public EvidencijaTestiranjaService(EvidencijaTestiranjaRepository evidencijaTestiranjaRepository, EvidencijaTestiranjaConverter evidencijaTestiranjaConverter, NormaRepository normaRepository) {
         this.evidencijaTestiranjaRepository = evidencijaTestiranjaRepository;
         this.evidencijaTestiranjaConverter = evidencijaTestiranjaConverter;
+        this.normaRepository = normaRepository;
     }
 
     public EvidencijaTestiranjaDto sacuvajEvidencijuTestiranja(EvidencijaTestiranjaDto dto){
@@ -82,10 +90,14 @@ public class EvidencijaTestiranjaService {
             return;
         }
         
+        Sportista sportista = entity.getSportista();
         int polozeni = 0;
         int pali = 0;
         
         for(StavkaTestiranja st: entity.getStavke()){
+            boolean prosaoStavku = proveriProlaznostStavke(sportista, st);
+            st.setProsaoTest(prosaoStavku);
+            
             if(st.isProsaoTest()){
                 polozeni++;
             }else
@@ -101,6 +113,25 @@ public class EvidencijaTestiranjaService {
         entity.setBrojPalih(pali);
         entity.setProsaoTestiranje(prosao);
         entity.setRezultatTestiranja(rezultat);
+        
+    }
+    
+    private boolean proveriProlaznostStavke(Sportista sportista, StavkaTestiranja stavkaTestiranja){
+        if(sportista == null || stavkaTestiranja.getVezba() == null)
+            return false;
+        Norma norma = normaRepository.pretraziPoVezbiPoluIStarosnojKategoriji(stavkaTestiranja.getVezba(), sportista.getPol(), sportista.getStarosnaKategorija());
+        
+        if(norma == null)
+            return true;
+        
+        double ostvareniRezultat = stavkaTestiranja.getOstvareniRezultat();
+        double ciljnaNorma = norma.getNorma();
+        JedinicaMere jedinicaMere = stavkaTestiranja.getVezba().getJedinicaMere();
+        
+        if(jedinicaMere == JedinicaMere.SEKUNDA || jedinicaMere == JedinicaMere.MINUT){
+            return ostvareniRezultat <= ciljnaNorma;
+        }
+        return ostvareniRezultat >= ciljnaNorma;
         
     }
     

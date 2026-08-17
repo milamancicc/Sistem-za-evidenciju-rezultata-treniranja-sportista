@@ -23,6 +23,7 @@ public class EvidencijaTestiranjaDto {
     private Long trenerId;
     private Long sportistaId;
     private List<StavkaTestiranjaDto> stavke;
+    private String imeIPrezimeSportiste;
 
     public EvidencijaTestiranjaDto() {
     }
@@ -141,6 +142,14 @@ public class EvidencijaTestiranjaDto {
 
     public void setStavke(List<StavkaTestiranjaDto> stavke) {
         this.stavke = stavke;
+    }
+
+    public String getImeIPrezimeSportiste() {
+        return imeIPrezimeSportiste;
+    }
+
+    public void setImeIPrezimeSportiste(String imeIPrezimeSportiste) {
+        this.imeIPrezimeSportiste = imeIPrezimeSportiste;
     }
     
     

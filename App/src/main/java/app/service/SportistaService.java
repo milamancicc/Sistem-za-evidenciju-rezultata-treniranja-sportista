@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
  *
  * @author PC
  */
-@Service
+@Service("sportista-service")
 public class SportistaService {
     private final SportistaRepository sportistaRepository;
     private final SportistaConverter sportistaConverter;

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
  *
  * @author PC
  */
-@Service
+@Service("login-service")
 public class LoginService {
     private KorisnikRepository korisnikRepository;
 
@@ -31,17 +31,18 @@ public class LoginService {
             throw new IllegalArgumentException("Korisnicko ime i sifra su obavezni.");
         Korisnik korisnik = korisnikRepository.nadjiPoKorisnickomImenu(korisnickoIme);
         if(korisnik == null)
-            throw new RuntimeException("Pogresno korisnicko ime.");
+            throw new RuntimeException("Korisnik sa ovim korisnickim imenom ne postoji.");
+        if(!"trener".equalsIgnoreCase(izabranTipKorisnika) && !"sportista".equalsIgnoreCase(izabranTipKorisnika))
+            throw new RuntimeException("Korisnik nije ni trener ni sportista.");
+        if("trener".equalsIgnoreCase(izabranTipKorisnika) && !(korisnik instanceof Trener))
+            throw new RuntimeException("Ovo je korisnicko ime sportiste! Molimo Vas prijavite se na stranici za sportiste");
+        if("sportista".equalsIgnoreCase(izabranTipKorisnika) && !(korisnik instanceof Sportista))
+            throw new RuntimeException("Ovo je korisnicko ime trenera! Molimo Vas prijavite se na stranici za trenere.");
         boolean tacnaSifra = PasswordHash.validatePassword(unetaSifra, korisnik.getSifra());
         if(!tacnaSifra)
             throw new RuntimeException("Pogresna sifra.");
         
-        if(!"trener".equalsIgnoreCase(izabranTipKorisnika) && !"sportista".equalsIgnoreCase(izabranTipKorisnika))
-            throw new RuntimeException("Korisnik nije ni trener ni sportista.");
-        if("trener".equalsIgnoreCase(izabranTipKorisnika) && !(korisnik instanceof Trener))
-            throw new RuntimeException("Korisnik nije trener.");
-        if("sportista".equalsIgnoreCase(izabranTipKorisnika) && !(korisnik instanceof Sportista))
-            throw new RuntimeException("Korisnik nije sportista.");
+        
         
             
         return korisnik;

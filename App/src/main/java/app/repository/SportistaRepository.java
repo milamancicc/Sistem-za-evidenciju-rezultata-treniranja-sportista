@@ -13,6 +13,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -24,7 +25,7 @@ public class SportistaRepository {
     
     private final EntityManagerFactory emf;
 
-    public SportistaRepository(EntityManagerFactory emf) {
+    public SportistaRepository(@Qualifier(value = "emf")EntityManagerFactory emf) {
         this.emf = emf;
     }
     

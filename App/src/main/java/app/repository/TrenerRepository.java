@@ -10,6 +10,7 @@ import app.domain.Trener;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -21,7 +22,7 @@ public class TrenerRepository {
     
     private final EntityManagerFactory emf;
 
-    public TrenerRepository(EntityManagerFactory emf) {
+    public TrenerRepository(@Qualifier(value = "emf")EntityManagerFactory emf) {
         this.emf = emf;
     }
     

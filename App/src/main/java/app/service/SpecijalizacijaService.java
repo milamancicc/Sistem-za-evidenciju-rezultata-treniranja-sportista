@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  *
  * @author PC
  */
-@Service
+@Service("specijalizacija-service")
 public class SpecijalizacijaService {
     
     private final SpecijalizacijaRepository specijalizacijaRepository;

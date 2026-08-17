@@ -12,6 +12,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -23,7 +24,7 @@ public class NormaRepository {
     
     private final EntityManagerFactory emf;
 
-    public NormaRepository(EntityManagerFactory emf) {
+    public NormaRepository(@Qualifier(value = "emf")EntityManagerFactory emf) {
         this.emf = emf;
     }
     

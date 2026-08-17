@@ -8,6 +8,7 @@ import app.domain.Korisnik;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Repository;
 public class KorisnikRepository {
     private final EntityManagerFactory emf;
 
-    public KorisnikRepository(EntityManagerFactory emf) {
+    public KorisnikRepository(@Qualifier(value = "emf")EntityManagerFactory emf) {
         this.emf = emf;
     }
     

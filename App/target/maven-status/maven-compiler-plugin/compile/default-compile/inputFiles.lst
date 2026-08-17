@@ -1,5 +1,7 @@
 C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\App.java
 C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\config\AppConfig.java
+C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\controller\EvidencijaTestiranjaController.java
+C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\controller\LoginController.java
 C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\converter\Converter.java
 C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\converter\impl\EvidencijaTestiranjaConverter.java
 C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\converter\impl\SpecijalistickiPodaciConverter.java
@@ -24,6 +26,7 @@ C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\dom
 C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\domain\Trener.java
 C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\domain\Vezba.java
 C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\dto\EvidencijaTestiranjaDto.java
+C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\dto\LoginRequest.java
 C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\dto\SpecijalistickiPodaciDto.java
 C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\dto\SpecijalizacijaDto.java
 C:\Users\PC\OneDrive\Desktop\Šesti semestar\NJT\Final\App\src\main\java\app\dto\SportistaDto.java

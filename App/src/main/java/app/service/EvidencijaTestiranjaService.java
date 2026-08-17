@@ -13,8 +13,10 @@ import app.domain.Sportista;
 import app.domain.StarosnaKategorija;
 import app.domain.StavkaTestiranja;
 import app.dto.EvidencijaTestiranjaDto;
+import app.dto.SportistaDto;
 import app.repository.EvidencijaTestiranjaRepository;
 import app.repository.NormaRepository;
+import app.repository.SportistaRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,7 @@ import org.springframework.stereotype.Service;
  *
  * @author PC
  */
-@Service
+@Service("evidencijaTestiranja-service")
 public class EvidencijaTestiranjaService {
     
     private final EvidencijaTestiranjaRepository evidencijaTestiranjaRepository;
@@ -55,7 +57,9 @@ public class EvidencijaTestiranjaService {
         }
         List<EvidencijaTestiranjaDto> listaDto = new ArrayList<>();
         for(EvidencijaTestiranja et: lista){
-            listaDto.add(evidencijaTestiranjaConverter.toDto(et));
+            EvidencijaTestiranjaDto dto = evidencijaTestiranjaConverter.toDto(et);
+            dto.setImeIPrezimeSportiste(et.getSportista().getIme() + " " + et.getSportista().getPrezime());
+            listaDto.add(dto);
         }
         return listaDto;
     }

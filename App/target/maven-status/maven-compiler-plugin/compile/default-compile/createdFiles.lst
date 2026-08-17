@@ -1,5 +1,6 @@
 app\repository\SpecijalizacijaRepository.class
 app\App.class
+app\controller\EvidencijaTestiranjaController.class
 app\domain\Pol.class
 app\service\SportistaService.class
 app\service\TrenerService.class
@@ -25,6 +26,7 @@ app\config\AppConfig.class
 app\service\SpecijalizacijaService.class
 app\domain\EvidencijaTestiranja.class
 app\dto\SportistaDto.class
+app\dto\LoginRequest.class
 app\repository\TrenerRepository.class
 app\dto\EvidencijaTestiranjaDto.class
 app\dto\SpecijalizacijaDto.class
@@ -40,5 +42,6 @@ app\dto\StavkaTestiranjaDto.class
 app\security\PasswordHash.class
 app\domain\StarosnaKategorija.class
 app\domain\Trener.class
+app\controller\LoginController.class
 app\domain\Sportista.class
 app\converter\impl\StavkaTestiranjaConverter.class

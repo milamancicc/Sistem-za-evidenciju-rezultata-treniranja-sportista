@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
  *
  * @author PC
  */
-@Service
+@Service("trener-service")
 public class TrenerService {
     
     private final TrenerRepository trenerRepository;

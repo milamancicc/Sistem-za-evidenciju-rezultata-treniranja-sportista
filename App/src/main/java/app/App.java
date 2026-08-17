@@ -13,9 +13,7 @@ import app.dto.EvidencijaTestiranjaDto;
 import app.dto.SpecijalistickiPodaciDto;
 import app.dto.SpecijalizacijaDto;
 import app.dto.SportistaDto;
-import app.dto.StavkaTestiranjaDto;
 import app.dto.TrenerDto;
-import app.security.PasswordHash;
 import app.service.EvidencijaTestiranjaService;
 import app.service.LoginService;
 import app.service.SpecijalizacijaService;
@@ -24,20 +22,20 @@ import app.service.TrenerService;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
-import java.time.Month;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.stereotype.Component;
 
 /**
  *
  * @author PC
  */
-@Component
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class App {
 
     private final EvidencijaTestiranjaService evidencijaTestiranjaService;
@@ -60,13 +58,7 @@ public class App {
     }
     
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello World!");
-        ApplicationContext container = new AnnotationConfigApplicationContext(AppConfig.class);
-        App app = container.getBean(App.class);
-        
-        
-        
-        System.out.println("Uspesno!");
+        SpringApplication.run(App.class, args);
     }
     
     public EvidencijaTestiranjaDto sacuvajEvidencijuTestiranja(EvidencijaTestiranjaDto dto){

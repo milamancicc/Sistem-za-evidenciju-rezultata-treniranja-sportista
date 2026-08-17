@@ -8,6 +8,7 @@ import app.domain.Specijalizacija;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,7 +20,7 @@ public class SpecijalizacijaRepository {
     
     private final EntityManagerFactory emf;
 
-    public SpecijalizacijaRepository(EntityManagerFactory emf) {
+    public SpecijalizacijaRepository(@Qualifier(value = "emf")EntityManagerFactory emf) {
         this.emf = emf;
     }
     

@@ -11,6 +11,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -22,7 +23,7 @@ public class EvidencijaTestiranjaRepository{
     
     private final EntityManagerFactory emf;
 
-    public EvidencijaTestiranjaRepository(EntityManagerFactory emf) {
+    public EvidencijaTestiranjaRepository(@Qualifier(value = "emf") EntityManagerFactory emf) {
         this.emf = emf;
     }
     

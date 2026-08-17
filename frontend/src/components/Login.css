@@ -1,0 +1,139 @@
+
+.login-container{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.5s ease;
+    font-family: Arial, sans-serif;
+}
+
+.login-container.trener-tema {
+    background-color: #04239266;
+}
+
+.login-container.sportista-tema {
+    background-color: #034f39b5;
+}
+
+.login-card {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-title {
+    margin-bottom: 8px;
+    font-size: 24px;
+}
+
+.login-title.trener-tekst{
+    color: #042392;
+}
+.login-title.sportista-tekst {
+    color: #034f3a;
+}
+
+.login-subtitle {
+    color: #6b7280;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.greska-message{
+    color: red;
+    font-size: small;
+    margin-top: 5px;
+    padding: 8px 10px;
+    margin-bottom: 5px;
+    text-align: center;
+    border: red solid 1px;
+    border-radius: 8px;
+}
+
+.input-group {
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+.input-label{
+    display: block;
+    margin-bottom: 6px;
+    color: #374151;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.login-input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    box-sizing: border-box;
+    font-size: 14px;
+    outline: none;
+}
+
+.login-input:focus{
+    border-color: #2563eb;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn.trener-btn{
+    background-color: #042392;
+}
+
+.submit-btn.trener-btn:active{
+    background-color: #04239261;
+}
+
+.submit-btn.sportista-btn{
+    background-color: #034f3a;
+}
+
+.submit-btn.sportista-btn:active{
+    background-color: #034f3a77;
+}
+
+.login-divider{
+    margin: 20px 0 10px 0;
+    border-top: 1px solid #e5e7eb;
+}
+
+.switch-btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    background-color: transparent;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 16px;
+    transition: all 0.3s ease;
+}
+
+.switch-btn.trener-btn{
+    border: 2px solid #042392;
+    color: #042392;
+}
+
+.switch-btn.sportista-btn{
+    border: 2px solid #034f3a;
+    color: #034f3a;
+}

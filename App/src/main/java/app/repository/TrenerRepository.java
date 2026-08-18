@@ -60,6 +60,12 @@ public class TrenerRepository {
             Specijalizacija s = em.find(Specijalizacija.class, sp.getSpecijalizacija().getIdSpecijalizacije());
             if(s == null)
                 throw new RuntimeException("Specijalizacija za koju se dodaje specijalisticki podatak ne postoji.");
+            String query = "SELECT COUNT(sp) FROM SpecijalistickiPodaci sp "
+                    + "WHERE sp.trener.id = :tId AND sp.specijalizacija.idSpecijalizacije = :sId";
+            Long count = em.createQuery(query, Long.class).setParameter("tId", trenerId).setParameter("sId", s.getIdSpecijalizacije()).getSingleResult();
+            if(count > 0){
+                throw new RuntimeException("Vec imate unetu ovu specijalizaciju.");
+            }
             sp.setTrener(trener);
             trener.getSpecijalistickiPodaci().add(sp);
             em.persist(sp);

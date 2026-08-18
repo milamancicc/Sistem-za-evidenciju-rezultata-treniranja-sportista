@@ -8,6 +8,8 @@ import app.converter.impl.SpecijalizacijaConverter;
 import app.domain.Specijalizacija;
 import app.dto.SpecijalizacijaDto;
 import app.repository.SpecijalizacijaRepository;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
@@ -34,6 +36,17 @@ public class SpecijalizacijaService {
         }catch(Exception e){
             throw new RuntimeException("Sistem ne moze da zapamti specijalizaciju.");
         }
+    }
+    
+    public List<SpecijalizacijaDto> nadjiSve(){
+        List<Specijalizacija> entities = specijalizacijaRepository.nadjiSve();
+        if(entities == null)
+            return null;
+        List<SpecijalizacijaDto> dtos = new ArrayList<>();
+        for(Specijalizacija s: entities){
+            dtos.add(specijalizacijaConverter.toDto(s));
+        }
+        return dtos;
     }
     
     

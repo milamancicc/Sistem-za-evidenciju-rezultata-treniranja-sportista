@@ -8,6 +8,7 @@ import app.domain.Specijalizacija;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
@@ -42,6 +43,18 @@ public class SpecijalizacijaRepository {
                 em.getTransaction().rollback();
             }
             throw e;
+        }finally{
+            em.close();
+        }
+    }
+    
+    public List<Specijalizacija> nadjiSve(){
+        EntityManager em = emf.createEntityManager();
+        try{
+            String query = "SELECT s FROM Specijalizacija s";
+            return em.createQuery(query, Specijalizacija.class).getResultList();
+        }catch(NoResultException e){
+            return null;
         }finally{
             em.close();
         }

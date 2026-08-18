@@ -62,6 +62,10 @@
     color: white;
 }
 
+
+.username:hover{
+    opacity: 0.5;
+}
 .logout-btn{
     background-color: transparent;
     color: white;

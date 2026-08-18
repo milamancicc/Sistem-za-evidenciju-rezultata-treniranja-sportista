@@ -21,7 +21,7 @@ export default function NavBarTrener({korisnik}) {
                 <div class='navbar-user-section'>
                     {korisnik && (
                         <div class='user-info' onClick={() => navigate('/trener-profil')} title='Pogledaj informacije o treneru'>
-                            <span class='username'>👤 {korisnik.korisnickoIme}</span>
+                            <span class='username'>👤{JSON.parse(localStorage.getItem('korisnik')).korisnickoIme}</span>
                         </div>
                     )}
 

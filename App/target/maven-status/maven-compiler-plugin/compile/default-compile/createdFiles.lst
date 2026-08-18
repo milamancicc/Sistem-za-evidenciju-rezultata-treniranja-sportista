@@ -23,6 +23,7 @@ app\domain\StarosnaKategorija.class
 app\domain\Trener.class
 app\converter\impl\StavkaTestiranjaConverter.class
 app\App.class
+app\controller\SpecijalizacijaController.class
 app\controller\EvidencijaTestiranjaController.class
 app\service\TrenerService.class
 app\service\LoginService.class

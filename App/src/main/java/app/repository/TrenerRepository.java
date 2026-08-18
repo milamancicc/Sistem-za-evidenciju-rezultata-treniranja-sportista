@@ -10,6 +10,9 @@ import app.domain.Trener;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
@@ -66,6 +69,29 @@ public class TrenerRepository {
             if(em.getTransaction().isActive())
                 em.getTransaction().rollback();
             throw e;
+        }finally{
+            em.close();
+        }
+    }
+    
+    
+    public Trener nadjiPoId(Long id){
+        EntityManager em = emf.createEntityManager();
+        try{
+            String query = "SELECT DISTINCT t FROM Trener t "
+                    + "LEFT JOIN FETCH t.specijalistickiPodaci sp "
+                    + "LEFT JOIN FETCH sp.specijalizacija "
+                    + "WHERE t.id = :trenerId";
+            TypedQuery<Trener> q1 = em.createQuery(query, Trener.class).setParameter("trenerId", id);
+            Trener trener = q1.getSingleResult();
+            
+            TypedQuery<Trener> q2 = em.createQuery("SELECT DISTINCT t FROM Trener t "
+                    + "LEFT JOIN FETCH t.evidencije et "
+                    + "WHERE t = :trener", Trener.class);
+            q2.setParameter("trener", trener);
+            return q2.getSingleResult();
+        }catch(NoResultException e){
+            return null;
         }finally{
             em.close();
         }

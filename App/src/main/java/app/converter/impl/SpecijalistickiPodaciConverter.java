@@ -38,6 +38,7 @@ public class SpecijalistickiPodaciConverter implements Converter<Specijalisticki
             entity.setSpecijalizacija(specijalizacija);
         }
         
+        
         return entity;
         
     }
@@ -56,6 +57,8 @@ public class SpecijalistickiPodaciConverter implements Converter<Specijalisticki
             dto.setIdSpecijalizacije(entity.getSpecijalizacija().getIdSpecijalizacije());
             dto.setNazivSpecijalizacije(entity.getSpecijalizacija().getNaziv());
         }
+        
+        dto.setOpisSpecijalizacije(entity.getSpecijalizacija().getOpis());
         
         return dto;
         

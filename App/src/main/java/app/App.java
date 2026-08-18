@@ -109,4 +109,9 @@ public class App {
         trenerService.dodajSpecijalistickiPodatak(dto);
     }
     
+    public TrenerDto nadjiPoId(Long id){
+        return trenerService.nadjiPoId(id);
+    }
+    
+    
 }

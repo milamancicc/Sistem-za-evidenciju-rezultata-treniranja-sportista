@@ -14,6 +14,7 @@ public class SpecijalistickiPodaciDto {
     private Long idTrenera;
     private Integer godinaPostizanja;
     private String nazivSpecijalizacije;
+    private String opisSpecijalizacije;
 
     public SpecijalistickiPodaciDto() {
     }
@@ -55,6 +56,14 @@ public class SpecijalistickiPodaciDto {
 
     public void setNazivSpecijalizacije(String nazivSpecijalizacije) {
         this.nazivSpecijalizacije = nazivSpecijalizacije;
+    }
+
+    public String getOpisSpecijalizacije() {
+        return opisSpecijalizacije;
+    }
+
+    public void setOpisSpecijalizacije(String opisSpecijalizacije) {
+        this.opisSpecijalizacije = opisSpecijalizacije;
     }
     
     

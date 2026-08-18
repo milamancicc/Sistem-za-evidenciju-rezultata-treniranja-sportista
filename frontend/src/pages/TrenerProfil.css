@@ -1,0 +1,102 @@
+.profil-container{
+    min-height: 100vh;
+    background-color: #ffffff;
+}
+
+.profil-content{
+    max-width: 850px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+.profil-card{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #ffffff;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+
+}
+
+.profil-header h2{
+    margin: 0;
+    color: #2d3748;
+    font-size: 1.8rem;
+    margin: 5px;
+}
+
+.tip-korisnika{
+    background-color: rgba(133, 169, 215, 0.249);
+    color: #004381;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.profil-sekcija{
+    margin-bottom: 30px;
+}
+
+.profil-sekcija h3{
+    color: #4a5568;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.info{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap:15px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.info-item label{
+    display: block;
+    font-size: 0.8rem;
+    color: #718096;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.info-item p{
+    margin: 0;
+    font-weight: 600;
+    color: #1a202c;
+}
+
+.specijalizacije-cards{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.specijalizacija-card{
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #1e293b;
+    border-radius: 8px;
+    padding: 15px 20px;
+    background-color: rgba(133, 168, 215, 0.128);
+}
+
+.spec-card-header h4{
+    margin: 0;
+    color: #2d3748;
+    font-size: 1.1rem;
+}
+
+.godina{
+    color: #4a5568;
+    padding: 2px 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.spec-opis{
+    margin: 0;
+    color: #4a5568;
+    font-size: 0.95rem;
+}

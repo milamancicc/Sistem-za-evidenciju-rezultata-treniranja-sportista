@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 // import {useNavigate} from 'react-router-dom';
 import './TrenerMain.css';
+import NavBarTrener from './NavBarTrener';
 
 export default function TrenerMain(){
     const [korisnik , setKorisnik] = useState(null);
@@ -46,6 +47,7 @@ export default function TrenerMain(){
     
     return(
         <div class='trener-container'>
+            <NavBarTrener korisnik={korisnik}/>
             <main class='trener-content'>
                 <section class="welcome-section">
                     <h1>Dobrodošli, {`${korisnik?.ime} ${korisnik?.prezime}`} </h1>

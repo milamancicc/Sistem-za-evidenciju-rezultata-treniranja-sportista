@@ -85,7 +85,7 @@ export default function Login() {
           
           <div class = 'input-group'>
             <label class = 'input-label'>Šifra</label>
-            <input type = 'sifra' class = 'login-input' value={sifra} onChange={(e) => setSifra(e.target.value)} placeholder='Unesite šifru' required/>
+            <input type = 'password' class = 'login-input' value={sifra} onChange={(e) => setSifra(e.target.value)} placeholder='Unesite šifru' required/>
           </div>
           
           <button type='submit' class = {`submit-btn ${dugmeKlasa}`}>

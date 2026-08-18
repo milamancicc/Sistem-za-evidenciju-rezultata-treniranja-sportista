@@ -64,6 +64,14 @@ public class TrenerService {
         
     }
     
+    public TrenerDto nadjiPoId(Long id){
+        Trener trener = trenerRepository.nadjiPoId(id);
+        if(trener == null)
+            throw new RuntimeException("Trener sa ID-em " + id + " nije pronadjen.");
+        
+        return trenerConverter.toDto(trener);
+    }
+    
     private void proveriPodatke(TrenerDto dto){
         if(dto == null)
             throw new IllegalArgumentException("Podaci o treneru ne smeju biti null.");
@@ -80,5 +88,8 @@ public class TrenerService {
             throw new IllegalArgumentException("Email trenera je obavezno.");
         
     }
+    
+    
+    
     
 }

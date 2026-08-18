@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from './components/Login';
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrenerMain from "./components/TrenerMain";
+import TrenerProfil from "./pages/TrenerProfil";
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login/>}/>
         <Route path='/trener-main' element={<ProtectedRoute dozvoljenTipKorisnika="TRENER"> <TrenerMain/> </ProtectedRoute>}/>
+        <Route path='trener-profil' element={<TrenerProfil/>}/>
         {/* <Route path="/sportista-main" element={<ProtectedRoute dozvoljenTipKorisnika="SPORTISTA"> <SportistaMain/></ProtectedRoute>}/> */}
       </Routes>
     </BrowserRouter>

@@ -64,6 +64,13 @@ public class TrenerService {
         
     }
     
+    public TrenerDto obrisiSpecijalistickiPodatak(Long trenerId, Long specijalizacijaId){
+        if(trenerId == null || specijalizacijaId == null)
+            throw new IllegalArgumentException("Nedostaju obavezni podaci.");
+        Trener t = trenerRepository.obrisiSpecijalistickiPodatak(trenerId, specijalizacijaId);
+        return trenerConverter.toDto(t);
+    }
+    
     public TrenerDto nadjiPoId(Long id){
         Trener trener = trenerRepository.nadjiPoId(id);
         if(trener == null)

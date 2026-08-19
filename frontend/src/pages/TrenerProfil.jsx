@@ -16,7 +16,7 @@ export default function TrenerProfil() {
     const[poruka, setPoruka] = useState("");
 
 
-    const ucitajProfil = () => {
+    const ucitajProfil = async () => {
         const sacuvaniKorisnik = localStorage.getItem('korisnik');
         if(sacuvaniKorisnik) {
             try{
@@ -44,6 +44,7 @@ export default function TrenerProfil() {
             }
         }
     };
+
 
     useEffect(() => {
         ucitajProfil();
@@ -122,6 +123,24 @@ export default function TrenerProfil() {
         }
     };
 
+
+    const handleObrisiSpecijalizaciju = async (specId) => {
+        const trenerId =JSON.parse(localStorage.getItem('korisnik')).id;
+        try{
+            const res = await fetch(`http://localhost:8080/api/treneri/specijalizacije?idTrenera=${trenerId}&idSpecijalizacije=${specId}`, {
+                method: 'DELETE'
+            });
+            if(!res.ok){
+                const porukaGreske = await res.text();
+                throw new Error(porukaGreske || 'Sistem ne može da obriše specijalistički podatak.');
+                
+            }
+            await ucitajProfil();
+        }catch(err){
+            console.error("Greska pri brisanju: ", err);
+        }
+    }
+
     return(
         <div class='profil-container'>
             <NavBarTrener korisnik={korisnik}/>
@@ -162,11 +181,15 @@ export default function TrenerProfil() {
                                     <div key={spec.idSpecijalizacije} class='specijalizacija-card'>
                                         <div class='spec-card-header'>
                                             <h4>{spec.nazivSpecijalizacije}</h4>
+                                            
                                             {spec.godinaPostizanja && (
                                                 <span class='godina'>
                                                     {spec.godinaPostizanja}. god
                                                 </span>
                                             )}
+                                            <button class='btn-obrisi-spec' title="Obriši specijalizaciju" onClick= {() => handleObrisiSpecijalizaciju(spec.idSpecijalizacije)}>
+                                                🗑️
+                                            </button>
                                         </div>
                                         <p class='spec-opis'>
                                             {spec.opisSpecijalizacije || 'Nema opisa za ovu specijalizaciju.'}
@@ -228,7 +251,7 @@ export default function TrenerProfil() {
 
                             {nacinUnosa === 'nova' &&
                                 <div class='form-group'>
-                                    <label>Opise specijalizacije</label>
+                                    <label>Opis specijalizacije</label>
                                     <textarea rows='3' placeholder='Kratak opis specijalizacije' value={opisSpecijalizacije} onChange={(e) => setOpisSpecijalizacije(e.target.value)}/>
                                 </div>
                             }

@@ -80,6 +80,31 @@ public class TrenerRepository {
         }
     }
     
+    public Trener obrisiSpecijalistickiPodatak(Long trenerId, Long specijalizacijaId){
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            Trener trener = em.find(Trener.class, trenerId);
+            if(trener == null)
+                throw new RuntimeException("Trener nije pronadjen.");
+            
+            int brojObrisanih = em.createQuery("DELETE FROM SpecijalistickiPodaci sp WHERE sp.id.trenerId = :tId AND sp.id.specijalizacijaId = :sId")
+                    .setParameter("tId", trenerId)
+                    .setParameter("sId", specijalizacijaId)
+                    .executeUpdate();
+            if(brojObrisanih == 0)
+                throw new RuntimeException("Specijalisticki podatak nije pronadjen u bazi.");
+            em.getTransaction().commit();
+            
+        }catch(Exception e){
+            if(em.getTransaction().isActive())
+                em.getTransaction().rollback();
+            throw e;
+        }finally{
+            em.close();
+        }
+        return nadjiPoId(trenerId);
+    }
     
     public Trener nadjiPoId(Long id){
         EntityManager em = emf.createEntityManager();
@@ -89,12 +114,17 @@ public class TrenerRepository {
                     + "LEFT JOIN FETCH sp.specijalizacija "
                     + "WHERE t.id = :trenerId";
             TypedQuery<Trener> q1 = em.createQuery(query, Trener.class).setParameter("trenerId", id);
+            q1.setHint("jakarta.persistence.cache.storeMode", "REFRESH");
+            q1.setHint("jakarta.persistence.cache.retrieveMode", "BYPASS");
             Trener trener = q1.getSingleResult();
             
             TypedQuery<Trener> q2 = em.createQuery("SELECT DISTINCT t FROM Trener t "
                     + "LEFT JOIN FETCH t.evidencije et "
                     + "WHERE t = :trener", Trener.class);
             q2.setParameter("trener", trener);
+            q2.setHint("jakarta.persistence.cache.storeMode", "REFRESH");
+            q2.setHint("jakarta.persistence.cache.retrieveMode", "BYPASS");
+            
             return q2.getSingleResult();
         }catch(NoResultException e){
             return null;

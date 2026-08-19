@@ -1,0 +1,301 @@
+.sportisti-page{
+    min-height: 100vh;
+    background-color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+.trener-sportisti-container{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.header{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.header h2{
+    margin: 0;
+    font-size: 1.8rem;
+    color: #1e293b;
+}
+
+.header .subtitle{
+    margin: 6px 0 0 0;
+    color: #64748b;
+    font-size: 0.95rem;
+
+}
+
+.btn-dodaj{
+    background-color: #1e293b;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-dodaj:hover{
+    background-color: #1d4ed8;
+    transform: translateY(-1px);
+}
+.btn-dodaj:active{
+    transform: translateY(0);
+}
+
+.sportisti{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.sportista-card{
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sportista-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+}
+
+.sportista-card h3{
+    margin: 0;
+    font-size: 1.25rem;
+    color: #0f172a;
+}
+
+.sportista-card .username{
+    display: inline-block;
+    color: #2563eb;
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-top: 2px;
+    margin-bottom: 16px;
+}
+
+.sportista-detalji{
+    border-top: 1px solid #f1f5f9;
+    padding-top: 12px;
+}
+
+.sportista-detalji p{
+    margin: 6px;
+    font-size: 0.9rem;
+    color: #475569;
+}
+
+.sportista-detalji strong{
+    color: #1e293b;
+}
+
+.nema-sportista{
+    text-align: center;
+    padding: 40px;
+    background: white;
+    border-radius: 12px;
+    color: #64748b;
+    font-size: 1.1rem;
+}
+
+.modal-dodaj-sportistu{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15,23,42,0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal-card{
+    background: white;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 28px;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
+}
+
+.modal-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 12px;
+}
+
+.modal-header h3{
+    margin: 0;
+    font-size: 1.4rem;
+    color: #0f172a;
+}
+.btn-zatvori{
+    background: transparent;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.btn-zatvori:hover{
+    opacity: 1;
+}
+
+
+.poruka{
+    background-color: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+}
+
+.form{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label{
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select{
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+
+}
+
+.form-group input:focus,
+.form-group select:focus{
+    border-color: #2563eb;
+    box-shadow:  0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.modal-btns{
+    grid-column: span 2;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 12px;
+    padding-top: 16px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.btn-otkazi{
+    background-color: #f1f5f9;
+    color: #475569;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+
+}
+.btn-otkazi:hover{
+    background-color: #e2e8f0;
+}
+.btn-otkazi:active{
+    background-color: #991b1b;
+    color: white;
+}
+.btn-sacuvaj{
+    background-color: #0284c7;
+    color: white;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-sacuvaj:hover{
+    background-color: #0369a1;
+}
+.btn-sacuvaj:active{
+    background-color: green;
+}
+
+.sportista-card-btn{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+}
+
+.btn-obrisi{
+    background-color: transparent;
+    color: #991b1b;
+    border: 1px solid #e2e0e0;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    gap: 6px;
+    box-shadow: 0 4px 4px -2px rgba(0,0,0,0.2);
+}
+
+.btn-obrisi:hover{
+    background-color: #c52525e7;
+    border: none;
+    /* border: 1px solid rgb(169, 23, 23); */
+    box-shadow: 0 2px 8px rgb(152, 141, 141);
+}
+
+@media (max-width: 860px){
+    .form{
+        grid-template-columns: 1fr;
+    }
+    .modal-btns{
+        grid-column: span 1;
+    }
+    .header{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}

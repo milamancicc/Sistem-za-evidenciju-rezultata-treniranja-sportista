@@ -15,16 +15,21 @@ app\domain\Korisnik.class
 app\dto\TrenerDto.class
 app\domain\SpecijalistickiPodaci.class
 app\domain\Mesto.class
+app\controller\KlubController.class
 app\domain\SpecijalistickiPodaciId.class
 app\domain\StavkaTestiranja.class
+app\controller\SportistaController.class
 app\dto\StavkaTestiranjaDto.class
 app\security\PasswordHash.class
 app\domain\StarosnaKategorija.class
+app\repository\KlubRepository.class
 app\domain\Trener.class
 app\converter\impl\StavkaTestiranjaConverter.class
+app\repository\MestoRepository.class
 app\App.class
 app\controller\SpecijalizacijaController.class
 app\controller\EvidencijaTestiranjaController.class
+app\service\KlubService.class
 app\service\TrenerService.class
 app\service\LoginService.class
 app\converter\impl\SpecijalistickiPodaciConverter.class
@@ -33,6 +38,7 @@ app\repository\SportistaRepository.class
 app\repository\NormaRepository.class
 app\converter\impl\SportistaConverter.class
 app\dto\SpecijalistickiPodaciDto.class
+app\controller\MestoController.class
 app\converter\impl\SpecijalizacijaConverter.class
 app\domain\Klub.class
 app\domain\StavkaTestiranjaId.class
@@ -44,6 +50,7 @@ app\repository\TrenerRepository.class
 app\dto\EvidencijaTestiranjaDto.class
 app\dto\SpecijalizacijaDto.class
 app\converter\Converter.class
+app\service\MestoService.class
 app\service\EvidencijaTestiranjaService.class
 app\controller\LoginController.class
 app\domain\Sportista.class

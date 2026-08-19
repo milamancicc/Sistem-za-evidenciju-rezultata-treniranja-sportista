@@ -166,4 +166,19 @@ public class SportistaRepository {
         }
     }
     
+    
+    public List<Sportista> izlistajSveSportiste(){
+        EntityManager em = emf.createEntityManager();
+        try{
+            String query = "SELECT s FROM Sportista s ";
+            return em.createQuery(query, Sportista.class)
+                    .getResultList();
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }finally{
+            em.close();
+        }
+    }
+    
 }

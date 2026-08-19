@@ -11,13 +11,17 @@ import app.converter.impl.SportistaConverter;
 import app.converter.impl.StavkaTestiranjaConverter;
 import app.converter.impl.TrenerConverter;
 import app.repository.EvidencijaTestiranjaRepository;
+import app.repository.KlubRepository;
 import app.repository.KorisnikRepository;
+import app.repository.MestoRepository;
 import app.repository.NormaRepository;
 import app.repository.SpecijalizacijaRepository;
 import app.repository.SportistaRepository;
 import app.repository.TrenerRepository;
 import app.service.EvidencijaTestiranjaService;
+import app.service.KlubService;
 import app.service.LoginService;
+import app.service.MestoService;
 import app.service.SpecijalizacijaService;
 import app.service.SportistaService;
 import app.service.TrenerService;
@@ -90,4 +94,13 @@ public class AppConfig {
         return new TrenerService(trenerRepository, trenerConverter, specijalistickiPodaciConverter);
     }
     
+    @Bean(value = "mesto-service")
+    public MestoService mestoService(MestoRepository mestoRepository){
+        return new MestoService(mestoRepository);
+    }
+    
+    @Bean(value = "klub-service")
+    public KlubService klubService(KlubRepository klubRepository){
+        return new KlubService(klubRepository);
+    }
 }

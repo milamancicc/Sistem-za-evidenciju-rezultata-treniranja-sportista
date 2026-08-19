@@ -8,6 +8,7 @@ import Login from './components/Login';
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrenerMain from "./components/TrenerMain";
 import TrenerProfil from "./pages/TrenerProfil";
+import TrenerSportisti from "./pages/TrenerSportisti";
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -17,7 +18,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Login/>}/>
         <Route path='/trener-main' element={<ProtectedRoute dozvoljenTipKorisnika="TRENER"> <TrenerMain/> </ProtectedRoute>}/>
-        <Route path='trener-profil' element={<TrenerProfil/>}/>
+        <Route path='trener-profil' element={<ProtectedRoute dozvoljenTipKorisnika='TRENER'> <TrenerProfil/></ProtectedRoute>}/>
+        <Route path='trener-sportisti' element={<ProtectedRoute dozvoljenTipKorisnika='TRENER'><TrenerSportisti/></ProtectedRoute>}/>
         {/* <Route path="/sportista-main" element={<ProtectedRoute dozvoljenTipKorisnika="SPORTISTA"> <SportistaMain/></ProtectedRoute>}/> */}
       </Routes>
     </BrowserRouter>

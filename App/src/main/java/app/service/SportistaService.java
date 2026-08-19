@@ -77,6 +77,17 @@ public class SportistaService {
         return sportistaConverter.toDto(s);
     }
     
+    public List<SportistaDto> izlistajSveSPortiste(){
+        List<Sportista> entities = sportistaRepository.izlistajSveSportiste();
+        if(entities == null)
+            return null;
+        List<SportistaDto> dtos = new ArrayList<>();
+        for(Sportista s: entities){
+            dtos.add(sportistaConverter.toDto(s));
+        }
+        return dtos;
+    }
+    
     private void proveraPodataka(SportistaDto dto){
         if(dto == null)
             throw new IllegalArgumentException("Podaci o sportisti su prazni.");

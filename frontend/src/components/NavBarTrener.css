@@ -47,6 +47,28 @@
     gap: 20px;
 }
 
+.nav-item{
+    display: flex;
+    align-items: center;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+
+}
+
+.nav-item:hover{
+    opacity: 0.5;
+}
+
+.nav-label{
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
 .user-info{
     display: flex;
     align-items: center;

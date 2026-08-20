@@ -4,12 +4,14 @@ app\service\SportistaService.class
 app\repository\EvidencijaTestiranjaRepository.class
 app\domain\TipKorisnika.class
 app\domain\Vezba.class
+app\service\VezbaService.class
 app\domain\Specijalizacija.class
 app\domain\Norma.class
 app\domain\JedinicaMere.class
 app\converter\impl\TrenerConverter.class
 app\service\SpecijalizacijaService.class
 app\dto\SportistaDto.class
+app\controller\NormaController.class
 app\controller\TrenerController.class
 app\domain\Korisnik.class
 app\dto\TrenerDto.class
@@ -23,6 +25,7 @@ app\dto\StavkaTestiranjaDto.class
 app\security\PasswordHash.class
 app\domain\StarosnaKategorija.class
 app\repository\KlubRepository.class
+app\service\NormaService.class
 app\domain\Trener.class
 app\converter\impl\StavkaTestiranjaConverter.class
 app\repository\MestoRepository.class
@@ -37,8 +40,10 @@ app\converter\impl\EvidencijaTestiranjaConverter.class
 app\repository\SportistaRepository.class
 app\repository\NormaRepository.class
 app\converter\impl\SportistaConverter.class
+app\repository\VezbaRepository.class
 app\dto\SpecijalistickiPodaciDto.class
 app\controller\MestoController.class
+app\dto\NormaDto.class
 app\converter\impl\SpecijalizacijaConverter.class
 app\domain\Klub.class
 app\domain\StavkaTestiranjaId.class
@@ -52,5 +57,9 @@ app\dto\SpecijalizacijaDto.class
 app\converter\Converter.class
 app\service\MestoService.class
 app\service\EvidencijaTestiranjaService.class
+app\controller\VezbaController.class
+app\dto\VezbaDto.class
 app\controller\LoginController.class
 app\domain\Sportista.class
+app\converter\impl\NormaConverter.class
+app\converter\impl\VezbaConverter.class

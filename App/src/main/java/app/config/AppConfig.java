@@ -5,11 +5,13 @@
 package app.config;
 
 import app.converter.impl.EvidencijaTestiranjaConverter;
+import app.converter.impl.NormaConverter;
 import app.converter.impl.SpecijalistickiPodaciConverter;
 import app.converter.impl.SpecijalizacijaConverter;
 import app.converter.impl.SportistaConverter;
 import app.converter.impl.StavkaTestiranjaConverter;
 import app.converter.impl.TrenerConverter;
+import app.converter.impl.VezbaConverter;
 import app.repository.EvidencijaTestiranjaRepository;
 import app.repository.KlubRepository;
 import app.repository.KorisnikRepository;
@@ -18,13 +20,16 @@ import app.repository.NormaRepository;
 import app.repository.SpecijalizacijaRepository;
 import app.repository.SportistaRepository;
 import app.repository.TrenerRepository;
+import app.repository.VezbaRepository;
 import app.service.EvidencijaTestiranjaService;
 import app.service.KlubService;
 import app.service.LoginService;
 import app.service.MestoService;
+import app.service.NormaService;
 import app.service.SpecijalizacijaService;
 import app.service.SportistaService;
 import app.service.TrenerService;
+import app.service.VezbaService;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.springframework.context.annotation.Bean;
@@ -69,6 +74,16 @@ public class AppConfig {
         return new TrenerConverter(specijalistickiPodaciConverter, evidencijaTestiranjaConverter);
     }
     
+    @Bean
+    public VezbaConverter vezbaConverter(){
+        return new VezbaConverter();
+    }
+    
+    @Bean
+    public NormaConverter normaConverter(){
+        return new NormaConverter();
+    }
+    
     @Bean(value = "evidencijaTestiranja-service")
     public EvidencijaTestiranjaService evidencijaTestiranjaService(EvidencijaTestiranjaRepository repository, EvidencijaTestiranjaConverter converter, NormaRepository normaRepository){
         return new EvidencijaTestiranjaService(repository, converter, normaRepository);
@@ -102,5 +117,15 @@ public class AppConfig {
     @Bean(value = "klub-service")
     public KlubService klubService(KlubRepository klubRepository){
         return new KlubService(klubRepository);
+    }
+    
+    @Bean(value = "vezba-service")
+    public VezbaService vezbaService(VezbaRepository vezbaRepository, VezbaConverter vezbaConverter){
+        return new VezbaService(vezbaRepository, vezbaConverter);
+    }
+    
+    @Bean(value = "norma-service")
+    public NormaService normaService(NormaRepository normaRepository, NormaConverter normaConverter, VezbaRepository vezbaRepository){
+        return new NormaService(normaRepository, normaConverter, vezbaRepository);
     }
 }

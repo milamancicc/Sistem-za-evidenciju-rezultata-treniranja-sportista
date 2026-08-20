@@ -28,6 +28,50 @@ public class NormaRepository {
         this.emf = emf;
     }
     
+    public Norma sacuvaj(Norma norma){
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            if(norma.getIdNorme() == null){
+                em.persist(norma);
+            }else{
+                norma = em.merge(norma);
+            }
+            em.getTransaction().commit();
+            return norma;
+        }catch(Exception e){
+            if(em.getTransaction().isActive())
+                em.getTransaction().rollback();
+            throw e;
+        }finally{
+            em.close();
+        }
+        
+    }
+    
+    public Norma nadjiPoId(Long id){
+        EntityManager em = emf.createEntityManager();
+        Norma norma = em.find(Norma.class, id);
+        if(norma == null)
+            return null;
+        return norma;
+    }
+    
+    public List<Norma> izlistajPoVezbi(Long idVezbe){
+        EntityManager em = emf.createEntityManager();
+        return em.createQuery("SELECT n FROM Norma n WHERE n.vezba.idVezbe = :idVezbe", Norma.class)
+                .setParameter("idVezbe", idVezbe)
+                .getResultList();
+    }
+    
+    
+    public void obrisi(Long id){
+        EntityManager em = emf.createEntityManager();
+        Norma norma = em.find(Norma.class, id);
+        if(norma!= null)
+            em.remove(norma);
+    }
+    
     public Norma pretraziPoVezbiPoluIStarosnojKategoriji(Vezba vezba, Pol pol, StarosnaKategorija starosnaKategorija){
         EntityManager em = emf.createEntityManager();
         try{

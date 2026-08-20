@@ -22,6 +22,9 @@ export default function NavBarTrener({korisnik}) {
                     <div class='nav-item' onClick = {() => navigate('/trener-sportisti')} title='Pregled svih i dodavanje novih sportista'>
                         <span class='nav-label'>🏃Sportisti</span>
                     </div>
+                    <div class='nav-item' onClick = {() => navigate('/trener-vezbe')} title='Pregled vežbi i dodavanje novih'>
+                        <span class='nav-label'>🔩Vežbe</span>
+                    </div>
                     {korisnik && (
                         <div class='user-info' onClick={() => navigate('/trener-profil')} title='Pogledajte informacije o treneru'>
                             <span class='username'>👤{JSON.parse(localStorage.getItem('korisnik')).korisnickoIme}</span>

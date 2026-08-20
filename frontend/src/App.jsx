@@ -9,6 +9,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import TrenerMain from "./components/TrenerMain";
 import TrenerProfil from "./pages/TrenerProfil";
 import TrenerSportisti from "./pages/TrenerSportisti";
+import TrenerVezbe from "./pages/TrenerVezbe";
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -20,6 +21,7 @@ function App() {
         <Route path='/trener-main' element={<ProtectedRoute dozvoljenTipKorisnika="TRENER"> <TrenerMain/> </ProtectedRoute>}/>
         <Route path='trener-profil' element={<ProtectedRoute dozvoljenTipKorisnika='TRENER'> <TrenerProfil/></ProtectedRoute>}/>
         <Route path='trener-sportisti' element={<ProtectedRoute dozvoljenTipKorisnika='TRENER'><TrenerSportisti/></ProtectedRoute>}/>
+        <Route path='trener-vezbe' element={<ProtectedRoute dozvoljenTipKorisnika='TRENER'><TrenerVezbe/></ProtectedRoute>}/>
         {/* <Route path="/sportista-main" element={<ProtectedRoute dozvoljenTipKorisnika="SPORTISTA"> <SportistaMain/></ProtectedRoute>}/> */}
       </Routes>
     </BrowserRouter>

@@ -29,6 +29,75 @@ export default function TrenerSportisti() {
     const [klubovi, setKlubovi] = useState([]);
     const [mesta, setMesta] = useState([]);
 
+    const [novoMestoNaziv, setNovoMestoNaziv] = useState('');
+
+    const [noviKlubNaziv, setNoviKlubNaziv] = useState('');
+    const [noviKlubPib, setNoviKlubPib] = useState('');
+    const [noviKlubMestoId, setNoviKlubMestoId] = useState('');
+    const [noviKlubEmail, setNoviKlubEmail] = useState('');
+    const [noviKlubKontakt, setNoviKlubKontakt] = useState('');
+
+    const handleDodajMesto = async () => {
+        if(!novoMestoNaziv){
+            alert('Polje naziv mesta je obavezno.');
+            return;
+        }
+        try{
+            const res = await fetch('http://localhost:8080/api/mesta', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({naziv: novoMestoNaziv})
+            });
+            if(res.ok){
+                const novoMesto = await res.json();
+                await ucitajMesta();
+                setMestoPorekla(novoMesto.idMesta);
+                setNovoMestoNaziv('');
+            }else{
+                alert('Greška pri dodavanju mesta.');
+            }
+        }catch(err){
+            console.error(err);
+            
+        }
+    }
+
+    const handleDodajKlub = async() => {
+        if(!noviKlubNaziv || !noviKlubPib || !noviKlubMestoId){
+            alert('Polja naziv, pib i mesto su obavezni za kreiranje novog kluba.');
+            return;
+        }
+        const noviKlub = {
+            naziv: noviKlubNaziv,
+            pib: noviKlubPib,
+            mesto: {idMesta: Number(noviKlubMestoId)},
+            email: noviKlubEmail,
+            kontakt: noviKlubKontakt
+        }
+
+        try{
+            const res = await fetch('http://localhost:8080/api/klubovi', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(noviKlub)
+            });
+            if(res.ok){
+                const kreiraniKlub = await res.json();
+                await ucitajKlubove();
+                setKlub(kreiraniKlub.idKluba);
+                setNoviKlubNaziv('');
+                setNoviKlubPib('');
+                setNoviKlubMestoId('');
+                setNoviKlubEmail('');
+                setNoviKlubKontakt('');
+            }else{
+                alert('Greška pri dodavanju novog kluba.');
+            }
+        }catch(err){
+            console.error(err);
+            
+        }
+    }
 
     const ucitajSportiste = async (trenerId) => {
         try{
@@ -306,8 +375,27 @@ export default function TrenerSportisti() {
                                     {klubovi.map((k) => (
                                         <option key={k.idKluba} value={k.idKluba}>{k.naziv}</option>
                                     ))}
+                                    <option value='novi-klub'>Dodaj klub</option>
                                 </select>
                             </div>
+
+                            {klub === 'novi-klub' && (
+                                <div class='form-group-inline'><p>Dodaj novi klub</p>
+                                    <div class='form-inputs'>
+                                        <input type='text' placeholder='Naziv kluba' value={noviKlubNaziv} onChange={(e) => setNoviKlubNaziv(e.target.value)} required/>
+                                        <input type='text' placeholder='PIB kluba' value={noviKlubPib} onChange={(e) => setNoviKlubPib(e.target.value)} required/>
+                                        <select value={noviKlubMestoId} onChange={(e) => setNoviKlubMestoId(e.target.value)} required>
+                                            <option value=''>Izaberi mesto kluba</option>
+                                            {mesta.map((m) => (
+                                                <option key={m.idMesta} value={m.idMesta}>{m.naziv}</option>
+                                            ))}
+                                        </select>
+                                        <input type='email' placeholder='Email kluba' value={noviKlubEmail} onChange={(e) => setNoviKlubEmail(e.target.value)}/>
+                                        <input type='text' placeholder='Kontakt telefon' value={noviKlubKontakt} onChange={(e) => setNoviKlubKontakt(e.target.value)}/>
+                                        <button type='button' onClick={handleDodajKlub}>Dodaj klub</button>
+                                    </div>
+                                </div>
+                            )}
                             <div class='form-group'>
                                 <label>Mesto porekla</label>
                                 <select value={mestoPorekla} onChange={(e) => setMestoPorekla(e.target.value)} required>
@@ -317,8 +405,19 @@ export default function TrenerSportisti() {
                                             {m.naziv}
                                         </option>
                                     ))}
+                                    <option value='novo-mesto'>+Dodaj novo mesto</option>
                                 </select>
                             </div>
+
+                            {mestoPorekla === 'novo-mesto' && (
+                                <div class='form-group-inline'>
+                                    <p>Dodaj novo mesto</p>
+                                    <div class='form-inputs'>
+                                        <input type='text' placeholder='Naziv novog mesta' value={novoMestoNaziv} onChange={(e) => setNovoMestoNaziv(e.target.value)} required/>
+                                        <button type='button' onClick={handleDodajMesto} class='btn-dodaj-mesto'>Dodaj mesto</button>
+                                    </div>
+                                </div>
+                            )}
                             <div class='form-group'>
                                 <label>Visina(cm)</label>
                                 <input type='number' step='0.1' value={visina} onChange={(e) => setVisina(e.target.value)}/>

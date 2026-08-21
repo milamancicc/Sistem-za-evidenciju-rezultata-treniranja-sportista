@@ -26,4 +26,13 @@ public class KlubService {
         return klubRepository.izlistajKlubove();
     }
     
+    public Klub dodaj(Klub klub){
+        try{
+            return klubRepository.dodaj(klub);
+        }catch(IllegalArgumentException e){
+            throw e;
+        }catch(Exception e){
+            throw new RuntimeException("Sistem ne moze da zapamti klub.");
+        }
+    }
 }

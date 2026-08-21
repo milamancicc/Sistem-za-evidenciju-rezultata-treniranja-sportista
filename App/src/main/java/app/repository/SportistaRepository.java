@@ -4,11 +4,13 @@
  */
 package app.repository;
 
+import app.domain.EvidencijaTestiranja;
 import app.domain.Klub;
 import app.domain.Mesto;
 import app.domain.Pol;
 import app.domain.Sportista;
 import app.domain.StarosnaKategorija;
+import app.domain.StavkaTestiranja;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import java.time.LocalDate;
@@ -77,6 +79,15 @@ public class SportistaRepository {
         EntityManager em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
+            List<EvidencijaTestiranja> evidencije = em.createQuery("SELECT e FROM EvidencijaTestiranja e WHERE e.sportista.id = :idSportiste", EvidencijaTestiranja.class)
+                    .setParameter("idSportiste", id)
+                    .getResultList();
+            for(EvidencijaTestiranja e:evidencije){
+                em.createQuery("DELETE FROM StavkaTestiranja s WHERE s.evidencijaTestiranja = :evidencija")
+                        .setParameter("evidencija", e)
+                        .executeUpdate();
+                em.remove(e);
+            }
             Sportista sportista = em.find(Sportista.class, id);
             if(sportista != null){
                 em.remove(sportista);

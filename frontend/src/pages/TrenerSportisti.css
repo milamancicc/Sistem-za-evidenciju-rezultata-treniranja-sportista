@@ -284,6 +284,49 @@
     box-shadow: 0 2px 8px rgb(152, 141, 141);
 }
 
+.form-group-inline{
+    background-color: #adcef18a;
+    padding: 20px;
+    padding-top: 10px;
+    border-radius: 8px;
+    box-shadow: 2px 4px 0 rgba(0,0,0,0.05);
+    align-items: center;
+    justify-content: center;
+}
+
+.form-inputs{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+}
+
+.form-group-inline p{
+    margin-bottom: 5px;
+    margin-top: 0;
+    color: #0f172a;
+}
+
+.form-group-inline input,
+.form-group-inline select{
+    background-color: white;
+    color: #0f172a;
+    border: none;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.form-group-inline button{
+    background-color: #0f172a;
+    border-radius: 8px;
+    border-radius: none;
+    cursor: pointer;
+}
+
+.form-group-inline button:hover{
+    background-color: #0369a1;
+}
+
+
 @media (max-width: 860px){
     .form{
         grid-template-columns: 1fr;

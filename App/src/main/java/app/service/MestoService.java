@@ -25,4 +25,14 @@ public class MestoService {
     public List<Mesto> izlistajSvaMesta(){
         return mestoRepository.izlistajSvaMesta();
     }
+    
+    public Mesto dodaj(Mesto mesto){
+        try{
+            return mestoRepository.dodaj(mesto);
+        }catch(IllegalArgumentException e){
+            throw e;
+        }catch(Exception e){
+            throw new RuntimeException("Sistem ne moze da zapamti mesto.");
+        }
+    }
 }

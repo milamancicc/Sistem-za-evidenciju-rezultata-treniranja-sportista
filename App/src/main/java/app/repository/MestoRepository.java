@@ -32,4 +32,24 @@ public class MestoRepository {
         EntityManager em = emf.createEntityManager();
         return em.find(Mesto.class, id);
     }
+    
+    public Mesto dodaj(Mesto mesto){
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            if(mesto.getIdMesta() == null)
+                em.persist(mesto);
+            else{
+                mesto = em.merge(mesto);
+            }
+            em.getTransaction().commit();
+            return mesto;
+        }catch(Exception e){
+            if(em.getTransaction().isActive())
+                em.getTransaction().rollback();
+            throw e;
+        }finally{
+            em.close();
+        }
+    }
 }

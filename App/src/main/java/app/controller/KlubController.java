@@ -8,9 +8,12 @@ import app.domain.Klub;
 import app.service.KlubService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,4 +36,14 @@ public class KlubController {
         return ResponseEntity.ok(klubovi);
     }
     
+    
+    @PostMapping
+    public ResponseEntity<?> dodaj(@RequestBody Klub klub){
+        try{
+            Klub sacuvano = klubService.dodaj(klub);
+            return ResponseEntity.status(HttpStatus.CREATED).body(sacuvano);
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body("Greska pri cuvanju kluba: " + e.getMessage());
+        }
+    }
 }

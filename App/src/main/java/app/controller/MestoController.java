@@ -8,9 +8,12 @@ import app.domain.Mesto;
 import app.service.MestoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,5 +35,15 @@ public class MestoController {
     public ResponseEntity<?> izlistajSvaMesta(){
         List<Mesto> mesta =mestoService.izlistajSvaMesta();
         return ResponseEntity.ok(mesta);
+    }
+    
+    @PostMapping
+    public ResponseEntity<?> dodajMesto(@RequestBody Mesto mesto){
+        try{
+            Mesto sacuvano = mestoService.dodaj(mesto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(sacuvano);
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body("Greska pri cuvanju mesta: " + e.getMessage());
+        }
     }
 }

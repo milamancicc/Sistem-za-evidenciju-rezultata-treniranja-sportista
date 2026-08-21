@@ -45,6 +45,16 @@ public class NormaService {
         }
     }
     
+    public void obrisiNormu(Long id){
+        try{
+            normaRepository.obrisi(id);
+        }catch(IllegalArgumentException e){
+            throw e;
+        }catch(Exception e){
+            throw e;
+        }
+    }
+    
     
     public List<NormaDto> izlistajSveNormeZaVezbu(Long idVezbe){
         
@@ -53,7 +63,9 @@ public class NormaService {
             return null;
         List<NormaDto> dtos = new ArrayList<>();
         for(Norma n: entities){
-            dtos.add(normaConverter.toDto(n));
+            NormaDto dto = normaConverter.toDto(n);
+            dto.setIdNorme(n.getIdNorme());
+            dtos.add(dto);
         }
         return dtos;
         

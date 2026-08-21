@@ -1,9 +1,8 @@
 .profil-container{
     min-height: 100vh;
-    background-color: white;
-    background-color: #ffffff;
+    background-color: #031930;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #334155;
+    color: white;
 }
 
 .profil-content{
@@ -12,6 +11,7 @@
     padding: 0 20px;
 }
 .profil-card{
+    background-color: white;
     border-radius: 12px;
     padding: 24px 30px;
     margin-bottom: 25px;

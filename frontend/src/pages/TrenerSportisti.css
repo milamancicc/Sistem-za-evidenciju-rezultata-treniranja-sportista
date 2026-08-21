@@ -1,8 +1,7 @@
 .sportisti-page{
     min-height: 100vh;
-    background-color: white;
+    background-color: #031930;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #333;
 }
 
 .trener-sportisti-container{
@@ -282,7 +281,6 @@
 .btn-obrisi:hover{
     background-color: #c52525e7;
     border: none;
-    /* border: 1px solid rgb(169, 23, 23); */
     box-shadow: 0 2px 8px rgb(152, 141, 141);
 }
 

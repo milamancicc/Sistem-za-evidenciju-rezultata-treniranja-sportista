@@ -39,6 +39,16 @@ public class VezbaService {
         }
     }
     
+    public void obrisiVezbu(Long id){
+        try{
+            vezbaRepository.obrisi(id);
+        }catch(IllegalArgumentException e){
+            throw e;
+        }catch(Exception e){
+            throw e;
+        }
+    }
+    
     public List<VezbaDto> izlistajSveVezbe(){
         List<Vezba> entities = vezbaRepository.izlistajSve();
         if(entities == null)

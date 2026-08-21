@@ -61,15 +61,30 @@ public class NormaRepository {
         EntityManager em = emf.createEntityManager();
         return em.createQuery("SELECT n FROM Norma n WHERE n.vezba.idVezbe = :idVezbe", Norma.class)
                 .setParameter("idVezbe", idVezbe)
+                .setHint("jakarta.persistence.cache.retrieveMode", "BYPASS")
+                .setHint("jakarta.persistence.cache.storeMode", "BYPASS")
                 .getResultList();
     }
     
     
     public void obrisi(Long id){
         EntityManager em = emf.createEntityManager();
-        Norma norma = em.find(Norma.class, id);
-        if(norma!= null)
-            em.remove(norma);
+        try{
+            em.getTransaction().begin();
+            Norma norma = em.find(Norma.class, id);
+            if(norma!= null)
+                em.remove(norma);
+            else{
+                throw new IllegalArgumentException("Norma ne postoji.");
+            }
+            em.getTransaction().commit();
+        }catch(Exception e){
+            if(em.getTransaction().isActive())
+                em.getTransaction().rollback();
+            throw e;
+        }finally{
+            em.close();
+        }
     }
     
     public Norma pretraziPoVezbiPoluIStarosnojKategoriji(Vezba vezba, Pol pol, StarosnaKategorija starosnaKategorija){

@@ -10,7 +10,7 @@ export default function TrenerVezbe() {
     const [poruka, setPoruka] = useState('');
 
     const [nazivVezbe, setNazivVezbe] = useState('');
-    const [jedinicaMere, setJedinicaMere] = useState('');
+    const [jedinicaMere, setJedinicaMere] = useState('SEKUNDA');
     const [opisVezbe, setOpisVezbe] = useState('');
 
     const [izabranaVezbaZaNormaModal, setIzabranaVezbaZaNormaModal] = useState(null);
@@ -147,6 +147,42 @@ export default function TrenerVezbe() {
         }
     }
 
+    const obrisiVezbu = async (id) => {
+        try{
+            const res = await fetch(`http://localhost:8080/api/vezbe/${id}`, {
+                method: 'DELETE',
+            });
+            if(res.ok){
+                ucitajVezbe();
+            }
+            else{
+                alert('Greška pri brisanju vežbe.');
+            }
+        }catch(err){
+            console.error('Greska  pri brisanju vezbe: ', err);
+            
+        }
+    }
+
+    const obrisiNormu = async (idNorme, idVezbe) => {
+        console.log(idNorme);
+        
+        try{
+            const res = await fetch(`http://localhost:8080/api/norme/${Number(idNorme)}`, {
+                method: 'DELETE',
+            });
+            if(res.ok){
+                ucitajNormeZaVezbu(idVezbe);
+            }
+            else{
+                alert('Greška pri brisanju norme.');
+            }
+        }catch(err){
+            console.error('Greska pri brisanju norme: ', err);
+            
+        }
+    }
+
     return(
         <div class = 'vezbe-page'>
             <NavBarTrener korisnik={korisnik}/>
@@ -165,7 +201,10 @@ export default function TrenerVezbe() {
                         <div key={vezba.idVezbe} class='vezba-card'>
                             <div class='vezba-card-header'>
                                 <h3>{vezba.naziv}</h3>
-                                <span class='jedinica-mere'>{vezba.jedinicaMere === 'SEKUNDA' ? 'sekunde' : (vezba.jedinicaMere === 'MINUT' ? 'minuti' : (vezba.jedinicaMere === 'METAR' ? 'metar' : (vezba.jedinicaMere === 'KILOGRAM' ? 'kilogram' : 'broj ponavljanja')))}</span>
+                                <div class='header-stavke'>
+                                    <span class='jedinica-mere'>{vezba.jedinicaMere === 'SEKUNDA' ? 'sekunde' : (vezba.jedinicaMere === 'MINUT' ? 'minuti' : (vezba.jedinicaMere === 'METAR' ? 'metar' : (vezba.jedinicaMere === 'KILOGRAM' ? 'kilogram' : 'broj ponavljanja')))}</span>
+                                    <button class='btn-obrisi-vezbu' onClick = {()=>obrisiVezbu(vezba.idVezbe)}>🗑️</button>
+                                </div>
                             </div>
                             <p class = 'vezba-opis'>{vezba.opis || 'Nema opisa za ovu vežbu.'}</p>
 
@@ -186,7 +225,9 @@ export default function TrenerVezbe() {
                                                     <td>{norma.starosnaKategorija}</td>
                                                     <td>{norma.pol === 'MUSKI' ? 'Muški' : 'Ženski'}</td>
                                                     <td><strong>{norma.norma}</strong> {vezba.jedinicaMere === 'SEKUNDA' ? 'sekundi' : (vezba.jedinicaMere === 'MINUT' ? 'minuta' : (vezba.jedinicaMere === 'METAR' ? 'metara' : (vezba.jedinicaMere === 'KILOGRAM' ? 'kilograma' : 'ponavljanja')))}</td>
+                                                    <td><button class='btn-obrisi-normu' onClick = {() => obrisiNormu(norma.idNorme,vezba.idVezbe)}>🗑️</button></td>
                                                 </tr>
+                                               
                                             ))}
                                         </tbody>
                                     </table>

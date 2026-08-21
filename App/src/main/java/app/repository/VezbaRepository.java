@@ -64,8 +64,22 @@ public class VezbaRepository {
     
     public void obrisi(Long id){
         EntityManager em = emf.createEntityManager();
-        Vezba vezba = em.find(Vezba.class, id);
-        if(vezba != null)
-            em.remove(vezba);
+        try{
+            em.getTransaction().begin();
+            Vezba vezba = em.find(Vezba.class, id);
+            if(vezba != null)
+                em.remove(vezba);
+            else{
+                throw new IllegalArgumentException("Vezba ne postoji.");
+            }
+            em.getTransaction().commit();
+        }catch(Exception e){
+            if(em.getTransaction().isActive())
+                em.getTransaction().rollback();
+            throw e;
+        }finally{
+            em.close();
+        }
+        
     }
 }

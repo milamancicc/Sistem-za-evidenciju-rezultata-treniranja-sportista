@@ -1,13 +1,14 @@
 import {useState, useEffect} from 'react';
-// import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import './TrenerMain.css';
-import NavBarTrener from './NavBarTrener';
+import NavBarTrener from '../components/NavBarTrener';
 
 export default function TrenerMain(){
     const [korisnik , setKorisnik] = useState(null);
     const [evidencije, setEvidencije] = useState([]);
     const [greska, setGreska] = useState('');
 
+    const navigate = useNavigate();
 
     useEffect(() => {
         const sacuvaniKorisnik = localStorage.getItem('korisnik');
@@ -44,13 +45,27 @@ export default function TrenerMain(){
         }
 
     };
+
+    const handleObrisiEvidenciju = async (idTestiranja) => {
+        try{
+            const res = await fetch(`http://localhost:8080/api/evidencije/${idTestiranja}`,{
+                method: 'DELETE'
+            });
+            if(!res.ok){
+                alert('Greška pri brisanju evidencije.');
+            }
+            fetchEvidencije(korisnik.id);
+        }catch(err){
+            alert(err.message);
+        }
+    };
     
     return(
         <div class='trener-container'>
             <NavBarTrener korisnik={korisnik}/>
             <main class='trener-content'>
                 <section class="welcome-section">
-                    <h1>Dobrodošli, {`${korisnik?.ime} ${korisnik?.prezime}`} </h1>
+                    <h1>Dobrodošli, {`${korisnik?.ime} `} </h1>
                     <p>Ovde možete upravljati evidencijama testiranja Vaših sportista.</p>
                 </section>
 
@@ -73,11 +88,14 @@ export default function TrenerMain(){
                                     </thead>
                                     <tbody>
                                         {evidencije.map((item) => (
-                                            <tr key={item.idTestiranja}>
+                                            <tr key={item.idTestiranja}
+                                            onClick={() => navigate(`/evidencija/${item.idTestiranja}`)}
+                                            class='red-evidencije'>
                                                 <td>#{item.idTestiranja}</td>
                                                 <td>{item.imeIPrezimeSportiste}</td>
                                                 <td>{item.rezultatTestiranja}%</td>
                                                 <td>{item.datum}</td>
+                                                <td><button class='btn-obrisi-evidenciju' onClick= {() => handleObrisiEvidenciju(item.idTestiranja)} title='Obriši evidenciju'>❌</button></td>
                                             </tr>
                                         ))}
                                     </tbody>

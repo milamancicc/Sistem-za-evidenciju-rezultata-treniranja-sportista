@@ -75,6 +75,7 @@
 
 .evidencije-tabela tbody tr:hover{
     background-color: #7f889195;
+    cursor: pointer;
 }
 
 .greska-message{
@@ -85,6 +86,24 @@
     border-radius: 8px;
     margin-bottom: 20px;
     font-size: 0.95rem;
+}
+
+.btn-obrisi-evidenciju{
+     background-color: transparent;
+    color: #991b1b;
+    border: none;
+    padding: 8px 8px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    gap: 6px;
+}
+
+
+.btn-obrisi-evidenciju:active{
+    background-color: #514e4e;
 }
 
 @media (max-width: 768px) {

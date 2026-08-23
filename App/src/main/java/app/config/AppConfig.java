@@ -32,6 +32,7 @@ import app.service.TrenerService;
 import app.service.VezbaService;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -50,8 +51,8 @@ public class AppConfig {
     }
     
     @Bean
-    public StavkaTestiranjaConverter stavkaTestiranjaConverter(){
-        return new StavkaTestiranjaConverter();
+    public StavkaTestiranjaConverter stavkaTestiranjaConverter(NormaRepository normaRepository){
+        return new StavkaTestiranjaConverter(normaRepository);
     }
     
     @Bean
@@ -85,8 +86,8 @@ public class AppConfig {
     }
     
     @Bean(value = "evidencijaTestiranja-service")
-    public EvidencijaTestiranjaService evidencijaTestiranjaService(EvidencijaTestiranjaRepository repository, EvidencijaTestiranjaConverter converter, NormaRepository normaRepository){
-        return new EvidencijaTestiranjaService(repository, converter, normaRepository);
+    public EvidencijaTestiranjaService evidencijaTestiranjaService(EvidencijaTestiranjaRepository repository, EvidencijaTestiranjaConverter converter, NormaRepository normaRepository, StavkaTestiranjaConverter stavkaTestiranjaConverter){
+        return new EvidencijaTestiranjaService(repository, converter, normaRepository, stavkaTestiranjaConverter);
     }
     
     @Bean(value = "sportista-service")

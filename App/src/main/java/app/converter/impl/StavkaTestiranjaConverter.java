@@ -5,10 +5,17 @@
 package app.converter.impl;
 
 import app.converter.Converter;
+import app.domain.Norma;
+import app.domain.Pol;
+import app.domain.StarosnaKategorija;
 import app.domain.StavkaTestiranja;
 import app.domain.StavkaTestiranjaId;
 import app.domain.Vezba;
+import app.dto.NormaDto;
 import app.dto.StavkaTestiranjaDto;
+import app.repository.NormaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,6 +25,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class StavkaTestiranjaConverter implements Converter<StavkaTestiranja, StavkaTestiranjaDto> {
 
+    private final NormaRepository nr;
+
+    @Autowired
+    public StavkaTestiranjaConverter(@Qualifier("norma-repository")NormaRepository nr) {
+        this.nr = nr;
+    }
+    
+    
     @Override
     public StavkaTestiranja toEntity(StavkaTestiranjaDto dto) {
         if(dto == null)
@@ -32,6 +47,8 @@ public class StavkaTestiranjaConverter implements Converter<StavkaTestiranja, St
             vezba.setIdVezbe(dto.getVezbaId());
             entity.setVezba(vezba);
         }
+        entity.setId(new StavkaTestiranjaId());
+        entity.getId().setRb(dto.getRb());
         
         return entity;
     }
@@ -53,6 +70,9 @@ public class StavkaTestiranjaConverter implements Converter<StavkaTestiranja, St
         
         if(entity.getVezba() != null){
             dto.setVezbaId(entity.getVezba().getIdVezbe());
+            dto.setVezbaNaziv(entity.getVezba().getNaziv());
+            Norma norma = nr.pretraziPoVezbiPoluIStarosnojKategoriji(entity.getVezba(), entity.getEvidencijaTestiranja().getSportista().getPol(), entity.getEvidencijaTestiranja().getSportista().getStarosnaKategorija());
+            dto.setNorma(norma.getNorma());
         }
         
         return dto;

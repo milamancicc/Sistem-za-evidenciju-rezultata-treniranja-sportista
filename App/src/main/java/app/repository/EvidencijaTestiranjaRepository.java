@@ -6,6 +6,7 @@ package app.repository;
 
 import app.domain.EvidencijaTestiranja;
 import app.domain.Sportista;
+import app.domain.StavkaTestiranja;
 import app.domain.Trener;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -67,12 +68,35 @@ public class EvidencijaTestiranjaRepository{
         }
     }
     
+    public void obrisi(Long id){
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.createQuery("DELETE FROM StavkaTestiranja s WHERE s.evidencijaTestiranja.idTestiranja = :id")
+                    .setParameter("id", id)
+                    .executeUpdate();
+            em.createQuery("DELETE FROM EvidencijaTestiranja e WHERE e.idTestiranja = :id")
+                    .setParameter("id", id)
+                    .executeUpdate();
+            em.getTransaction().commit();
+        }catch(Exception e){
+            if(em.getTransaction().isActive())
+                em.getTransaction().rollback();
+            throw e;
+        }finally{
+            em.close();
+        }
+    }
+    
     public List<EvidencijaTestiranja> pretraziPoTreneru(Long trenerId){
         EntityManager em = emf.createEntityManager();
         try{
             if(trenerId == null)
                 throw new IllegalArgumentException("Id trenera ne sme biti null");
-            List<EvidencijaTestiranja> lista = em.createQuery("SELECT e FROM EvidencijaTestiranja e WHERE e.trener.id = :tId", EvidencijaTestiranja.class).setParameter("tId", trenerId).getResultList();
+            List<EvidencijaTestiranja> lista = em.createQuery("SELECT e FROM EvidencijaTestiranja e LEFT JOIN FETCH e.stavke WHERE e.trener.id = :tId", EvidencijaTestiranja.class).setParameter("tId", trenerId)
+                    .setHint("jakarta.persistence.cache.retrieveMode", "BYPASS")
+                    .setHint("jakarta.persistence.cache.storeMode", "BYPASS")
+                    .getResultList();
             return lista;
             
         }finally{
@@ -88,6 +112,8 @@ public class EvidencijaTestiranjaRepository{
                     + "WHERE e.idTestiranja = :id";
             List<EvidencijaTestiranja> lista = em.createQuery(query , EvidencijaTestiranja.class)
                     .setParameter("id", id)
+                    .setHint("jakarta.persistence.cache.retrieveMode", "BYPASS")
+                    .setHint("jakarta.persistence.cache.storeMode", "BYPASS")
                     .getResultList();
             return lista.isEmpty() ? null : lista.get(0);
         }finally{
@@ -112,10 +138,46 @@ public class EvidencijaTestiranjaRepository{
                     .setParameter("datum", datum)
                     .setParameter("prosaoTestiranje", prosaoTestiranje)
                     .setParameter("rezultatTestiranja", rezultatTestiranja)
+                    .setHint("jakarta.persistence.cache.retrieveMode", "BYPASS")
+                    .setHint("jakarta.persistence.cache.storeMode", "BYPASS")
                     .getResultList();
         }finally{
             em.close();
         }
     }
+    
+    public void obrisiStavku(Long idTestiranja, int rb){
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            int obrisano = em.createQuery("DELETE FROM StavkaTestiranja s WHERE s.id.evidencijaId = :idTestiranja AND s.id.rb = :rb")
+                    .setParameter("idTestiranja", idTestiranja)
+                    .setParameter("rb", rb)
+                    .executeUpdate();
+            if(obrisano == 0)
+                throw new RuntimeException("Stavka sa rednim brojem " + rb + " ne postoji za testiranje sa ID-jem: "+ idTestiranja);
+            em.getTransaction().commit();
+        }catch(Exception e){
+            if(em.getTransaction().isActive())
+                em.getTransaction().rollback();
+            throw e;
+        }finally{
+            em.close();
+        }
+    }
        
+    public void izmeniStavku(StavkaTestiranja stavkaTestiranja){
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.merge(stavkaTestiranja);
+            em.getTransaction().commit();
+        }catch(Exception e){
+            if(em.getTransaction().isActive())
+                em.getTransaction().rollback();
+            throw e;
+        }finally{
+            em.close();
+        }
+    }
 }

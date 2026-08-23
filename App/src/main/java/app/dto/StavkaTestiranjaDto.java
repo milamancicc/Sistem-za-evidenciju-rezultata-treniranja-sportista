@@ -15,6 +15,24 @@ public class StavkaTestiranjaDto {
     private boolean prosaoTest;
     private String komentar;
     private Long vezbaId;
+    private String vezbaNaziv;
+    private double norma;
+
+    public double getNorma() {
+        return norma;
+    }
+
+    public void setNorma(double norma) {
+        this.norma = norma;
+    }
+
+    public String getVezbaNaziv() {
+        return vezbaNaziv;
+    }
+
+    public void setVezbaNaziv(String vezbaNaziv) {
+        this.vezbaNaziv = vezbaNaziv;
+    }
 
     public StavkaTestiranjaDto() {
     }

@@ -54,7 +54,9 @@ public class EvidencijaTestiranjaConverter implements Converter<EvidencijaTestir
             Sportista sportista = new Sportista();
             sportista.setId(dto.getSportistaId());
             entity.setSportista(sportista);
+            
         }
+        
         
         if(dto.getStavke() != null){
             List<StavkaTestiranja> stavke = new ArrayList<>();
@@ -95,8 +97,10 @@ public class EvidencijaTestiranjaConverter implements Converter<EvidencijaTestir
             dto.setTrenerId(entity.getTrener().getId());
         
         
-        if(entity.getSportista() != null)
+        if(entity.getSportista() != null){
             dto.setSportistaId(entity.getSportista().getId());
+            dto.setImeIPrezimeSportiste(entity.getSportista().getIme() + " " + entity.getSportista().getPrezime());
+        }
         
         if(entity.getStavke() != null){
             List<StavkaTestiranjaDto> stavkeDto = new ArrayList<>();

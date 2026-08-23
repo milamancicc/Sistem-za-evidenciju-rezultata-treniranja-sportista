@@ -1,0 +1,185 @@
+import { useState, useEffect } from "react";
+import {useParams, useNavigate} from 'react-router-dom';
+import NavBarTrener from '../components/NavBarTrener';
+import moment from "moment";
+import './DetaljiEvidencije.css';
+
+export default function DetaljiEvidencije(){
+
+    const {id} = useParams();
+    const navigate = useNavigate();
+
+    const [evidencija, setEvidencija] = useState(null);
+    const [korisnik, setKorisnik] = useState(null);
+    const [greska, setGreska] = useState('');
+
+    const [stavke, setStavke] = useState([]);
+
+    const [stavka, setStavka] = useState(null);
+    
+    useEffect(() => {
+        const sacuvaniKorisnik = localStorage.getItem('korisnik');
+        if(sacuvaniKorisnik){
+            try{
+                setKorisnik(JSON.parse(sacuvaniKorisnik));
+            }catch(e){
+                console.error("Greska pri citanju korisnika: ", e);
+                
+            }
+        }
+        fetchEvidencijaDetalji();
+    }, [id]);
+
+    useEffect(() => {
+        fetchEvidencijaDetalji();
+        
+    }, [])
+
+    const obrisiStavku = async (rb) => {
+        try{
+            const res = await fetch(`http://localhost:8080/api/evidencije/${id}/stavke/${rb}`,{
+                method: 'DELETE'
+            });
+            if(!res.ok)
+                throw new Error(await res.text());
+            fetchEvidencijaDetalji();
+        }catch(err){
+            console.error("Greška pri brisanju stavke: ", err);
+            
+        }
+    }
+
+    const fetchEvidencijaDetalji = async () => {
+        try{
+            const res = await fetch(`http://localhost:8080/api/evidencije/${id}`);
+            
+            
+            if(!res.ok){
+                const greskaSaServera = await res.text();
+                throw new Error(greskaSaServera);
+                
+            }
+            const data = await res.json();
+            setEvidencija(data);
+            
+            setStavke(data.stavke);
+        }catch(err){
+            console.error(err);
+            setGreska(err.message);
+        }
+    };
+
+    const izmeniStavku = async (e) => {
+        e.preventDefault();
+        try{
+            const res = await fetch(`http://localhost:8080/api/evidencije/${id}/stavke/${stavka.rb}`, {
+                method: 'PUT',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify(stavka)
+            });
+            if(!res.ok)
+                throw new Error(await res.text());
+            setStavka(null);
+            fetchEvidencijaDetalji();
+        }catch(err){
+            console.error("Greška pri izmeni stavke: ", err);
+            
+        }
+    }
+
+    
+
+    if(greska || !evidencija){
+        return(
+            <div class='greska-container'>
+                <p>{greska || 'Evidencija nije pronađena.'}</p>
+                <button onClick={() => navigate('/trener-main')}>Nazad na glavnu stranu</button>
+            </div>
+        )
+    }
+
+    return(
+        <div class='evidencija-container'>
+            <NavBarTrener korisnik={korisnik}/>
+            <main class='evidencija-content'>
+                <h2>Detalji evidencije testiranja #{evidencija.idTestiranja}</h2>
+
+                <div class='info-card'>
+                    <h3>Opšte informacije</h3>
+                    <div class='info-grid'>
+                        <p><strong>Sportista:</strong> {evidencija.imeIPrezimeSportiste}</p>
+                        <p><strong>Datum testiranja:</strong> {moment(evidencija.datum).format('DD. MMMM YYYY')}</p>
+                        <p><strong>Ukupan broj testova:</strong> {evidencija.brojTestova}</p>
+                        <p><strong>Broj položenih testova:</strong> {evidencija.brojPolozenih}</p>
+                        <p><strong>Broj palih testova:</strong> {evidencija.brojPalih}</p>
+                        <p><strong>{evidencija.prosaoTestiranje ? 'Testiranje položeno✅' : 'Testiranje nije položeno❌'}</strong></p>
+                        <p><strong>Konačan rezultat:</strong> {evidencija.rezultatTestiranja}%</p>
+                    </div>
+                </div>
+
+                <div class='stavke-section'>
+                    <h3>Stavke testiranja</h3>
+                    {( stavke?.length === 0) ? (
+                        <p class='nema-stavki'>Nema unetih stavki za ovo testiranje.</p>
+                    ) : (
+                        <div class='stavke-grid'>
+                            {stavke.map((s) => (
+                                <div key={s.rb} class={`stavka-card ${s.prosaoTest ? 'polozeno' : 'palo'}`}>
+                                    <div class='card-header'>
+                                        <span class='rb'>#{s.rb}</span>
+                                        <span class={`status ${s.prosaoTest ? 'polozeno' : 'palo'}`}>{s.prosaoTest ? 'Prošao test' : 'Pao test'}</span>
+                                    </div>
+                                    <h4 class='vezba'>{s.vezbaNaziv}</h4>
+
+                                    <div class='vrednosti'>
+                                        <div class='vrednosti-item'>
+                                            <span class='label'>Ostvareno:</span>
+                                            <span class='vrednost'>{s.ostvareniRezultat}</span>
+                                        </div>
+                                        <div class='vrednosti-item'>
+                                            <span class='label'>Norma:</span>
+                                            <span class='vrednost'>{s.norma}</span>
+                                        </div>
+                                    </div>
+                                    {(s.komentar) && (
+                                        <p class='komentar'>
+                                            <strong>Komentar:</strong> {s.komentar}
+                                        </p>
+                                    )}
+                                    <span><button class='btn-izmeni-stavku' onClick={() => setStavka(s)}>✏️</button><button class='btn-obrisi-stavku' onClick={() => obrisiStavku(s.rb)}>🗑️</button></span>
+                                </div>
+
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+                {stavka && (
+                    <form class='modal-form' onSubmit = {izmeniStavku}>
+                        <div class='modal-content'>
+                            <h3>Izmeni stavku #{stavka.rb}</h3>
+                            <div>
+                                <label>Ostvareni rezultat: </label>
+                                <input type='number' step='0.01' value={stavka.ostvareniRezultat} onChange={(e) => setStavka({...stavka, ostvareniRezultat:parseFloat(e.target.value)})}/>
+                            </div>
+                            {/* <div>
+                                <label>Prošao test: </label>
+                                <p></p>
+                                <input type='checkbox' checked={stavka.prosaoTest || false} onChange={(e) => setStavka({...stavka, prosaoTest:e.target.checked})}/>
+                            </div> */}
+                            <div>
+                                <label>Komentar: </label><br/>
+                                <textarea  rows='3' cols='25' value={stavka.komentar} onChange={(e) => setStavka({...stavka, komentar:e.target.value})}/>
+                            </div>
+                            <div>
+                                <button type='submit'>💾Sačuvaj</button>
+                                <button type='button' onClick={() => setStavka(null)}>❌Otkaži</button>
+                            </div>
+                        </div>
+                    </form>
+                )}
+            </main>
+        </div>
+    )
+
+}

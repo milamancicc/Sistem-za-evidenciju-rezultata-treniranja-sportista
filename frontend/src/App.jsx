@@ -6,10 +6,11 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from './components/Login';
 import ProtectedRoute from "./components/ProtectedRoute";
-import TrenerMain from "./components/TrenerMain";
+import TrenerMain from "./pages/TrenerMain";
 import TrenerProfil from "./pages/TrenerProfil";
 import TrenerSportisti from "./pages/TrenerSportisti";
 import TrenerVezbe from "./pages/TrenerVezbe";
+import DetaljiEvidencije from "./pages/DetaljiEvidencije";
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -22,6 +23,7 @@ function App() {
         <Route path='trener-profil' element={<ProtectedRoute dozvoljenTipKorisnika='TRENER'> <TrenerProfil/></ProtectedRoute>}/>
         <Route path='trener-sportisti' element={<ProtectedRoute dozvoljenTipKorisnika='TRENER'><TrenerSportisti/></ProtectedRoute>}/>
         <Route path='trener-vezbe' element={<ProtectedRoute dozvoljenTipKorisnika='TRENER'><TrenerVezbe/></ProtectedRoute>}/>
+        <Route path='/evidencija/:id' element={<ProtectedRoute dozvoljenTipKorisnika='TRENER'><DetaljiEvidencije/></ProtectedRoute>}/>
         {/* <Route path="/sportista-main" element={<ProtectedRoute dozvoljenTipKorisnika="SPORTISTA"> <SportistaMain/></ProtectedRoute>}/> */}
       </Routes>
     </BrowserRouter>

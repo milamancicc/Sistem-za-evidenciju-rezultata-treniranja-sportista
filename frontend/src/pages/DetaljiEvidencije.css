@@ -1,0 +1,330 @@
+.evidencija-container{
+    min-height: 100vh;
+    background-color: #031930;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+.evidencija-content{
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 20px 20px 40px 20px;
+    background-color: white;
+    border-radius: 8px;
+}
+
+.evidencija-content h2{
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.info-card{
+    background-color: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 35px;
+}
+
+.info-card h3{
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #34495e;
+    font-size: 1.3rem;
+}
+
+.info-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px 25px;
+}
+
+.info-grid p{
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #4a5568;
+}
+.info-grid p strong{
+    color: #1a202c;
+}
+
+.stavke-section{
+    margin-top: 20px;
+}
+
+.stavke-section h3{
+    color: #34495e;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+}
+
+.nema-stavki{
+    background-color: rgba(75, 75, 75, 0.096);
+    padding: 20px;
+    border-radius: 8px;
+    color: #7f8c8d;
+    font-style: italic;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+
+}
+
+.stavke-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.stavka-card{
+    background: rgba(171, 174, 177, 0.273);
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-left: 6px solid #05274b8d;
+}
+
+.stavka-card.polozeno {
+    border-left-color:  #27ae60;
+}
+
+.stavka-card.palo{
+    border-left-color: #e74c3c;
+}
+
+.card-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.rb{
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #718096;
+    background-color: #edf2f7;
+    padding: 3px 10px;
+    border-radius: 12px;
+}
+
+.status{
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+
+.status.polozeno{
+    background-color: #e8f8f0;
+    color: #1e8449;
+}
+
+.status.palo{
+    background-color: #fdeaea;
+    color: #c0392b;
+}
+
+.vezba{
+    margin: 0 0 15px 0;
+    font-size: 1.4rem;
+    color: #2d3748;
+    font-weight: 600;
+}
+
+.vrednosti{
+    display: flex;
+    justify-content: space-around;
+    background: #f7fafc;
+    border: 1px solid #edf2f7;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.vrednosti-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.vrednosti-item .label{
+    font-size: 1rem;
+    color: #a0aec0;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.vrednosti-item .vrednost{
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #2d3748;
+}
+
+.komentar{
+    font-size: 0.85rem;
+    color: #4a5568;
+    margin: 8px 0 0 0;
+    border-top: 1px dashed #5e60636d;
+    padding-top: 10px;
+    line-height: 1.4;
+}
+
+.greska-container{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+    padding: 20px;
+}
+
+.greska-container p{
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin-bottom: 20px;
+    font-weight: 600;
+    background-color: rgba(211, 115, 115, 0.474);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.greska-container button{
+    background-color: #414c56;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.greska-container button:hover{
+    background-color: #2b6cb0;
+}
+.stavka-card span{
+    align-self: flex-end;
+}
+
+.btn-izmeni-stavku{
+    margin-right: 8px;
+}
+
+.btn-obrisi-stavku,
+.btn-izmeni-stavku{
+    background-color: transparent;
+    padding: 5px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 3px;
+}
+
+.btn-obrisi-stavku:hover,
+.btn-izmeni-stavku:hover{
+    background-color: #5c5e612d;
+}
+
+.modal-form{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content{
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 480px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    animation: modalPojavljivanje 0.25s ease-out;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.modal-content h3{
+    margin: 0 0 10px 0;
+    color: #1e293b;
+    font-size: 1.3rem;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 8px;
+}
+
+.modal-content label{
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #475569;
+}
+
+.modal-content input{
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    outline: none;
+
+}
+
+
+.modal-content textarea{
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    outline: none;
+
+}
+
+.modal-content textarea:focus,
+.modal-content input:focus{
+    border-color: #2563eb;
+}
+
+form button{
+    margin: 8px;
+    background-color: #0c174be3;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+form button[type='submit']:hover{
+    background-color: #16a34a;
+}
+
+form button[type='button']:hover{
+    background-color: #771919;
+}
+
+@keyframes modalPojavljivanje {
+    from{
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to{
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+

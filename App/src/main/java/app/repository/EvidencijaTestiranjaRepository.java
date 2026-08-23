@@ -93,7 +93,7 @@ public class EvidencijaTestiranjaRepository{
         try{
             if(trenerId == null)
                 throw new IllegalArgumentException("Id trenera ne sme biti null");
-            List<EvidencijaTestiranja> lista = em.createQuery("SELECT e FROM EvidencijaTestiranja e LEFT JOIN FETCH e.stavke WHERE e.trener.id = :tId", EvidencijaTestiranja.class).setParameter("tId", trenerId)
+            List<EvidencijaTestiranja> lista = em.createQuery("SELECT DISTINCT e FROM EvidencijaTestiranja e LEFT JOIN FETCH e.stavke WHERE e.trener.id = :tId", EvidencijaTestiranja.class).setParameter("tId", trenerId)
                     .setHint("jakarta.persistence.cache.retrieveMode", "BYPASS")
                     .setHint("jakarta.persistence.cache.storeMode", "BYPASS")
                     .getResultList();
@@ -172,6 +172,23 @@ public class EvidencijaTestiranjaRepository{
             em.getTransaction().begin();
             em.merge(stavkaTestiranja);
             em.getTransaction().commit();
+        }catch(Exception e){
+            if(em.getTransaction().isActive())
+                em.getTransaction().rollback();
+            throw e;
+        }finally{
+            em.close();
+        }
+    }
+    
+    public EvidencijaTestiranja dodajStavku(StavkaTestiranja stavkaTestiranja){
+        EntityManager em= emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.persist(stavkaTestiranja);
+            em.getTransaction().commit();
+            em.clear();
+            return em.find(EvidencijaTestiranja.class, stavkaTestiranja.getEvidencijaTestiranja().getIdTestiranja());
         }catch(Exception e){
             if(em.getTransaction().isActive())
                 em.getTransaction().rollback();

@@ -14,6 +14,7 @@ import app.domain.Vezba;
 import app.dto.NormaDto;
 import app.dto.StavkaTestiranjaDto;
 import app.repository.NormaRepository;
+import app.repository.VezbaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -26,10 +27,12 @@ import org.springframework.stereotype.Component;
 public class StavkaTestiranjaConverter implements Converter<StavkaTestiranja, StavkaTestiranjaDto> {
 
     private final NormaRepository nr;
+    private final VezbaRepository vr;
 
     @Autowired
-    public StavkaTestiranjaConverter(@Qualifier("norma-repository")NormaRepository nr) {
+    public StavkaTestiranjaConverter(@Qualifier("norma-repository")NormaRepository nr, @Qualifier("vezba-repository") VezbaRepository vr) {
         this.nr = nr;
+        this.vr = vr;
     }
     
     
@@ -43,8 +46,7 @@ public class StavkaTestiranjaConverter implements Converter<StavkaTestiranja, St
         entity.setProsaoTest(dto.isProsaoTest());
         entity.setKomentar(dto.getKomentar());
         if(dto.getVezbaId() != null){
-            Vezba vezba = new Vezba();
-            vezba.setIdVezbe(dto.getVezbaId());
+            Vezba vezba = vr.nadjiPoId(dto.getVezbaId());
             entity.setVezba(vezba);
         }
         entity.setId(new StavkaTestiranjaId());

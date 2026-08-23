@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -82,12 +83,25 @@ public class EvidencijaTestiranjaController {
     @PutMapping("/{idTestiranja}/stavke/{rb}")
     public ResponseEntity<?> izmeniStavku(@PathVariable("idTestiranja")Long idTestiranja, @PathVariable("rb") int rb, @RequestBody StavkaTestiranjaDto stavkaTestiranjaDto){
         try{
-            EvidencijaTestiranja reloaded = evidencijaTestiranjaService.izmeniStavku(idTestiranja, rb, stavkaTestiranjaDto);
+            EvidencijaTestiranjaDto reloaded = evidencijaTestiranjaService.izmeniStavku(idTestiranja, rb, stavkaTestiranjaDto);
             return ResponseEntity.ok(reloaded);
         }catch(RuntimeException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Greska prilikom izmene stavke: "+e.getMessage());
+        }
+    }
+    
+    
+    @PostMapping("/{idTestiranja}/stavke")
+    public ResponseEntity<?> dodajStavku(@PathVariable("idTestiranja") Long idTestiranja, @RequestBody StavkaTestiranjaDto dto){
+        try{
+            EvidencijaTestiranjaDto reloaded = evidencijaTestiranjaService.dodajStavku(idTestiranja, dto);
+            return ResponseEntity.ok(reloaded);
+        }catch(RuntimeException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Greska prilikom cuvanja stavke: " + e.getMessage());
         }
     }
 }

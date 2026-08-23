@@ -51,8 +51,8 @@ public class AppConfig {
     }
     
     @Bean
-    public StavkaTestiranjaConverter stavkaTestiranjaConverter(NormaRepository normaRepository){
-        return new StavkaTestiranjaConverter(normaRepository);
+    public StavkaTestiranjaConverter stavkaTestiranjaConverter(NormaRepository normaRepository, VezbaRepository vezbaRepository){
+        return new StavkaTestiranjaConverter(normaRepository, vezbaRepository);
     }
     
     @Bean

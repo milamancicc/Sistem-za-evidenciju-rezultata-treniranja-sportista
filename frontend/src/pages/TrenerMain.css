@@ -73,11 +73,18 @@
     vertical-align: middle;
 }
 
-.evidencije-tabela tbody tr:hover{
+.id:hover{
     background-color: #7f889195;
     cursor: pointer;
 }
 
+.id{
+    font-weight: 700;
+}
+
+.id:active{
+    background-color: #2d73f38c;
+}
 .greska-message{
     background-color: #fef2f2;
     color: #991b1b;
@@ -87,9 +94,33 @@
     margin-bottom: 20px;
     font-size: 0.95rem;
 }
+.btn{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+.btn-dodaj-stavku{
+    background-color: transparent;
+    color: #1e3c72;
+    border: none;
+    padding: 8px 8px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    gap: 6px;
+}
 
+.btn-dodaj-stavku:hover{
+    background-color: #9995958a;
+}
+.btn-dodaj-stavku:active{
+    border: 1px solid;
+}
 .btn-obrisi-evidenciju{
-     background-color: transparent;
+    background-color: transparent;
     color: #991b1b;
     border: none;
     padding: 8px 8px;
@@ -101,6 +132,10 @@
     gap: 6px;
 }
 
+.btn-obrisi-evidenciju:hover{
+    background-color: #7f889195;
+    cursor: pointer;
+}
 
 .btn-obrisi-evidenciju:active{
     background-color: #514e4e;

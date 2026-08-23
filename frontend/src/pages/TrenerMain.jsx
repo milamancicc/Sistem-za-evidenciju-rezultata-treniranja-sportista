@@ -89,9 +89,9 @@ export default function TrenerMain(){
                                     <tbody>
                                         {evidencije.map((item) => (
                                             <tr key={item.idTestiranja}
-                                            onClick={() => navigate(`/evidencija/${item.idTestiranja}`)}
                                             class='red-evidencije'>
-                                                <td>#{item.idTestiranja}</td>
+                                                <td class='id'
+                                            onClick={() => navigate(`/evidencija/${item.idTestiranja}`)}>#{item.idTestiranja}</td>
                                                 <td>{item.imeIPrezimeSportiste}</td>
                                                 <td>{item.rezultatTestiranja}%</td>
                                                 <td>{item.datum}</td>

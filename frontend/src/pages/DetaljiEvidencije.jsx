@@ -16,6 +16,15 @@ export default function DetaljiEvidencije(){
     const [stavke, setStavke] = useState([]);
 
     const [stavka, setStavka] = useState(null);
+
+    const [vezbe, setVezbe] = useState([]);
+
+    const [novaStavka, setNovaStavka] = useState({
+        vezbaId:'',
+        ostvareniRezultat:'',
+        komentar:''
+    });
+    const [prikaiModalDodaj, setPrikaziModalDodaj] = useState(false);
     
     useEffect(() => {
         const sacuvaniKorisnik = localStorage.getItem('korisnik');
@@ -28,12 +37,29 @@ export default function DetaljiEvidencije(){
             }
         }
         fetchEvidencijaDetalji();
+        fetchVezbe();
+        
     }, [id]);
 
-    useEffect(() => {
-        fetchEvidencijaDetalji();
+    // useEffect(() => {
+    //     fetchEvidencijaDetalji();
         
-    }, [])
+    // }, [])
+
+
+    const fetchVezbe = async ()=> {
+        try{
+            const res = await fetch(`http://localhost:8080/api/vezbe`);
+            if(!res.ok)
+                throw new Error("Greska pri ucitavanju vezbi");
+            const data = await res.json();
+            setVezbe(data);
+                
+        }catch(err){
+            console.error("Greska pri preuzimanju vezbi: ", err);
+            
+        }
+    }
 
     const obrisiStavku = async (rb) => {
         try{
@@ -87,6 +113,30 @@ export default function DetaljiEvidencije(){
         }
     }
 
+    const dodajStavku = async (e) => {
+        e.preventDefault();
+        try{
+            const res = await fetch(`http://localhost:8080/api/evidencije/${id}/stavke`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(novaStavka)
+            });
+             if(!res.ok){
+                throw new Error(await res.text);
+                
+             }
+             const reloaded = await res.json();
+             setNovaStavka({vezbaId:'', ostvareniRezultat:'', komentar:''});
+             setPrikaziModalDodaj(false);
+             setEvidencija(reloaded);
+             setStavke(reloaded.stavke)
+            //  fetchEvidencijaDetalji();
+        }catch(err){
+            console.error('Greska pri dodavanju stavke: ', err);
+            alert('Greška pri dodavanju stavke: '+ err.message);
+        }
+    }
+
     
 
     if(greska || !evidencija){
@@ -120,7 +170,8 @@ export default function DetaljiEvidencije(){
                 <div class='stavke-section'>
                     <h3>Stavke testiranja</h3>
                     {( stavke?.length === 0) ? (
-                        <p class='nema-stavki'>Nema unetih stavki za ovo testiranje.</p>
+                        <p class='nema-stavki'>Nema unetih stavki za ovo testiranje.<button class='stavka-card dodaj-stavku' onClick={() => setPrikaziModalDodaj(true)}>➕Dodaj stavku</button></p>
+                        
                     ) : (
                         <div class='stavke-grid'>
                             {stavke.map((s) => (
@@ -150,9 +201,47 @@ export default function DetaljiEvidencije(){
                                 </div>
 
                             ))}
+                            <div  class='stavka-card dodaj-stavku' onClick={() => setPrikaziModalDodaj(true)}>
+                                   <p>➕Dodaj stavku</p> 
+                            </div>
                         </div>
                     )}
                 </div>
+
+                {prikaiModalDodaj && (
+                    <div class='modal-form'>
+                        <div class='modal-content'>
+                            <form onSubmit={dodajStavku} class='modal-forma'>
+                                <h3>Dodavanje nove stavke testiranja</h3>
+                                <div class='form-group'>
+                                    <label>Vežba:</label>
+                                    <select value={novaStavka?.vezbaId} onChange ={(e) => setNovaStavka({...novaStavka, vezbaId: e.target.value})} required>
+                                        <option value=''>Izaberite vežbu</option>
+                                        {vezbe.map((v) => (
+                                            <option key={v.idVezbe} value={v.idVezbe}>{v.naziv}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div class='form-group'>
+                                    <label>Ostvareni rezultat:</label>
+                                    <input type='number' step='0.01' value={novaStavka?.ostvareniRezultat} onChange={(e) => setNovaStavka({...novaStavka, ostvareniRezultat: e.target.value})} required/>
+                                </div>
+                                <div class='form-group'>
+                                    <label>Komentar:</label>
+                                    <textarea  rows='3' cols='25' value={novaStavka?.komentar} onChange={(e) => setNovaStavka({...novaStavka, komentar:e.target.value})}/>
+                                </div>
+                                <div>
+                                    <button type='submit'>💾Sačuvaj</button>
+                                    <button type='button' onClick={() => {setNovaStavka({
+                                        vezbaId:'',
+                                        ostvareniRezultat:'',
+                                        komentar:''
+                                    }); setPrikaziModalDodaj(false)}}>❌Otkaži</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                )}
 
                 {stavka && (
                     <form class='modal-form' onSubmit = {izmeniStavku}>
@@ -162,11 +251,6 @@ export default function DetaljiEvidencije(){
                                 <label>Ostvareni rezultat: </label>
                                 <input type='number' step='0.01' value={stavka.ostvareniRezultat} onChange={(e) => setStavka({...stavka, ostvareniRezultat:parseFloat(e.target.value)})}/>
                             </div>
-                            {/* <div>
-                                <label>Prošao test: </label>
-                                <p></p>
-                                <input type='checkbox' checked={stavka.prosaoTest || false} onChange={(e) => setStavka({...stavka, prosaoTest:e.target.checked})}/>
-                            </div> */}
                             <div>
                                 <label>Komentar: </label><br/>
                                 <textarea  rows='3' cols='25' value={stavka.komentar} onChange={(e) => setStavka({...stavka, komentar:e.target.value})}/>

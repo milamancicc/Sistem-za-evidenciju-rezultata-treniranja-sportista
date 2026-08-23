@@ -235,6 +235,13 @@
     background-color: #5c5e612d;
 }
 
+p{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
 .modal-form{
     position: fixed;
     top: 0;
@@ -315,6 +322,19 @@ form button[type='submit']:hover{
 
 form button[type='button']:hover{
     background-color: #771919;
+}
+
+.stavka-card.dodaj-stavku{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: gray;
+    border: 1px dashed gray;
+    cursor: pointer;
+}
+
+.stavka-card.dodaj-stavku:hover{
+    background-color: rgba(172, 168, 168, 0.515);
 }
 
 @keyframes modalPojavljivanje {

@@ -13,6 +13,7 @@ import app.domain.Pol;
 import app.domain.Sportista;
 import app.domain.StarosnaKategorija;
 import app.domain.StavkaTestiranja;
+import app.domain.StavkaTestiranjaId;
 import app.dto.EvidencijaTestiranjaDto;
 import app.dto.SportistaDto;
 import app.dto.StavkaTestiranjaDto;
@@ -103,6 +104,7 @@ public class EvidencijaTestiranjaService {
         }
     }
     
+    
     private void izracunajStatistiku(EvidencijaTestiranja entity){
         
         if(entity.getStavke() == null || entity.getStavke().isEmpty()){
@@ -159,7 +161,7 @@ public class EvidencijaTestiranjaService {
         
     }
     
-    public EvidencijaTestiranja izmeniStavku(Long idTestiranja, int rb, StavkaTestiranjaDto dto){
+    public EvidencijaTestiranjaDto izmeniStavku(Long idTestiranja, int rb, StavkaTestiranjaDto dto){
         EvidencijaTestiranja evidencijaTestiranja = evidencijaTestiranjaRepository.nadjiPoId(idTestiranja);
         if(evidencijaTestiranja == null)
             throw new RuntimeException("Evidencija testiranja sa ID-jem: " + idTestiranja + " ne postoji.");
@@ -170,18 +172,34 @@ public class EvidencijaTestiranjaService {
 
         st.setKomentar(dto.getKomentar());
         st.setOstvareniRezultat(dto.getOstvareniRezultat());
-        st.setProsaoTest(prosaoTestStavka(st, dto));
+        Sportista sportista = evidencijaTestiranja.getSportista();
+        st.setProsaoTest(proveriProlaznostStavke(sportista, st));
         izracunajStatistiku(evidencijaTestiranja);
-        return evidencijaTestiranjaRepository.sacuvajEvidencijuTestiranja(evidencijaTestiranja);
+        return evidencijaTestiranjaConverter.toDto(
+                evidencijaTestiranjaRepository.sacuvajEvidencijuTestiranja(evidencijaTestiranja));
     }
     
     
-    private boolean prosaoTestStavka(StavkaTestiranja stavka, StavkaTestiranjaDto dto){
-        JedinicaMere jm = stavka.getVezba().getJedinicaMere();
-        if(jm == JedinicaMere.BROJPONAVLJANJA || jm == JedinicaMere.KILOGRAM || jm == JedinicaMere.METAR)
-            return stavka.getOstvareniRezultat() >= dto.getNorma();
-        
-        return stavka.getOstvareniRezultat() <= dto.getNorma();
+    
+    public EvidencijaTestiranjaDto dodajStavku(Long idTestiranja,StavkaTestiranjaDto dto){
+        EvidencijaTestiranja evidencijaTestiranja = evidencijaTestiranjaRepository.nadjiPoId(idTestiranja);
+        int sledeciRb = 1;
+        if(evidencijaTestiranja.getStavke() != null && !evidencijaTestiranja.getStavke().isEmpty()){
+            for(StavkaTestiranja s: evidencijaTestiranja.getStavke()){
+                sledeciRb = s.getId().getRb()+1;
+            }
+        }
+        dto.setRb(sledeciRb);
+        StavkaTestiranja stavkaTestiranja = stavkaTestiranjaConverter.toEntity(dto);
+        stavkaTestiranja.getId().setEvidencijaId(idTestiranja);
+        stavkaTestiranja.setEvidencijaTestiranja(evidencijaTestiranja);
+        stavkaTestiranja.setProsaoTest(proveriProlaznostStavke(evidencijaTestiranja.getSportista(), stavkaTestiranja));
+        EvidencijaTestiranja et = evidencijaTestiranjaRepository.dodajStavku(stavkaTestiranja);
+//        et.getStavke().add(stavkaTestiranja);
+        et=evidencijaTestiranjaRepository.nadjiPoId(idTestiranja);
+        izracunajStatistiku(et);
+        et = evidencijaTestiranjaRepository.sacuvajEvidencijuTestiranja(et);
+        return evidencijaTestiranjaConverter.toDto(et);
     }
     
 }

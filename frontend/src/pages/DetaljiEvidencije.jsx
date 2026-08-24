@@ -152,7 +152,7 @@ export default function DetaljiEvidencije(){
         <div class='evidencija-container'>
             <NavBarTrener korisnik={korisnik}/>
             <main class='evidencija-content'>
-                <h2>Detalji evidencije testiranja #{evidencija.idTestiranja}</h2>
+                <h2><p onClick={() => navigate('/trener-main')}>⬅</p>Detalji evidencije testiranja #{evidencija.idTestiranja}</h2>
 
                 <div class='info-card'>
                     <h3>Opšte informacije</h3>

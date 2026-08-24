@@ -269,12 +269,38 @@ p{
     gap: 16px;
 }
 
+h2 p{
+    border: 1px solid #031930;
+    display: inline;
+    margin-right: 20px;
+    cursor: pointer;
+    padding: 1px 5px;
+    font-size: 1.5rem;
+    border-radius: 50px;
+
+}
+
+h2 p:hover{
+    background-color: rgba(114, 141, 177, 0.521);
+    border: 1px solid rgba(114, 141, 177, 0.521);
+}
+
 .modal-content h3{
     margin: 0 0 10px 0;
     color: #1e293b;
     font-size: 1.3rem;
     border-bottom: 2px solid #e2e8f0;
     padding-bottom: 8px;
+}
+
+.arrow{
+    rotate: calc(180);
+    background-color: white;
+    color: #031930;
+    border: 1px solid #031930;
+    border-radius: 30px;
+    padding: 5px;
+    align-self: flex-start;
 }
 
 .modal-content label{

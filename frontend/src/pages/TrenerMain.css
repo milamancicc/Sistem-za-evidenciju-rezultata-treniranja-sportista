@@ -11,6 +11,85 @@
     padding: 30px 20px;
 }
 
+.pretraga-forma{
+    background-color: white;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.pretraga-forma input,
+.pretraga-forma select{
+    padding: 10px 14px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #495057;
+    background-color: white;
+    outline: none;
+    min-width: 150px;
+}
+
+.pretraga-forma input:focus,
+.pretraga-forma select:focus{
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+.btn-dodaj-evidenciju{
+    background-color: #1e3c72;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    margin-top: 0;
+    
+}
+
+.btn-dodaj-evidenciju:hover{
+    background-color: #1c41bd8f;
+}
+
+.btn-pretrazi, .btn-reset{
+    background-color: #123f6f;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-flex;
+    margin-right: 0;
+
+}
+
+.btn-pretrazi:hover {
+    background-color: #0056b3 !important;
+    color: #ffffff !important;
+}
+
+.btn-reset:hover{
+    background-color: #495057c6 !important;
+    color: white !important;
+}
+
+
+
+
 .welcome-section{
     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
     color: #ffffff;
@@ -36,7 +115,7 @@
 
 .evidencije-section h2{
     margin-top: 0;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-size: 1.4rem;
     color: #1e3c72;
     border-bottom: 2px solid #eef2f5;
@@ -73,17 +152,14 @@
     vertical-align: middle;
 }
 
-.id:hover{
-    background-color: #7f889195;
-    cursor: pointer;
-}
 
-.id{
-    font-weight: 700;
-}
+td.btns{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:8px;
+    white-space: nowrap;
 
-.id:active{
-    background-color: #2d73f38c;
 }
 .greska-message{
     background-color: #fef2f2;
@@ -119,7 +195,7 @@
 .btn-dodaj-stavku:active{
     border: 1px solid;
 }
-.btn-obrisi-evidenciju{
+td button{
     background-color: transparent;
     color: #991b1b;
     border: none;
@@ -132,14 +208,15 @@
     gap: 6px;
 }
 
-.btn-obrisi-evidenciju:hover{
+td button:hover{
     background-color: #7f889195;
     cursor: pointer;
 }
 
-.btn-obrisi-evidenciju:active{
+td button:active{
     background-color: #514e4e;
 }
+
 
 @media (max-width: 768px) {
   .trener-content {

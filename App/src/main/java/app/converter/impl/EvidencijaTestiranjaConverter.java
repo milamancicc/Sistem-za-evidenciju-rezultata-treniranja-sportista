@@ -12,6 +12,8 @@ import app.domain.StavkaTestiranjaId;
 import app.domain.Trener;
 import app.dto.EvidencijaTestiranjaDto;
 import app.dto.StavkaTestiranjaDto;
+import app.repository.SportistaRepository;
+import app.repository.TrenerRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +27,20 @@ import org.springframework.stereotype.Component;
 public class EvidencijaTestiranjaConverter implements Converter<EvidencijaTestiranja, EvidencijaTestiranjaDto> {
 
     private final StavkaTestiranjaConverter stavkaConverter;
+    private final SportistaRepository sr;
+    private final TrenerRepository tr;
 
     @Autowired
-    public EvidencijaTestiranjaConverter(StavkaTestiranjaConverter stavkaConverter) {
+    public EvidencijaTestiranjaConverter(StavkaTestiranjaConverter stavkaConverter, SportistaRepository sr, TrenerRepository tr) {
         this.stavkaConverter = stavkaConverter;
+        this.tr = tr;
+        this.sr = sr;
     }
     
     
     
     @Override
     public EvidencijaTestiranja toEntity(EvidencijaTestiranjaDto dto) {
-        
         if(dto == null)
             return null;
         
@@ -45,17 +50,18 @@ public class EvidencijaTestiranjaConverter implements Converter<EvidencijaTestir
         entity.setDatum(dto.getDatum());
         
         if(dto.getTrenerId() != null){
-            Trener trener = new Trener();
-            trener.setId(dto.getTrenerId());
+            Trener trener = tr.nadjiPoId(dto.getTrenerId());
+//            trener.setId(dto.getTrenerId());
             entity.setTrener(trener);
         }
         
         if(dto.getSportistaId() != null){
-            Sportista sportista = new Sportista();
-            sportista.setId(dto.getSportistaId());
+            Sportista sportista = sr.nadjiPoId(dto.getSportistaId());
+//            sportista.setId(dto.getSportistaId());
             entity.setSportista(sportista);
             
         }
+        
         
         
         if(dto.getStavke() != null){

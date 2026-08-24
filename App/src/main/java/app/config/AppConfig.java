@@ -56,8 +56,8 @@ public class AppConfig {
     }
     
     @Bean
-    public EvidencijaTestiranjaConverter evidencijaTestiranjaConverter(StavkaTestiranjaConverter stavkaTestiranjaConverter){
-        return new EvidencijaTestiranjaConverter(stavkaTestiranjaConverter);
+    public EvidencijaTestiranjaConverter evidencijaTestiranjaConverter(StavkaTestiranjaConverter stavkaTestiranjaConverter,SportistaRepository sr, TrenerRepository tr){
+        return new EvidencijaTestiranjaConverter(stavkaTestiranjaConverter, sr, tr);
     }
     
     @Bean

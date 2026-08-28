@@ -133,4 +133,14 @@ public class EvidencijaTestiranjaController {
         }
     }
     
+    
+    @PostMapping("/izracunaj-stavku")
+    public ResponseEntity<?> izracunajStavku(@RequestParam("sportistaId") Long sportistaId, @RequestBody StavkaTestiranjaDto stavkaTestiranjaDto){
+        try{
+            StavkaTestiranjaDto obradjena = evidencijaTestiranjaService.pripremiStavku(sportistaId, stavkaTestiranjaDto);
+            return ResponseEntity.ok(obradjena);
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

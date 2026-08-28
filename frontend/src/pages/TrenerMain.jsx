@@ -147,7 +147,7 @@ export default function TrenerMain(){
                         <label>Od:</label>
                         <input type='date' value={datum} onChange={(e) => setDatum(e.target.value)}/>
                         <select value={prosaoTestiranje} onChange={(e) => {setProsaoTestiranje(e.target.value)}}>
-                            <option value=''>Prošao test</option>
+                            <option value=''>Prošao test(Da/Ne)</option>
                             <option value='true'>Da</option>
                             <option value='false'>Ne</option>
                         </select>

@@ -73,8 +73,10 @@ public class StavkaTestiranjaConverter implements Converter<StavkaTestiranja, St
         if(entity.getVezba() != null){
             dto.setVezbaId(entity.getVezba().getIdVezbe());
             dto.setVezbaNaziv(entity.getVezba().getNaziv());
-            Norma norma = nr.pretraziPoVezbiPoluIStarosnojKategoriji(entity.getVezba(), entity.getEvidencijaTestiranja().getSportista().getPol(), entity.getEvidencijaTestiranja().getSportista().getStarosnaKategorija());
-            dto.setNorma(norma.getNorma());
+            if(entity.getEvidencijaTestiranja() != null && entity.getEvidencijaTestiranja().getSportista() != null){
+                Norma norma = nr.pretraziPoVezbiPoluIStarosnojKategoriji(entity.getVezba(), entity.getEvidencijaTestiranja().getSportista().getPol(), entity.getEvidencijaTestiranja().getSportista().getStarosnaKategorija());
+                dto.setNorma(norma != null ? norma.getNorma() : 0.0);
+            }
         }
         
         return dto;

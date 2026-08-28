@@ -9,9 +9,7 @@ import app.converter.impl.StavkaTestiranjaConverter;
 import app.domain.EvidencijaTestiranja;
 import app.domain.JedinicaMere;
 import app.domain.Norma;
-import app.domain.Pol;
 import app.domain.Sportista;
-import app.domain.StarosnaKategorija;
 import app.domain.StavkaTestiranja;
 import app.domain.StavkaTestiranjaId;
 import app.dto.EvidencijaTestiranjaDto;
@@ -37,14 +35,16 @@ public class EvidencijaTestiranjaService {
     private final EvidencijaTestiranjaConverter evidencijaTestiranjaConverter;
     private final NormaRepository normaRepository;
     private final StavkaTestiranjaConverter stavkaTestiranjaConverter;
+    private final SportistaRepository sportistaRepository;
     
     @Autowired
 
-    public EvidencijaTestiranjaService(EvidencijaTestiranjaRepository evidencijaTestiranjaRepository, EvidencijaTestiranjaConverter evidencijaTestiranjaConverter, NormaRepository normaRepository, StavkaTestiranjaConverter stavkaTestiranjaConverter) {
+    public EvidencijaTestiranjaService(EvidencijaTestiranjaRepository evidencijaTestiranjaRepository, EvidencijaTestiranjaConverter evidencijaTestiranjaConverter, NormaRepository normaRepository, StavkaTestiranjaConverter stavkaTestiranjaConverter, SportistaRepository sportistaRepository) {
         this.evidencijaTestiranjaRepository = evidencijaTestiranjaRepository;
         this.evidencijaTestiranjaConverter = evidencijaTestiranjaConverter;
         this.normaRepository = normaRepository;
         this.stavkaTestiranjaConverter= stavkaTestiranjaConverter;
+        this.sportistaRepository = sportistaRepository;
     }
 
     public EvidencijaTestiranjaDto sacuvajEvidencijuTestiranja(EvidencijaTestiranjaDto dto){
@@ -202,4 +202,17 @@ public class EvidencijaTestiranjaService {
         return evidencijaTestiranjaConverter.toDto(et);
     }
     
+    
+    public StavkaTestiranjaDto pripremiStavku(Long sportistaId, StavkaTestiranjaDto stavkaDto){
+        Sportista sportista = sportistaRepository.nadjiPoId(sportistaId);
+        StavkaTestiranja stavka = stavkaTestiranjaConverter.toEntity(stavkaDto);
+        boolean prosao = proveriProlaznostStavke(sportista, stavka);
+        stavka.setProsaoTest(prosao);
+        Norma norma = normaRepository.pretraziPoVezbiPoluIStarosnojKategoriji(stavka.getVezba(), sportista.getPol(), sportista.getStarosnaKategorija());
+        StavkaTestiranjaDto rez = stavkaTestiranjaConverter.toDto(stavka);
+        rez.setProsaoTest(prosao);
+        rez.setNorma(norma != null ? norma.getNorma(): 0.0);
+        rez.setVezbaNaziv(stavka.getVezba().getNaziv());
+        return rez;
+    }
 }

@@ -86,8 +86,8 @@ public class AppConfig {
     }
     
     @Bean(value = "evidencijaTestiranja-service")
-    public EvidencijaTestiranjaService evidencijaTestiranjaService(EvidencijaTestiranjaRepository repository, EvidencijaTestiranjaConverter converter, NormaRepository normaRepository, StavkaTestiranjaConverter stavkaTestiranjaConverter){
-        return new EvidencijaTestiranjaService(repository, converter, normaRepository, stavkaTestiranjaConverter);
+    public EvidencijaTestiranjaService evidencijaTestiranjaService(EvidencijaTestiranjaRepository repository, EvidencijaTestiranjaConverter converter, NormaRepository normaRepository, StavkaTestiranjaConverter stavkaTestiranjaConverter, SportistaRepository sportistaRepository){
+        return new EvidencijaTestiranjaService(repository, converter, normaRepository, stavkaTestiranjaConverter, sportistaRepository);
     }
     
     @Bean(value = "sportista-service")

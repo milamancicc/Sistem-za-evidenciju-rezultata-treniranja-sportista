@@ -41,10 +41,6 @@ export default function DetaljiEvidencije(){
         
     }, [id]);
 
-    // useEffect(() => {
-    //     fetchEvidencijaDetalji();
-        
-    // }, [])
 
 
     const fetchVezbe = async ()=> {

@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 
 /**
  *
@@ -29,6 +30,7 @@ public class StavkaTestiranja {
     private EvidencijaTestiranja evidencijaTestiranja;
     
     @Column
+    @Min(value = 0, message = "Ostvareni rezultat ne sme biti manji od nule")
     private double ostvareniRezultat;
     
     @Column

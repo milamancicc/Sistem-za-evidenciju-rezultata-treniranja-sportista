@@ -4,6 +4,8 @@
  */
 package app.dto;
 
+import jakarta.validation.constraints.Min;
+
 /**
  *
  * @author PC
@@ -11,6 +13,7 @@ package app.dto;
 public class StavkaTestiranjaDto {
     
     private int rb;
+    @Min(value = 0, message = "Ostvareni rezultat mora biti veci ili jednak nuli.")
     private double ostvareniRezultat;
     private boolean prosaoTest;
     private String komentar;

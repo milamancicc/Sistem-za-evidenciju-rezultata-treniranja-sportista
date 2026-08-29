@@ -99,12 +99,14 @@ export default function DetaljiEvidencije(){
                 headers: {'Content-Type':'application/json'},
                 body: JSON.stringify(stavka)
             });
-            if(!res.ok)
-                throw new Error(await res.text());
+            if(!res.ok){
+                const response = await res.json();
+                const greska = response.errors?.[0]?.defaultMessage
+                throw new Error(greska);}
             setStavka(null);
             fetchEvidencijaDetalji();
         }catch(err){
-            console.error("Greška pri izmeni stavke: ", err);
+            console.error("Greška pri izmeni stavke: ", err.message);
             
         }
     }
@@ -118,7 +120,7 @@ export default function DetaljiEvidencije(){
                 body: JSON.stringify(novaStavka)
             });
              if(!res.ok){
-                throw new Error(await res.text);
+                throw new Error(await res.text());
                 
              }
              const reloaded = await res.json();
@@ -220,7 +222,7 @@ export default function DetaljiEvidencije(){
                                 </div>
                                 <div class='form-group'>
                                     <label>Ostvareni rezultat:</label>
-                                    <input type='number' step='0.01' value={novaStavka?.ostvareniRezultat} onChange={(e) => setNovaStavka({...novaStavka, ostvareniRezultat: e.target.value})} required/>
+                                    <input type='number' min ="0" step='0.01' value={novaStavka?.ostvareniRezultat} onChange={(e) => setNovaStavka({...novaStavka, ostvareniRezultat: e.target.value})} required/>
                                 </div>
                                 <div class='form-group'>
                                     <label>Komentar:</label>
@@ -245,7 +247,7 @@ export default function DetaljiEvidencije(){
                             <h3>Izmeni stavku #{stavka.rb}</h3>
                             <div>
                                 <label>Ostvareni rezultat: </label>
-                                <input type='number' step='0.01' value={stavka.ostvareniRezultat} onChange={(e) => setStavka({...stavka, ostvareniRezultat:parseFloat(e.target.value)})}/>
+                                <input type='number' step='0.01' min = "0" value={stavka.ostvareniRezultat} onChange={(e) => setStavka({...stavka, ostvareniRezultat:parseFloat(e.target.value)})}/>
                             </div>
                             <div>
                                 <label>Komentar: </label><br/>

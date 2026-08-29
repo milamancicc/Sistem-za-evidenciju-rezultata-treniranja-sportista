@@ -123,7 +123,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     background-color: rgba(15,23,42,0.6);
     backdrop-filter: blur(4px);
@@ -131,18 +131,21 @@
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    padding: 20px;
-}
+    padding: 20px; 
+    box-sizing: border-box;
+ }
 
 .modal-card{
     background: white;
     border-radius: 16px;
-    width: 100%;
-    max-width: 600px;
+    width: 90% !important;
+    max-width: 900px !important;
     max-height: 90vh;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 28px;
     box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
+    box-sizing: border-box;
 }
 
 .modal-header{
@@ -186,6 +189,8 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .form-group{
@@ -207,6 +212,7 @@
     border-radius: 8px;
     font-size: 0.95rem;
     outline: none;
+    max-width: 100%;
 
 }
 
@@ -286,6 +292,7 @@
 }
 
 .form-group-inline{
+    grid-column: span 2;
     background-color: #adcef18a;
     padding: 20px;
     padding-top: 10px;
@@ -293,11 +300,12 @@
     box-shadow: 2px 4px 0 rgba(0,0,0,0.05);
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
 }
 
 .form-inputs{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 5px;
 }
 

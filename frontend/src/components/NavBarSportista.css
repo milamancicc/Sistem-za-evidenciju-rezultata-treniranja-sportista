@@ -1,0 +1,65 @@
+.navbar-sportista{
+    background-color: #034f3a;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 12px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-sportista-container{
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.navbar-logo{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.navbar-logo:hover{
+    transform: scale(1.02);
+}
+
+.navbar-logo .logo{
+    font-size: 1.6rem;
+}
+
+.navbar-logo .title{
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.navbar-user-section{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-info{
+    padding: 8px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.user-info:hover{
+    background-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+}
+
+.user-info .username{
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+
+}
+

@@ -8,6 +8,7 @@ import app.domain.EvidencijaTestiranja;
 import app.dto.EvidencijaTestiranjaDto;
 import app.dto.StavkaTestiranjaDto;
 import app.service.EvidencijaTestiranjaService;
+import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +85,7 @@ public class EvidencijaTestiranjaController {
     }
     
     @PutMapping("/{idTestiranja}/stavke/{rb}")
-    public ResponseEntity<?> izmeniStavku(@PathVariable("idTestiranja")Long idTestiranja, @PathVariable("rb") int rb, @RequestBody StavkaTestiranjaDto stavkaTestiranjaDto){
+    public ResponseEntity<?> izmeniStavku(@PathVariable("idTestiranja")Long idTestiranja, @PathVariable("rb") int rb, @Valid @RequestBody StavkaTestiranjaDto stavkaTestiranjaDto){
         try{
             EvidencijaTestiranjaDto reloaded = evidencijaTestiranjaService.izmeniStavku(idTestiranja, rb, stavkaTestiranjaDto);
             return ResponseEntity.ok(reloaded);
@@ -97,7 +98,7 @@ public class EvidencijaTestiranjaController {
     
     
     @PostMapping("/{idTestiranja}/stavke")
-    public ResponseEntity<?> dodajStavku(@PathVariable("idTestiranja") Long idTestiranja, @RequestBody StavkaTestiranjaDto dto){
+    public ResponseEntity<?> dodajStavku(@PathVariable("idTestiranja") Long idTestiranja, @Valid @RequestBody StavkaTestiranjaDto dto){
         try{
             EvidencijaTestiranjaDto reloaded = evidencijaTestiranjaService.dodajStavku(idTestiranja, dto);
             return ResponseEntity.ok(reloaded);
@@ -135,7 +136,7 @@ public class EvidencijaTestiranjaController {
     
     
     @PostMapping("/izracunaj-stavku")
-    public ResponseEntity<?> izracunajStavku(@RequestParam("sportistaId") Long sportistaId, @RequestBody StavkaTestiranjaDto stavkaTestiranjaDto){
+    public ResponseEntity<?> izracunajStavku(@RequestParam("sportistaId") Long sportistaId, @Valid @RequestBody StavkaTestiranjaDto stavkaTestiranjaDto){
         try{
             StavkaTestiranjaDto obradjena = evidencijaTestiranjaService.pripremiStavku(sportistaId, stavkaTestiranjaDto);
             return ResponseEntity.ok(obradjena);

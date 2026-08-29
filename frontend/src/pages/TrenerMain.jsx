@@ -168,6 +168,7 @@ export default function TrenerMain(){
                                             <th>Sportista</th>
                                             <th>Rezultat testiranja</th>
                                             <th>Datum testiranja</th>
+                                            <th>Izmeni/Obriši</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -177,7 +178,7 @@ export default function TrenerMain(){
                                                 <td 
                                             >#{item.idTestiranja}</td>
                                                 <td>{item.imeIPrezimeSportiste}</td>
-                                                <td>{item.rezultatTestiranja}%</td>
+                                                <td class={`rezTestiranja ${item.prosaoTestiranje ? 'polozeno' : 'palo'}`}>{item.rezultatTestiranja}%</td>
                                                 <td>{item.datum}</td>
                                                 <td class='btns'><button onClick={() => navigate(`/evidencija/${item.idTestiranja}`)}>✏️</button><button class='btn-obrisi-evidenciju' onClick= {() => handleObrisiEvidenciju(item.idTestiranja)} title='Obriši evidenciju'>❌</button></td>
                                             </tr>

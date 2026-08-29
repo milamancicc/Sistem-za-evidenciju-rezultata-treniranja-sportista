@@ -112,6 +112,16 @@
     font-size: 1rem;
 }
 
+.rezTestiranja.polozeno{
+    color: green;
+    font-weight: 600;
+}
+
+.rezTestiranja.palo{
+    color: rgb(156, 6, 6);
+    font-weight: 600;
+}
+
 
 .evidencije-section h2{
     margin-top: 0;
@@ -128,28 +138,36 @@
 }
 
 .evidencije-tabela{
+    max-width: 1000px;
     width: 100%;
+    margin: 0 auto 40px auto;
     border-collapse: collapse;
-    text-align: left;
-    font-size: 0.95rem;
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0,0 , 0.05);
+}
+
+.evidencije-tabela thead{
+    background-color: #1e3c72;
+    color: white;
 }
 
 .evidencije-tabela th{
-    background-color: #f8fafc;
-    color: #475569;
+    padding: 14px 18px;
+    text-align: left;
     font-weight: 600;
-    padding: 14px 16px;
-    border-bottom: 2px solid #e2e8f0;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 0.5px;
+    font-size: 0.95rem;
 }
 
+
+
 .evidencije-tabela td{
-    padding: 14px 16px;
-    border-bottom: 1px solid #e2e8f0;
+    padding: 14px 18px;
+    border-bottom: 1px solid #eef2f0;
     color: #334155;
-    vertical-align: middle;
+    font-size: 0.95rem;
+    text-align: left;
 }
 
 

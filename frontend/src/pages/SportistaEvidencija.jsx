@@ -1,0 +1,104 @@
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import NavBarSportista from "../components/NavBarSportista";
+import './SportistaEvidencija.css'
+
+export default function SportistaEvidencija() {
+    const {id} = useParams();
+    const navigate = useNavigate();
+
+    const sacuvaniKorisnik = localStorage.getItem('korisnik');
+    const korisnik = sacuvaniKorisnik ? JSON.parse(sacuvaniKorisnik) : null;
+
+    const [evidencija, setEvidencija] = useState(null);
+
+    const [stavke, setStavke] = useState([]);
+
+    useEffect(() => {
+        const fetchDetalje = async () => {
+            try{
+                const res= await fetch(`http://localhost:8080/api/evidencije/${id}`)
+                if(!res.ok){
+                    throw new Error("Neuspesno preuzimanje detalja evidencije");
+                    
+                }
+                const data = await res.json();
+                setEvidencija(data);
+                setStavke(data.stavke || []);
+
+            }catch(err){
+                console.error('Greska: ', err);
+                
+            }
+        }
+
+        fetchDetalje();
+    }, [id]);
+
+    if(!evidencija){
+        return(
+            <div>
+                <p class='nema-evidencije'>Evidencija nije pronadjena</p>
+            </div>
+        )
+    }
+
+    return(
+        <div class='detalji-page-container'>
+            <NavBarSportista korisnik={korisnik}/>
+
+            <main class='detalji-content'>
+                <h2>
+                <p class='strelica' onClick={() => navigate('/sportista-main')}>⬅</p>
+                Detalji evidencije testiranja #{evidencija.idTestiranja}
+                </h2>
+                <div class='info-card'>
+                    <h3>Opšte informacije</h3>
+                    <div class='info-grid'>
+                        <p><strong>Trener:</strong> {evidencija.trenerId}</p>
+                        <p><strong>Datum testiranja:</strong> {evidencija.datum}</p>
+                        <p><strong>Ukupan broj testova:</strong> {evidencija.brojTestova}</p>
+                        <p><strong>Broj položenih testova:</strong> {evidencija.brojPolozenih}</p>
+                        <p><strong>Broj palih testova:</strong> {evidencija.brojPalih}</p>
+                        <p><strong>{evidencija.prosaoTestiranje ? 'Testiranje položeno✅' : 'Testiranje nije položeno❌'}</strong></p>
+                        <p><strong>Konačan rezultat: </strong>{evidencija.rezultatTestiranja}%</p>
+                    </div>
+                </div>
+                <div class='stavke-section'>
+                    <h3>Stavke testiranja</h3>
+                    {stavke.length === 0 ? (
+                        <p class='nema-stavki'>Nema unetih stavki za ovo testiranje</p>
+                    ) : (
+                        <div class='stavke-grid'>
+                            {stavke.map((s) => (
+                                <div key={s.rb} class={`stavke-card ${s.prosaoTest ? 'polozeno' : 'palo'}`}>
+                                    <div class='card-header'>
+                                        <span class='rb'>#{s.rb}</span>
+                                        <span class={`status ${s.prosaoTest ? 'polozeno': 'palo'}`}>{s.prosaoTest ? 'Prošao test' : 'Pao test'}</span>
+                                    </div>
+
+                                    <h4 class='vezba'>{s.vezbaNaziv}</h4>
+                                    <div class='vrednosti'>
+                                        <div class='vrednosti-item'>
+                                            <span class='label'>Ostvareno:</span>
+                                            <span class='vrednost'>{s.ostvareniRezultat}</span>
+                                        </div>
+                                        <div class='vrednosti-item'>
+                                            <span class='label'>Norma:</span>
+                                            <span class='vrednost'>{s.norma}</span>
+                                        </div>
+                                    </div>
+                                    {s.komentar && (
+                                        <p class='komentar'>
+                                            <strong>Komentar:</strong>{s.komentar}
+                                        </p>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </main>
+        </div>
+    )
+}

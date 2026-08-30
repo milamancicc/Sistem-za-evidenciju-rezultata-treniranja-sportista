@@ -1,0 +1,74 @@
+.klub-page{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #034f3a;
+}
+
+.profil-card{
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 800px;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    height: fit-content;
+}
+
+.klub-header-card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid #034f3a;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.klub-header-card h2{
+    color: #034f3a;
+    margin: 0;
+    font-size: 2rem;
+}
+
+.profil-sekcija h3{
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.info{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.info-item {
+    background-color: #ffffff;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.info-item label {
+    font-size: 0.8rem;
+    color: #666;
+    display: block;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.info-item p {
+    margin: 0;
+    color: #111;
+    font-weight: 600;
+}
+
+.nema-klub{
+    color: rgba(255, 0, 0, 0.626);
+    background-color: white;
+    border-radius: 12px;
+    align-self: center;
+    padding: 10px;
+    margin-top: 30px;
+    text-transform: uppercase;
+    border: 1px dashed rgb(255, 0, 0, 0.626);
+}

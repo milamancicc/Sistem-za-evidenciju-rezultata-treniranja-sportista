@@ -78,4 +78,14 @@ public class SportistaController {
             return ResponseEntity.badRequest().body("Greska pri brisanju sportiste: " + e.getMessage());
         }
     }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<?> nadjiPoId(@PathVariable("id") Long id){
+        try{
+            SportistaDto dto = sportistaService.nadjiPoId(id);
+            return ResponseEntity.ok(dto);
+        }catch(RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

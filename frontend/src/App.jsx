@@ -13,6 +13,9 @@ import TrenerVezbe from "./pages/TrenerVezbe";
 import DetaljiEvidencije from "./pages/DetaljiEvidencije";
 import NovaEvidencija from "./pages/NovaEvidencija";
 import SportistaMain from './pages/SportistaMain';
+import SportistaInfo from "./pages/SportistaInfo";
+import SportistaKlub from './pages/SportistaKlub';
+import SportistaEvidencija from "./pages/SportistaEvidencija";
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -28,6 +31,9 @@ function App() {
         <Route path='/evidencija/nova' element={<ProtectedRoute dozvoljenTipKorisnika='TRENER'><NovaEvidencija/></ProtectedRoute>}/>
         <Route path='/evidencija/:id' element={<ProtectedRoute dozvoljenTipKorisnika='TRENER'><DetaljiEvidencije/></ProtectedRoute>}/>
         <Route path='/sportista-main' element={<ProtectedRoute dozvoljenTipKorisnika='SPORTISTA'><SportistaMain/></ProtectedRoute>} />
+        <Route path='/sportista-info' element={<ProtectedRoute dozvoljenTipKorisnika='SPORTISTA'><SportistaInfo/></ProtectedRoute>} />
+        <Route path='/sportista-klub' element={<ProtectedRoute dozvoljenTipKorisnika='SPORTISTA'><SportistaKlub/></ProtectedRoute>}/>
+        <Route path='/sportista-evidencija/:id' element={<ProtectedRoute dozvoljenTipKorisnika='SPORTISTA'><SportistaEvidencija/></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
     // <>

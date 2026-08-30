@@ -35,4 +35,11 @@ public class KlubService {
             throw new RuntimeException("Sistem ne moze da zapamti klub.");
         }
     }
+    
+    public Klub nadjiPoId(Long id){
+        Klub k = klubRepository.nadjiPoId(id);
+        if(k ==null)
+            throw new RuntimeException("Sistem ne moze da nadje sportistu.");
+        return k;
+    }
 }

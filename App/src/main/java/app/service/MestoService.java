@@ -35,4 +35,11 @@ public class MestoService {
             throw new RuntimeException("Sistem ne moze da zapamti mesto.");
         }
     }
+    
+    public Mesto nadjiPoId(Long id){
+        Mesto m = mestoRepository.nadjiPoId(id);
+        if(m ==null)
+            throw new RuntimeException("Sistem ne moze da nadje sportistu.");
+        return m;
+    }
 }

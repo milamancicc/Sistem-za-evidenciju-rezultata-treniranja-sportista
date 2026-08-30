@@ -62,7 +62,7 @@ export default function SportistaMain() {
                         </thead>
                         <tbody>
                             {evidencije.map((e) => (
-                                <tr key={e.idTestiranja}>
+                                <tr key={e.idTestiranja} onClick={() => navigate(`/sportista-evidencija/${e.idTestiranja}`)}>
                                     <td>{e.idTestiranja}</td>
                                     <td>{e.trenerId}</td>
                                     <td>{e.datum}</td>

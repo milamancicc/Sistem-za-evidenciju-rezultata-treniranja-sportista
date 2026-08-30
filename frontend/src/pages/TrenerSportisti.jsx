@@ -319,6 +319,7 @@ export default function TrenerSportisti() {
                                     <p><strong>Težina:</strong> {sportista.tezina || 'Nije uneta'}</p>
                                     <p><strong>Email:</strong> {sportista.email}</p>
                                     <p><strong>Telefon:</strong> {sportista.kontakt || 'Nije unet'}</p>
+                                    <p><strong>Datum rođenja:</strong> {sportista.datumRodjenja}</p>
                                     <p><strong>Starosna kategorija:</strong> {sportista.starosnaKategorija || 'Nije unet'}</p>
                                     
                                 </div>

@@ -45,21 +45,27 @@
     gap: 20px;
 }
 
-.user-info{
+.username,
+.klub{
     padding: 8px 14px;
     border-radius: 20px;
     cursor: pointer;
 }
 
-.user-info:hover{
+.username:hover{
     background-color: rgba(255, 255, 255, 0.25);
     transform: translateY(-1px);
 }
 
-.user-info .username{
+ .username,
+ .klub{
     color: white;
     font-size: 0.95rem;
     font-weight: 600;
 
+}
+
+.klub:hover{
+    opacity: 0.5;
 }
 

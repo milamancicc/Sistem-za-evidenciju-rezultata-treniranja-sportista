@@ -1,0 +1,171 @@
+.detalji-page-container{
+    min-height: 100vh;
+    background-color: #f4f7f6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+.detalji-content{
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px 40px 20px;
+
+}
+
+.detalji-content h2{
+    align-self: center;
+    gap: 15px;
+    color: #034f3a;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.strelica:hover{
+    background-color: #034f3a5a;
+}
+
+.info-card{
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    margin-bottom: 35px;
+    border-left: 6px solid #034f3a;
+}
+
+.info-card h3,
+.stavke-section h3{
+    color: #034f3a;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+}
+
+.info-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px 25px;
+}
+.info-grid p{
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.info-grid p strong{
+    color: #555;
+}
+
+.stavke-section{
+    margin-top: 20px;
+}
+
+.nema-stavki,
+.nema-evidencije{
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.stavke-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px
+}
+
+.stavke-card{
+    background-color: white;
+    border-radius: 10px;
+    padding: 18px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+    border: 1px solid #eef2f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.stavke-card:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.stavke-card.polozeno{
+    border-left: 4px solid #27ae60;
+}
+.stavke-card.palo{
+    border-left: 4px solid #e74c3c;
+}
+
+.card-header .rb{
+    font-weight: bold;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.status{
+    padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status.polozeno{
+    background-color: #e8f8f0;
+    color: #1e8449;
+}
+
+.status.palo{
+    background-color: #fdeaea;
+    color: #c0392b;
+}
+
+.vezba{
+    margin: 0 0 15px 0;
+    color: #222;
+    font-size: 1.1rem;
+}
+
+.vrednosti{
+    display: flex;
+    justify-content: space-around;
+    background: #f7fafc;
+    border: 1px solid #edf2f7;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.vrednosti-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.vrednosti-item .label{
+    font-size: 1rem;
+    color: #a0aec0;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.vrednosti-item .vrednost{
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #2d3748;
+}
+
+.komentar{
+    font-size: 0.85rem;
+    color: #4a5568;
+    margin: 8px 0 0 0;
+    border-top: 1px dashed #5e60636d;
+    padding-top: 10px;
+    line-height: 1.4;
+}

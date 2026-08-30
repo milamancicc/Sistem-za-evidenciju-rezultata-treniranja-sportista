@@ -1,0 +1,24 @@
+.sportista-profil-container{
+    background-color: #033f2e;
+    height: 100vh;
+}
+
+.profil-card{
+    background-color: white;
+    border-radius: 12px;
+    padding: 24px 30px;
+    margin-bottom: 25px;
+    max-width: 850px;
+    margin: 30px auto;
+}
+
+.tip-korisnika-sp{
+    background-color: rgba(3, 63, 46, 0.249);
+    color: #033f2e;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}

@@ -16,13 +16,14 @@ export default function NavBarSportista({korisnik}) {
             <div class='navbar-sportista-container'>
                 <div class='navbar-logo' onClick={() => navigate('/sportista-main')}>
                     <span class='logo'>🏃</span>
-                    <span class='title'>Sportista {korisnik?.ime} {korisnik?.prezime}</span>
+                    <span class='title'>{korisnik?.ime} {korisnik?.prezime}</span>
                 </div>
 
                 <div class='navbar-user-section'>
                     {korisnik && (
-                        <div class='user-info' /*onClick={() => navigate('/sportista-profil')}*/ title='Pogledajte informacije o profilu'>
-                            <span class='username'>👤{korisnik.korisnickoIme}</span>
+                        <div >
+                            <span class='klub' onClick={() => navigate('/sportista-klub')} title='Pogledajte informacije o Vašem klubu'>🛡️Moj klub</span>
+                            <span class='username' onClick={() => navigate('/sportista-info')} title='Pogledajte informacije o profilu'>👤{korisnik.korisnickoIme}</span>
                         </div>
                     )}
 

@@ -8,6 +8,9 @@ export default function TrenerMain(){
     const [evidencije, setEvidencije] = useState([]);
     const [greska, setGreska] = useState('');
 
+    const [trenutnaStrana, setTrenutnaStrana] = useState(1);
+    const [evidencijaPoStrani] = useState(5);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -54,6 +57,7 @@ export default function TrenerMain(){
             }
             const data = await response.json();
             setEvidencije(data);
+            setTrenutnaStrana(1);
         } catch(err){
             console.error('Greska tokom fetch-ovanja evidencija:', err);
             setGreska(err.message);
@@ -120,6 +124,7 @@ export default function TrenerMain(){
                 if(res.status === 404){
                     setEvidencije([]);
                     setPoruka('Ne postoje evidencije po traženim kriterijumima.');
+                    setTrenutnaStrana(1);
                     return;
                 }
                 throw new Error("Greska pri pretrazi evidencija sa servirea");
@@ -127,6 +132,8 @@ export default function TrenerMain(){
             }
             const data = await res.json();
             setEvidencije(data);
+            setPoruka('');
+            setTrenutnaStrana(1);
 
         }catch(err){
             console.error('Greska tokom pretrage:', err);
@@ -143,6 +150,22 @@ export default function TrenerMain(){
             fetchEvidencije(korisnik.id);
         }
     }
+
+    const indexOfLastToDo = trenutnaStrana * evidencijaPoStrani;
+    const indexOfFirstToDo = indexOfLastToDo - evidencijaPoStrani;
+    const currentToDos = evidencije.slice(indexOfFirstToDo, indexOfLastToDo);
+    const pageNumbers = [];
+    for(let i = 1; i <= Math.ceil(evidencije.length / evidencijaPoStrani); i++){
+        pageNumbers.push(i);
+    }
+
+    const renderPageNumbers = pageNumbers.map(number => {
+        return(
+            <li key={number} id={number} class={trenutnaStrana === number ? 'active' : ''} onClick={(e) => setTrenutnaStrana(Number(e.target.id))}>
+                {number}
+            </li>
+        )
+    })
     
     return(
         <div class='trener-container'>
@@ -180,6 +203,7 @@ export default function TrenerMain(){
                     {evidencije.length === 0 ? (
                         <p class='nema-evidencija-tekst'>{poruka || 'Trenutno nema zabeleženih testiranja u bazi.'}</p>
                         ): (
+                            <>
                             <div class='tabela'>
                                 <table class='evidencije-tabela'>
                                     <thead>
@@ -192,7 +216,7 @@ export default function TrenerMain(){
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {evidencije.map((item) => (
+                                        {currentToDos.map((item) => (
                                             <tr key={item.idTestiranja}
                                             class='red-evidencije'>
                                                 <td 
@@ -206,7 +230,12 @@ export default function TrenerMain(){
                                     </tbody>
                                 </table>
                             </div>
-                        
+                            {evidencije.length > evidencijaPoStrani && (
+                                <ul id='page-numbers'>
+                                    {renderPageNumbers}
+                                </ul>
+                            )}
+                            </>
                     )}
                 </section>
             </main>

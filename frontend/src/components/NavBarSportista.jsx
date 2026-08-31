@@ -80,9 +80,13 @@ export default function NavBarSportista({korisnik}) {
 
                 <div class='navbar-user-section'>
                     {korisnik && (
-                        <div >
-                            <span class='klub' onClick={() => navigate('/sportista-klub')} title='Pogledajte informacije o Vašem klubu'>🛡️Moj klub</span>
-                            <span class='username' onClick={() => navigate('/sportista-info')} title='Pogledajte informacije o profilu'>👤{korisnik.korisnickoIme}</span>
+                        <div class='nav-items'>
+                            <div class='nav-item'>
+                                <span class='klub' onClick={() => navigate('/sportista-klub')} title='Pogledajte informacije o Vašem klubu'>🛡️Moj klub</span>
+                            </div>
+                            <div class='nav-item'>
+                                <span class='username' onClick={() => navigate('/sportista-info')} title='Pogledajte informacije o profilu'>👤{korisnik.korisnickoIme}</span>
+                            </div>
                         </div>
                     )}
                     <div class='navbar-dropdown-container' ref={dropdownRef}>
@@ -96,7 +100,7 @@ export default function NavBarSportista({korisnik}) {
                                     <ul>
                                         {aktivni.map((username, index) => (
                                             <li key={index}>
-                                                <span>🟢</span>{username}
+                                                <span>🟢</span>{(username === korisnik.korisnickoIme) ? `${username} (Vi)` : `${username}`}
                                             </li>
                                         ))}
                                     </ul>

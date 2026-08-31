@@ -45,6 +45,10 @@
     gap: 20px;
 }
 
+.nav-items{
+    display: flex;
+}
+
 .username,
 .klub{
     padding: 8px 14px;
@@ -67,5 +71,22 @@
 
 .klub:hover{
     opacity: 0.5;
+}
+
+.username{
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+.username:hover{
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
 }
 

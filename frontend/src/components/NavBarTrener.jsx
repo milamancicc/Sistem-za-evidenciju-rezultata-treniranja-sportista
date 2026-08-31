@@ -100,7 +100,7 @@ export default function NavBarTrener({korisnik}) {
                                     <ul>
                                         {aktivni.map((username, index) => (
                                             <li key={index}>
-                                                <span>🟢</span>{username}
+                                                <span>🟢</span>{(username === korisnik.korisnickoIme) ? `${username} (Vi)` : `${username}`}
                                             </li>
                                         ))}
                                     </ul>

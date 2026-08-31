@@ -14,6 +14,9 @@ export default function SportistaMain() {
 
     const [imenaTrenera, setImenaTrenera] = useState({});
 
+    const [trenutnaStrana, setTrenutnaStrana] = useState(1);
+    const [evidencijaPoStrani] = useState(5);
+
     const getAuthHeaders = () => {
         const token = sessionStorage.getItem('token');
         return {
@@ -56,6 +59,7 @@ export default function SportistaMain() {
                 const data = await res.json();
                 setEvidencije(data);
                 setGreska('');
+                setTrenutnaStrana(1);
 
                 const jedinstveniId = [...new Set(data.map(e => e.trenerId).filter(Boolean))];
                 const novaMapaImena = {};
@@ -74,9 +78,24 @@ export default function SportistaMain() {
         ucitajEvidencije();
     }, [korisnik?.id]);
 
+    const indexOfLastToDo = trenutnaStrana * evidencijaPoStrani;
+    const indexOfFirstToDo = indexOfLastToDo - evidencijaPoStrani;
+    const currentToDos = evidencije.slice(indexOfFirstToDo, indexOfLastToDo);
+    const pageNumbers = [];
+    for(let i = 1; i <= Math.ceil(evidencije.length / evidencijaPoStrani); i++){
+        pageNumbers.push(i);
+    }
+
+    const renderPageNumbers = pageNumbers.map(number => {
+        return(
+            <li key={number} id={number} class={trenutnaStrana === number ? 'active' : ''} onClick={(e) => setTrenutnaStrana(Number(e.target.id))}>
+                {number}
+            </li>
+        )
+    })
 
     return(
-        <div>
+        <div class='sportista-main-page'>
             
         <NavBarSportista korisnik = {korisnik}/>
             <header>
@@ -86,10 +105,12 @@ export default function SportistaMain() {
                 </section>
             </header>
                 <h3>Moje evidencije testiranja</h3>
+                <p class='info-evid'>Kliknite na željenu evidenciju da vidite detalje</p>
                 {greska && <div class='greska'>{greska}</div>}
                 {!greska && (evidencije.length === 0 ? (
                     <p class='nema-evidencija'>Nema pronađenih evidencija za Vas.</p>
                 ) : (
+                    <>
                     <table class='tabela-evidencije'>
                         <thead>
                             <tr>
@@ -100,7 +121,7 @@ export default function SportistaMain() {
                             </tr>
                         </thead>
                         <tbody>
-                            {evidencije.map((e) => (
+                            {currentToDos.map((e) => (
                                 <tr key={e.idTestiranja} onClick={() => navigate(`/sportista-evidencija/${e.idTestiranja}`)}>
                                     <td>{e.idTestiranja}</td>
                                     <td>{imenaTrenera[e.trenerId]}</td>
@@ -110,6 +131,13 @@ export default function SportistaMain() {
                             ))}
                         </tbody>
                     </table>
+                    
+                    {evidencije.length > evidencijaPoStrani && (
+                                <ul id='page-numbers-s'>
+                                    {renderPageNumbers}
+                                </ul>
+                            )}
+                    </>
                 ))}
         </div>
     )

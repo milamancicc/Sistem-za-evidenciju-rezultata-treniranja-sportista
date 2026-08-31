@@ -1,10 +1,11 @@
 .navbar-trener{
+
     background-color: #1e293b;
-    color: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 12px 24px;
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
 }
 
 .navbar-trener-container{
@@ -70,23 +71,33 @@
 }
 
 .user-info{
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 8px 12px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 6px 14px;
-    border-radius: 20px;
-    cursor: pointer;
+    gap: 5px;
 }
 
 .username{
-    font-size: 1rem;
-    font-weight: 500;
-    color: white;
+    background: transparent;
+    border: none;
+    color: #ffffff6b;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 
 .username:hover{
-    opacity: 0.5;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
 }
 .logout-btn{
     background-color: transparent;

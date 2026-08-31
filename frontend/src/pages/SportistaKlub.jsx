@@ -8,10 +8,20 @@ export default function SportistaKlub(){
     const [korisnik, setKorisnik] = useState(null);
     const [klub, setKlub] = useState(null);
 
+    const getAuthHeaders = () => {
+        const token = sessionStorage.getItem('token');
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : ''
+        };
+    };
+
     const ucitajKlub = async (id) => {
         if(!id) return;
         try{
-            const res = await fetch(`http://localhost:8080/api/klubovi/${id}`);
+            const res = await fetch(`http://localhost:8080/api/klubovi/${id}`, {
+                headers: getAuthHeaders()
+            });
             if(!res.ok){
                 throw new Error("Greska pri preuzimanju imena mesta");
             }
@@ -24,7 +34,7 @@ export default function SportistaKlub(){
     }
 
     const ucitajProfil = async () => {
-        const sacuvaniKorisnik = localStorage.getItem('korisnik');
+        const sacuvaniKorisnik = sessionStorage.getItem('korisnik');
         if (sacuvaniKorisnik) {
             try {
                 const parsed = JSON.parse(sacuvaniKorisnik);
@@ -32,7 +42,9 @@ export default function SportistaKlub(){
                 setKorisnik(parsed);
                 if (!id) return;
 
-                fetch(`http://localhost:8080/api/sportisti/${id}`)
+                fetch(`http://localhost:8080/api/sportisti/${id}`, {
+                    headers: getAuthHeaders()
+                })
                     .then((res) => {
                         if (!res.ok) throw new Error("Neuspešno preuzimanje profila sportiste.");
                         return res.json();
@@ -45,7 +57,7 @@ export default function SportistaKlub(){
                     })
                     .catch((err) => console.error("Greška pri sinhronizaciji: ", err));
             } catch (e) {
-                console.error("Greška pri čitanju iz localStorage ", e);
+                console.error("Greška pri čitanju iz sessionStorage-a ", e);
             }
         }
     };

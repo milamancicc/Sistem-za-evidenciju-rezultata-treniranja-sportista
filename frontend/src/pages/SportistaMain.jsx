@@ -6,18 +6,48 @@ import './SportistaMain.css';
 export default function SportistaMain() {
     const navigate = useNavigate();
 
-    const sacuvaniKorisnik = localStorage.getItem('korisnik');
+    const sacuvaniKorisnik = sessionStorage.getItem('korisnik');
     const korisnik = sacuvaniKorisnik ? JSON.parse(sacuvaniKorisnik) : null;
 
     const [evidencije, setEvidencije] = useState([]);
     const [greska, setGreska] = useState('');
+
+    const [imenaTrenera, setImenaTrenera] = useState({});
+
+    const getAuthHeaders = () => {
+        const token = sessionStorage.getItem('token');
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : ''
+        };
+    };
+
+    const fetchTrenera = async(id) => {
+        if(!id)
+            return null;
+        try{
+            const res = await fetch(`http://localhost:8080/api/treneri/${id}`, {
+                headers: getAuthHeaders()
+            });
+            if(res.ok){
+                const trener = await res.json();
+                return `${trener.ime} ${trener.prezime}`;
+            }
+        }catch(err){
+            console.error("Greska pri ucitavanju trenera: ", err);
+            
+        }
+        return `Trener (ID: ${id})`;
+    }
 
     useEffect(() => {
         if(!korisnik || !korisnik.id)
             return;
         const ucitajEvidencije = async () => {
             try{
-                const res = await fetch(`http://localhost:8080/api/evidencije/pretraga?idSportiste=${korisnik.id}`);
+                const res = await fetch(`http://localhost:8080/api/evidencije/pretraga?idSportiste=${korisnik.id}`, {
+                    headers: getAuthHeaders()
+                });
 
                 if(!res.ok){
                     const tekst = await res.text();
@@ -26,6 +56,14 @@ export default function SportistaMain() {
                 const data = await res.json();
                 setEvidencije(data);
                 setGreska('');
+
+                const jedinstveniId = [...new Set(data.map(e => e.trenerId).filter(Boolean))];
+                const novaMapaImena = {};
+                for(const id of jedinstveniId){
+                    const punoIme = await fetchTrenera(id);
+                    novaMapaImena[id] = punoIme;
+                }
+                setImenaTrenera(novaMapaImena);
             }catch(err){
                 console.error('Greska pri preuzimanju evidencija:', err.message);
                 setGreska('Greška prilikom učitavanja evidencija');
@@ -35,6 +73,7 @@ export default function SportistaMain() {
         }
         ucitajEvidencije();
     }, [korisnik?.id]);
+
 
     return(
         <div>
@@ -64,9 +103,9 @@ export default function SportistaMain() {
                             {evidencije.map((e) => (
                                 <tr key={e.idTestiranja} onClick={() => navigate(`/sportista-evidencija/${e.idTestiranja}`)}>
                                     <td>{e.idTestiranja}</td>
-                                    <td>{e.trenerId}</td>
+                                    <td>{imenaTrenera[e.trenerId]}</td>
+                                    <td>{e.rezultatTestiranja}%</td>
                                     <td>{e.datum}</td>
-                                    <td>{e.rezultatTestiranja}</td>
                                 </tr>
                             ))}
                         </tbody>

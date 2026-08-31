@@ -7,17 +7,47 @@ export default function SportistaEvidencija() {
     const {id} = useParams();
     const navigate = useNavigate();
 
-    const sacuvaniKorisnik = localStorage.getItem('korisnik');
+    const sacuvaniKorisnik = sessionStorage.getItem('korisnik');
     const korisnik = sacuvaniKorisnik ? JSON.parse(sacuvaniKorisnik) : null;
 
     const [evidencija, setEvidencija] = useState(null);
 
     const [stavke, setStavke] = useState([]);
 
+    
+    const [imeTrenera, setImeTrenera] = useState('');
+
+    const getAuthHeaders = () => {
+        const token = sessionStorage.getItem('token');
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : ''
+        };
+    };
+
+    const fetchTrenera = async(id) => {
+        if(!id)
+            return null;
+        try{
+            const res = await fetch(`http://localhost:8080/api/treneri/${id}`, {
+                headers: getAuthHeaders()
+            });
+            if(res.ok){
+                const trener = await res.json();
+                setImeTrenera(`${trener.ime} ${trener.prezime}`);
+            }
+        }catch(err){
+            console.error("Greska pri ucitavanju trenera: ", err);
+            
+        }
+    }
+
     useEffect(() => {
         const fetchDetalje = async () => {
             try{
-                const res= await fetch(`http://localhost:8080/api/evidencije/${id}`)
+                const res= await fetch(`http://localhost:8080/api/evidencije/${id}`, {
+                    headers: getAuthHeaders()
+                })
                 if(!res.ok){
                     throw new Error("Neuspesno preuzimanje detalja evidencije");
                     
@@ -25,6 +55,10 @@ export default function SportistaEvidencija() {
                 const data = await res.json();
                 setEvidencija(data);
                 setStavke(data.stavke || []);
+
+                if(data.trenerId){
+                    fetchTrenera(data.trenerId)
+                }
 
             }catch(err){
                 console.error('Greska: ', err);
@@ -55,7 +89,7 @@ export default function SportistaEvidencija() {
                 <div class='info-card'>
                     <h3>Opšte informacije</h3>
                     <div class='info-grid'>
-                        <p><strong>Trener:</strong> {evidencija.trenerId}</p>
+                        <p><strong>Trener:</strong> {imeTrenera}</p>
                         <p><strong>Datum testiranja:</strong> {evidencija.datum}</p>
                         <p><strong>Ukupan broj testova:</strong> {evidencija.brojTestova}</p>
                         <p><strong>Broj položenih testova:</strong> {evidencija.brojPolozenih}</p>

@@ -39,7 +39,14 @@ export default function Login() {
         
       }
 
-      localStorage.setItem('korisnik', JSON.stringify(data));
+      sessionStorage.setItem('token', data.token);
+      sessionStorage.setItem('korisnik', JSON.stringify({
+        id:data.id,
+        korisnickoIme:data.korisnickoIme,
+        ime:data.ime,
+        prezime:data.prezime,
+        tipKorisnika: data.tipKorisnika
+      }))
       if(tipKorisnika === 'TRENER'){
         navigate('/trener-main');
       }else{

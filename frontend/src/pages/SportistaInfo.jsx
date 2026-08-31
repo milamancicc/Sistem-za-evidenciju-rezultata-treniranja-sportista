@@ -11,10 +11,20 @@ export default function SportistaInfo() {
     const [mesto, setMesto] = useState('');
     const [klub, setKlub] = useState('');
 
+    const getAuthHeaders = () => {
+        const token = sessionStorage.getItem('token');
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : ''
+        };
+    };
+
     const ucitajNazivMesta = async (id) => {
         if(!id) return;
         try{
-            const res = await fetch(`http://localhost:8080/api/mesta/${id}`);
+            const res = await fetch(`http://localhost:8080/api/mesta/${id}`, {
+                headers: getAuthHeaders()
+            });
             if(!res.ok){
                 throw new Error("Greska pri preuzimanju imena mesta");
             }
@@ -29,7 +39,9 @@ export default function SportistaInfo() {
     const ucitajKlub = async (id) => {
         if(!id) return;
         try{
-            const res = await fetch(`http://localhost:8080/api/klubovi/${id}`);
+            const res = await fetch(`http://localhost:8080/api/klubovi/${id}`, {
+                headers: getAuthHeaders()
+            });
             if(!res.ok){
                 throw new Error("Greska pri preuzimanju imena mesta");
             }
@@ -42,7 +54,7 @@ export default function SportistaInfo() {
     }
 
     const ucitajProfil = async () => {
-        const sacuvaniKorisnik = localStorage.getItem('korisnik');
+        const sacuvaniKorisnik = sessionStorage.getItem('korisnik');
         if(!sacuvaniKorisnik)
             return;
         if (sacuvaniKorisnik) {
@@ -52,7 +64,9 @@ export default function SportistaInfo() {
                 setKorisnik(parsed);
                 if (!id) return;
 
-                fetch(`http://localhost:8080/api/sportisti/${id}`)
+                fetch(`http://localhost:8080/api/sportisti/${id}`, {
+                    headers: getAuthHeaders()
+                })
                     .then((res) => {
                         if (!res.ok) throw new Error("Neuspešno preuzimanje profila sportiste.");
                         return res.json();
@@ -65,7 +79,7 @@ export default function SportistaInfo() {
                     })
                     .catch((err) => console.error("Greška pri sinhronizaciji: ", err));
             } catch (e) {
-                console.error("Greška pri čitanju iz localStorage ", e);
+                console.error("Greška pri čitanju iz sessionStorage-a ", e);
             }
         }
     };
@@ -113,7 +127,7 @@ export default function SportistaInfo() {
                             </div>
                             <div class='info-item'>
                                 <label>ID korisnika</label>
-                                <p>{JSON.parse(localStorage.getItem('korisnik'))?.id}</p>
+                                <p>{JSON.parse(sessionStorage.getItem('korisnik'))?.id}</p>
                             </div>
                             <div class='info-item'>
                                 <label>Datum rođenja</label>

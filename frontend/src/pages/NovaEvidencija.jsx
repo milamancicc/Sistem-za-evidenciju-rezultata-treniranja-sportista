@@ -22,8 +22,16 @@ const NovaEvidencija = () => {
         komentar:''
     });
 
+    const getAuthHeaders = () => {
+        const token = sessionStorage.getItem('token');
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : ''
+        };
+    };
+
     useEffect(() => {
-        const sacuvaniKorisnik = localStorage.getItem('korisnik');
+        const sacuvaniKorisnik = sessionStorage.getItem('korisnik');
         try{
             if(sacuvaniKorisnik){
                 const ulogovani = JSON.parse(sacuvaniKorisnik);
@@ -40,7 +48,9 @@ const NovaEvidencija = () => {
 
     const fetchSportisti = async () => {
         try{
-            const res  = await fetch('http://localhost:8080/api/sportisti');
+            const res  = await fetch('http://localhost:8080/api/sportisti', {
+                headers: getAuthHeaders()
+            });
             if(res.ok){
                 const data = await res.json();
                 setSportisti(data);
@@ -53,7 +63,9 @@ const NovaEvidencija = () => {
 
     const fetchVezbe = async () => {
         try{
-            const res = await fetch('http://localhost:8080/api/vezbe');
+            const res = await fetch('http://localhost:8080/api/vezbe', {
+                headers: getAuthHeaders()
+            });
             if(!res.ok)
                 throw new Error("Greska pri ucitavanju vezbi");
             const data = await res.json();
@@ -79,7 +91,7 @@ const NovaEvidencija = () => {
         try{
             const res = await fetch(`http://localhost:8080/api/evidencije/izracunaj-stavku?sportistaId=${sportistaId}`, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: getAuthHeaders(),
                 body: JSON.stringify(zaSlanje)
             });
             if(res.ok){
@@ -129,7 +141,7 @@ const NovaEvidencija = () => {
         try{
             const res = await fetch('http://localhost:8080/api/evidencije', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: getAuthHeaders(),
                 body: JSON.stringify(novaEvidencijaDto)
             });
             if(res.ok){

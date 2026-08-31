@@ -11,12 +11,17 @@ export default function TrenerMain(){
     const navigate = useNavigate();
 
     useEffect(() => {
-        const sacuvaniKorisnik = localStorage.getItem('korisnik');
+        const sacuvaniKorisnik = sessionStorage.getItem('korisnik');
+        if(!sacuvaniKorisnik){
+            setGreska('Korisnik nije prijavljen');
+            return;
+        }
         try{
             const ulogovani = JSON.parse(sacuvaniKorisnik);
             setKorisnik(ulogovani);
             const idTrenera = ulogovani.id;
             fetchSportisti();
+            
             if(idTrenera){
                 fetchEvidencije(idTrenera);
             }else{
@@ -26,9 +31,19 @@ export default function TrenerMain(){
             console.error('Greška pri parsiranju korisnika.',e);
         }
     }, []);
+
+    const getAuthHeaders = () => {
+        const token = sessionStorage.getItem('token');
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : ''
+        };
+    };
     const fetchEvidencije = async (idTrenera) => {
         try{
-            const response = await fetch(`http://localhost:8080/api/evidencije/trener/${idTrenera}`);
+            const response = await fetch(`http://localhost:8080/api/evidencije/trener/${idTrenera}`, {
+                headers: getAuthHeaders()
+            });
             if(!response.ok){
                 if(response.status === 404){
                     setEvidencije([]);
@@ -49,7 +64,8 @@ export default function TrenerMain(){
     const handleObrisiEvidenciju = async (idTestiranja) => {
         try{
             const res = await fetch(`http://localhost:8080/api/evidencije/${idTestiranja}`,{
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: getAuthHeaders()
             });
             if(!res.ok){
                 alert('Greška pri brisanju evidencije.');
@@ -65,7 +81,9 @@ export default function TrenerMain(){
 
     const fetchSportisti = async () => {
         try{
-            const res = await fetch('http://localhost:8080/api/sportisti');
+            const res = await fetch('http://localhost:8080/api/sportisti', {
+                headers: getAuthHeaders()
+            });
             if(res.ok){
                 const data = await res.json();
                 setSportisti(data);
@@ -94,7 +112,9 @@ export default function TrenerMain(){
             if(prosaoTestiranje !== '') params.append('prosaoTestiranje', prosaoTestiranje);
             if(rezultatTestiranja) params.append('rezultatTestiranja', rezultatTestiranja);
 
-            const res = await fetch(`http://localhost:8080/api/evidencije/pretraga?${params.toString()}`);
+            const res = await fetch(`http://localhost:8080/api/evidencije/pretraga?${params.toString()}`, {
+                headers: getAuthHeaders()
+            });
 
             if(!res.ok){
                 if(res.status === 404){

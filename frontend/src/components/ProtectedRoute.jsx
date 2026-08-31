@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 
 export default function ProtectedRoute({children, dozvoljenTipKorisnika}) {
-    const sacuvaniKorisnik = localStorage.getItem('korisnik');
+    const sacuvaniKorisnik = sessionStorage.getItem('korisnik');
     const korisnik = sacuvaniKorisnik ? JSON.parse(sacuvaniKorisnik) : null;
 
     if(!korisnik){

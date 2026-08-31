@@ -37,6 +37,14 @@ export default function TrenerSportisti() {
     const [noviKlubEmail, setNoviKlubEmail] = useState('');
     const [noviKlubKontakt, setNoviKlubKontakt] = useState('');
 
+    const getAuthHeaders = () => {
+        const token = sessionStorage.getItem('token');
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : ''
+        };
+    };
+
     const handleDodajMesto = async () => {
         if(!novoMestoNaziv){
             alert('Polje naziv mesta je obavezno.');
@@ -45,7 +53,7 @@ export default function TrenerSportisti() {
         try{
             const res = await fetch('http://localhost:8080/api/mesta', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: getAuthHeaders(),
                 body: JSON.stringify({naziv: novoMestoNaziv})
             });
             if(res.ok){
@@ -78,7 +86,7 @@ export default function TrenerSportisti() {
         try{
             const res = await fetch('http://localhost:8080/api/klubovi', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: getAuthHeaders(),
                 body: JSON.stringify(noviKlub)
             });
             if(res.ok){
@@ -101,7 +109,9 @@ export default function TrenerSportisti() {
 
     const ucitajSportiste = async (trenerId) => {
         try{
-            const res = await fetch(`http://localhost:8080/api/sportisti`);
+            const res = await fetch(`http://localhost:8080/api/sportisti`, {
+                headers: getAuthHeaders()
+            });
             if(!res.ok){
                 throw new Error("Greška pri komunikaciji sa serverom.");
                 
@@ -116,7 +126,9 @@ export default function TrenerSportisti() {
 
     const ucitajKlubove = async () => {
         try{
-            const res = await fetch('http://localhost:8080/api/klubovi');
+            const res = await fetch('http://localhost:8080/api/klubovi', {
+                headers: getAuthHeaders()
+            });
             if(res.ok){
                 const data = await res.json();
                 setKlubovi(data);
@@ -129,7 +141,9 @@ export default function TrenerSportisti() {
 
     const ucitajMesta = async () => {
         try{
-            const res = await fetch('http://localhost:8080/api/mesta');
+            const res = await fetch('http://localhost:8080/api/mesta', {
+                headers: getAuthHeaders()
+            });
             if(res.ok){
                 const data = await res.json();
                 setMesta(data);
@@ -151,9 +165,9 @@ export default function TrenerSportisti() {
     }
 
     useEffect(() => {
-        const sacuvani = localStorage.getItem('korisnik');
+        const sacuvani = sessionStorage.getItem('korisnik');
         if(!sacuvani){
-            console.alert('Nema sacuvanih podataka u localStorage-u');
+            console.alert('Nema sacuvanih podataka u sessionStorage-u');
             return;
         }
 
@@ -193,6 +207,7 @@ export default function TrenerSportisti() {
         try{
             const res = await fetch(`http://localhost:8080/api/sportisti/${id}`, {
                 method: 'DELETE',
+                headers: getAuthHeaders()
             });
             if(res.ok){
                 ucitajSportiste();
@@ -248,7 +263,7 @@ export default function TrenerSportisti() {
         try{
             const res = await fetch('http://localhost:8080/api/sportisti', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: getAuthHeaders(),
                 body: JSON.stringify(noviSportista)
             });
             if(!res.ok){

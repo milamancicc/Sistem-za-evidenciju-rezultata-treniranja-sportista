@@ -16,8 +16,16 @@ export default function TrenerProfil() {
     const[poruka, setPoruka] = useState("");
 
 
+    const getAuthHeaders = () => {
+        const token = sessionStorage.getItem('token');
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : ''
+        };
+    };
+
     const ucitajProfil = async () => {
-        const sacuvaniKorisnik = localStorage.getItem('korisnik');
+        const sacuvaniKorisnik = sessionStorage.getItem('korisnik');
         if(sacuvaniKorisnik) {
             try{
                 const parsed = JSON.parse(sacuvaniKorisnik);
@@ -25,7 +33,9 @@ export default function TrenerProfil() {
                 setKorisnik(parsed);
                 if(!id)
                     return;
-                fetch(`http://localhost:8080/api/treneri/${id}`)
+                fetch(`http://localhost:8080/api/treneri/${id}`, {
+                    headers: getAuthHeaders()
+                })
                     .then((res) => {
                         if(!res.ok)
                             throw new Error("Neuspešno preuzimanje profila.");
@@ -40,7 +50,7 @@ export default function TrenerProfil() {
                     })
                     .catch((err) => console.error("Greška pri sinhronizaciji: ", err));
             }catch(e){
-                console.error("Greška pri čitanju iz localStorage ", e);
+                console.error("Greška pri čitanju iz sessionStorage-a ", e);
             }
         }
     };
@@ -53,7 +63,9 @@ export default function TrenerProfil() {
     const otvoriModal = () => {
         setPoruka("");
         setPrikaziModal(true);
-        fetch('http://localhost:8080/api/specijalizacije')
+        fetch('http://localhost:8080/api/specijalizacije', {
+            headers: getAuthHeaders()
+        })
             .then((res) => (res.ok ? res.json() : []))
             .then((data) => setSveSpecijalizacije(data))
             .catch((err) => console.error('Greška pri učitavanju liste specijalizacija: ', err));
@@ -72,7 +84,7 @@ export default function TrenerProfil() {
     const handleDodajSpecijalizaciju = async (e) => {
         e.preventDefault();
         setPoruka("");
-        const sacuvaniKorisnik = JSON.parse(localStorage.getItem('korisnik'));
+        const sacuvaniKorisnik = JSON.parse(sessionStorage.getItem('korisnik'));
         const trenerId = korisnik?.idKorisnika || sacuvaniKorisnik.id;
         if(!trenerId){
             console.error("Nedostaje ID trenera.");
@@ -87,7 +99,7 @@ export default function TrenerProfil() {
                 }
                 const resSpec = await fetch("http://localhost:8080/api/specijalizacije", {
                     method: "POST",
-                    headers: {"Content-Type": "application/json"},
+                    headers: getAuthHeaders(),
                     body: JSON.stringify({naziv:noviNazivSpec, opis: opisSpecijalizacije})
                 });
                 if(!resSpec.ok)
@@ -108,7 +120,7 @@ export default function TrenerProfil() {
             };
             const resSP = await fetch("http://localhost:8080/api/treneri/specijalizacije", {
                 method: 'POST',
-                headers: { "Content-Type": "application/json" },
+                headers: getAuthHeaders(),
                 body: JSON.stringify(dto)
             });
             if(!resSP.ok){
@@ -125,10 +137,11 @@ export default function TrenerProfil() {
 
 
     const handleObrisiSpecijalizaciju = async (specId) => {
-        const trenerId =JSON.parse(localStorage.getItem('korisnik')).id;
+        const trenerId =JSON.parse(sessionStorage.getItem('korisnik')).id;
         try{
             const res = await fetch(`http://localhost:8080/api/treneri/specijalizacije?idTrenera=${trenerId}&idSpecijalizacije=${specId}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: getAuthHeaders()
             });
             if(!res.ok){
                 const porukaGreske = await res.text();
@@ -155,7 +168,7 @@ export default function TrenerProfil() {
                         <div class = 'info'>
                             <div class='info-item'>
                                 <label>Korisničko ime</label>
-                                <p>@{JSON.parse(localStorage.getItem('korisnik')).korisnickoIme}</p>
+                                <p>@{JSON.parse(sessionStorage.getItem('korisnik')).korisnickoIme}</p>
                             </div>
                             <div class='info-item'>
                                 <label>Email adresa</label>
@@ -167,7 +180,7 @@ export default function TrenerProfil() {
                             </div>
                             <div class='info-item'>
                                 <label>ID korisnika</label>
-                                <p>{JSON.parse(localStorage.getItem('korisnik')).id}</p>
+                                <p>{JSON.parse(sessionStorage.getItem('korisnik')).id}</p>
                             </div>
                         </div>
                     </div>

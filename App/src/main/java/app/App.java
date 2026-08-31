@@ -61,57 +61,5 @@ public class App {
         SpringApplication.run(App.class, args);
     }
     
-    public EvidencijaTestiranjaDto sacuvajEvidencijuTestiranja(EvidencijaTestiranjaDto dto){
-        return evidencijaTestiranjaService.sacuvajEvidencijuTestiranja(dto);
-    }
-    
-    public List<EvidencijaTestiranjaDto> pretraziPoTreneru(Long idTrenera){
-        return evidencijaTestiranjaService.pretraziPoTreneru(idTrenera);
-    }
-    
-    public List<EvidencijaTestiranjaDto> pretraziPoKriterijumima(Long idTrenera, Long idSportiste, LocalDate datum, Boolean prosaoTestiranje, Double rezultatTestiranja){
-        return evidencijaTestiranjaService.pretraziPoKriterijumima(idTrenera, idSportiste, datum, prosaoTestiranje, rezultatTestiranja);
-    }
-    
-    public EvidencijaTestiranjaDto nadjiEvidencijuTestiranjaPoId(Long id){
-        return evidencijaTestiranjaService.nadjiPoId(id);
-    }
-
-    public SportistaDto sacuvajSportistu(SportistaDto dto){
-        return sportistaService.sacuvajSportistu(dto);
-    }
-    
-    public SportistaDto nadjiSportistuPoId(Long id){
-        return sportistaService.nadjiPoId(id);
-    }
-    
-    public List<SportistaDto> pretraziSportistePoKriterijumima(String imePrezime, Pol pol, Integer godineOd, Integer godineDo, List<StarosnaKategorija> starosneKategorije, List<Long> kluboviId, List<Long> mestaId){
-        return sportistaService.pretraziPoKriterijumima(imePrezime, pol, godineOd, godineDo, starosneKategorije, kluboviId, mestaId);
-    }
-    
-    public void obrisiSportistu(Long id) throws Exception{
-        sportistaService.obrisiSportistu(id);
-    }
-    
-    public Korisnik login(String korisnickoIme, String unetaSifra, String izabraniKorisnik) throws NoSuchAlgorithmException, InvalidKeySpecException{
-        return loginService.login(korisnickoIme, unetaSifra, izabraniKorisnik);
-    }
-    
-    public SpecijalizacijaDto sacuvajSpecijalizaciju(SpecijalizacijaDto dto){
-        return specijalizacijaService.sacuvajSpecijalizaciju(dto);
-    }
-    
-    public TrenerDto sacuvajTrenera(TrenerDto dto, Korisnik ulogovaniKorisnik){
-        return trenerService.sacuvajTrenera(dto, ulogovaniKorisnik);
-    }
-    
-    public void dodajSpecijalistickiPodatakTreneru(SpecijalistickiPodaciDto dto){
-        trenerService.dodajSpecijalistickiPodatak(dto);
-    }
-    
-    public TrenerDto nadjiPoId(Long id){
-        return trenerService.nadjiPoId(id);
-    }
-    
     
 }

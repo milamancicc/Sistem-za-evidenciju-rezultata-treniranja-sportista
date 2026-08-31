@@ -25,9 +25,17 @@ export default function DetaljiEvidencije(){
         komentar:''
     });
     const [prikaiModalDodaj, setPrikaziModalDodaj] = useState(false);
+
+    const getAuthHeaders = () => {
+        const token = sessionStorage.getItem('token');
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : ''
+        };
+    };
     
     useEffect(() => {
-        const sacuvaniKorisnik = localStorage.getItem('korisnik');
+        const sacuvaniKorisnik = sessionStorage.getItem('korisnik');
         if(sacuvaniKorisnik){
             try{
                 setKorisnik(JSON.parse(sacuvaniKorisnik));
@@ -45,7 +53,9 @@ export default function DetaljiEvidencije(){
 
     const fetchVezbe = async ()=> {
         try{
-            const res = await fetch(`http://localhost:8080/api/vezbe`);
+            const res = await fetch(`http://localhost:8080/api/vezbe`, {
+                headers: getAuthHeaders(),
+            });
             if(!res.ok)
                 throw new Error("Greska pri ucitavanju vezbi");
             const data = await res.json();
@@ -60,7 +70,8 @@ export default function DetaljiEvidencije(){
     const obrisiStavku = async (rb) => {
         try{
             const res = await fetch(`http://localhost:8080/api/evidencije/${id}/stavke/${rb}`,{
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: getAuthHeaders()
             });
             if(!res.ok)
                 throw new Error(await res.text());
@@ -73,7 +84,9 @@ export default function DetaljiEvidencije(){
 
     const fetchEvidencijaDetalji = async () => {
         try{
-            const res = await fetch(`http://localhost:8080/api/evidencije/${id}`);
+            const res = await fetch(`http://localhost:8080/api/evidencije/${id}`, {
+                headers: getAuthHeaders()
+            });
             
             
             if(!res.ok){
@@ -96,7 +109,7 @@ export default function DetaljiEvidencije(){
         try{
             const res = await fetch(`http://localhost:8080/api/evidencije/${id}/stavke/${stavka.rb}`, {
                 method: 'PUT',
-                headers: {'Content-Type':'application/json'},
+                headers: getAuthHeaders(),
                 body: JSON.stringify(stavka)
             });
             if(!res.ok){
@@ -116,7 +129,7 @@ export default function DetaljiEvidencije(){
         try{
             const res = await fetch(`http://localhost:8080/api/evidencije/${id}/stavke`, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: getAuthHeaders(),
                 body: JSON.stringify(novaStavka)
             });
              if(!res.ok){

@@ -21,9 +21,17 @@ export default function TrenerVezbe() {
     const [prikaziModalVezba, setPrikaziModalVezba] = useState(false);
     const [prikaziModalNorma, setPrikaziModalNorma] = useState(false);
 
+    const getAuthHeaders = () => {
+        const token = sessionStorage.getItem('token');
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : ''
+        };
+    };
+
     useEffect(() => {
-        const sacuvani = localStorage.getItem('korisnik');
-        console.log(localStorage.getItem('korisnik'));
+        const sacuvani = sessionStorage.getItem('korisnik');
+        console.log(sessionStorage.getItem('korisnik'));
         
         if(sacuvani){
             setKorisnik(JSON.parse(sacuvani));
@@ -51,7 +59,7 @@ export default function TrenerVezbe() {
         try{
             const res = await fetch('http://localhost:8080/api/vezbe', {
                 method:'POST',
-                headers: {'Content-Type' : 'application/json'},
+                headers: getAuthHeaders(),
                 body: JSON.stringify(novaVezba)
             });
             if(res.ok){
@@ -80,7 +88,7 @@ export default function TrenerVezbe() {
         try{
             const res = await fetch(`http://localhost:8080/api/norme`, {
                 method: 'POST',
-                headers: {'Content-Type' : 'application/json'},
+                headers: getAuthHeaders(),
                 body: JSON.stringify(novaNorma)
             });
             if(res.ok){
@@ -123,7 +131,9 @@ export default function TrenerVezbe() {
 
     const ucitajVezbe = async () => {
         try{
-            const res= await fetch('http://localhost:8080/api/vezbe');
+            const res= await fetch('http://localhost:8080/api/vezbe', {
+                headers: getAuthHeaders()
+            });
             if(res.ok){
                 const data = await res.json();
                 setVezbe(data);
@@ -136,7 +146,9 @@ export default function TrenerVezbe() {
 
     const ucitajNormeZaVezbu = async (id) => {
         try{
-            const res = await fetch(`http://localhost:8080/api/norme/vezba/${id}`);
+            const res = await fetch(`http://localhost:8080/api/norme/vezba/${id}`, {
+                headers: getAuthHeaders()
+            });
             if(res.ok){
                 const data = await res.json();
                 setNorme(prev => ({...prev, [id]: data}));
@@ -151,6 +163,7 @@ export default function TrenerVezbe() {
         try{
             const res = await fetch(`http://localhost:8080/api/vezbe/${id}`, {
                 method: 'DELETE',
+                headers: getAuthHeaders()
             });
             if(res.ok){
                 ucitajVezbe();
@@ -170,6 +183,7 @@ export default function TrenerVezbe() {
         try{
             const res = await fetch(`http://localhost:8080/api/norme/${Number(idNorme)}`, {
                 method: 'DELETE',
+                headers: getAuthHeaders()
             });
             if(res.ok){
                 ucitajNormeZaVezbu(idVezbe);

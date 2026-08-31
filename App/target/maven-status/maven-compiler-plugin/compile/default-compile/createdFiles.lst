@@ -2,12 +2,15 @@ app\repository\SpecijalizacijaRepository.class
 app\domain\Pol.class
 app\service\SportistaService.class
 app\repository\EvidencijaTestiranjaRepository.class
+app\security\JwtUtil.class
 app\domain\TipKorisnika.class
 app\domain\Vezba.class
 app\service\VezbaService.class
 app\domain\Specijalizacija.class
+app\service\AktivniKorisniciService.class
 app\domain\Norma.class
 app\domain\JedinicaMere.class
+app\security\JwtFilter.class
 app\converter\impl\TrenerConverter.class
 app\service\SpecijalizacijaService.class
 app\dto\SportistaDto.class
@@ -42,6 +45,7 @@ app\repository\NormaRepository.class
 app\converter\impl\SportistaConverter.class
 app\repository\VezbaRepository.class
 app\dto\SpecijalistickiPodaciDto.class
+app\dto\LoginResponse.class
 app\controller\MestoController.class
 app\dto\NormaDto.class
 app\converter\impl\SpecijalizacijaConverter.class
@@ -59,6 +63,7 @@ app\service\MestoService.class
 app\service\EvidencijaTestiranjaService.class
 app\controller\VezbaController.class
 app\dto\VezbaDto.class
+app\config\SecurityConfig.class
 app\controller\LoginController.class
 app\domain\Sportista.class
 app\converter\impl\NormaConverter.class

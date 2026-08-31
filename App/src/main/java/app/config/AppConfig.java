@@ -21,6 +21,7 @@ import app.repository.SpecijalizacijaRepository;
 import app.repository.SportistaRepository;
 import app.repository.TrenerRepository;
 import app.repository.VezbaRepository;
+import app.security.JwtUtil;
 import app.service.EvidencijaTestiranjaService;
 import app.service.KlubService;
 import app.service.LoginService;
@@ -96,8 +97,8 @@ public class AppConfig {
     }
     
     @Bean(value = "login-service")
-    public LoginService loginService(KorisnikRepository korisnikRepository){
-        return new LoginService(korisnikRepository);
+    public LoginService loginService(KorisnikRepository korisnikRepository, JwtUtil jwtUtil){
+        return new LoginService(korisnikRepository, jwtUtil);
     }
     
     @Bean(value = "specijalizacija-service")

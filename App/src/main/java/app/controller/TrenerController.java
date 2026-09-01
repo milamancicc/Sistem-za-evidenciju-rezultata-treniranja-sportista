@@ -4,8 +4,10 @@
  */
 package app.controller;
 
+import app.domain.Korisnik;
 import app.dto.SpecijalistickiPodaciDto;
 import app.dto.TrenerDto;
+import app.repository.KorisnikRepository;
 import app.service.TrenerService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -31,9 +33,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class TrenerController {
     
     private final TrenerService trenerService;
-
-    public TrenerController(@Qualifier(value = "trener-service")TrenerService trenerService) {
+    private final KorisnikRepository korisnikRepository;
+    
+    public TrenerController(@Qualifier(value = "trener-service")TrenerService trenerService, @Qualifier(value ="korisnik-repository") KorisnikRepository korisnikRepository) {
         this.trenerService = trenerService;
+        this.korisnikRepository = korisnikRepository;
     }
     
     @GetMapping("/{id}")
@@ -69,6 +73,17 @@ public class TrenerController {
             return ResponseEntity.ok(dto);
         }catch(Exception e){
             return ResponseEntity.badRequest().body("Greska pri brisanju " + e.getMessage());
+        }
+    }
+    
+    @PostMapping
+    public ResponseEntity<?> dodajTrenera(@RequestBody TrenerDto trenerDto, @RequestParam("korisnickoIme") String korisnickoIme){
+        try{
+            Korisnik ulogovaniKorisnik = korisnikRepository.nadjiPoKorisnickomImenu(korisnickoIme);
+            TrenerDto sacuvan = trenerService.sacuvajTrenera(trenerDto, ulogovaniKorisnik);
+            return ResponseEntity.status(HttpStatus.CREATED).body(sacuvan);
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }

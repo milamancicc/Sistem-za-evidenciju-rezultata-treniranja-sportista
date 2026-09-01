@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import NavBarSportista from "../components/NavBarSportista";
 import './SportistaEvidencija.css'
+import jsPDF from "jspdf";
+import autoTable from 'jspdf-autotable';
 
 export default function SportistaEvidencija() {
     const {id} = useParams();
@@ -24,6 +26,67 @@ export default function SportistaEvidencija() {
             'Authorization': token ? `Bearer ${token}` : ''
         };
     };
+
+    const generisiPDF = (item) => {        
+        const doc = new jsPDF();
+
+        doc.setFontSize(18);
+        doc.setTextColor(3, 79, 58);
+        doc.text("Izveštaj o testiranju sportiste", 14, 20);
+
+        doc.setFontSize(11);
+        doc.setTextColor(100,100,100);
+        doc.text(`Datum generisanja: ${new Date().toLocaleDateString()}`, 14, 28);
+
+        const tableData = [
+                ['ID Testiranja', `#${item.idTestiranja}`],
+                ['Ime i prezime sportiste', `${item.imeIPrezimeSportiste}`],
+                ['Trener', `${imeTrenera}`],
+                ['Rezultat testiranja', `${item.rezultatTestiranja}%`],
+                ['Status', item.prosaoTestiranje ? 'Položio' : 'Nije položio'],
+                ['Datum testiranja', item.datum ],
+                ['Broj testova', item.brojTestova],
+                ['Broj položenih testova', item.brojPolozenih],
+                ['Broj palih testova', item.brojPalih]
+            ]
+
+        autoTable(doc, {
+            startY:35,
+            head: [['Polje', 'Detalji']],
+            body: tableData,
+            headStyles: {fillColor: [3, 79, 58]},
+            theme: 'grid'
+        });
+        const stavke = item.stavke;
+        if(stavke.length > 0){
+            const poslednjaY = doc.lastAutoTable ? doc.lastAutoTable.finalY : 85;
+            doc.setFontSize(14);
+            doc.setTextColor(3, 79, 58);
+            doc.text("Stavke testiranja", 14, poslednjaY + 12);
+
+            const stavkeRedovi = stavke.map((s) => [
+                s.rb,
+                s.vezbaNaziv,
+                s.ostvareniRezultat,
+                s.norma,
+                s.prosaoTest ? 'Prošao' : 'Pao',
+                s.komentar ?? '',
+            ]);
+
+            autoTable(doc, {
+                startY: poslednjaY + 18,
+                head: [['RB', 'Naziv vežbe','Ostvareni rezultat','Norma', 'Prošao testiranje', 'Komentar']],
+                body: stavkeRedovi,
+                headStyles: { fillColor: [3, 79, 58] },
+                theme: 'grid'
+            })
+
+
+        }
+        
+        doc.save(`evidencija_${item.idTestiranja}.pdf`);
+    }
+
 
     const fetchTrenera = async(id) => {
         if(!id)
@@ -131,6 +194,11 @@ export default function SportistaEvidencija() {
                             ))}
                         </div>
                     )}
+                </div>
+                <div class='pdf-dugme-container'>
+                    <button class='btn-generisi-pdf' onClick={() => generisiPDF(evidencija)}>
+                        📄Generiši PDF izveštaj
+                    </button>
                 </div>
             </main>
         </div>

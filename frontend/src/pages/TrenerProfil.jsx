@@ -16,6 +16,15 @@ export default function TrenerProfil() {
     const[poruka, setPoruka] = useState("");
 
 
+    const [prikaziModalTrener, setPrikaziModalTrener] = useState(false);
+    const [noviTrenerIme, setNoviTrenerIme] = useState('');
+    const [noviTrenerPrezime, setNoviTrenerPrezime] = useState('');
+    const [noviTrenerKorisnickoime, setNoviTrenerKorisnickoime] = useState('');
+    const [noviTrenerMail, setNoviTrenerMail] = useState('');
+    const [noviTrenerSifra, setNoviTrenerSifra] = useState('');
+    const [noviTrenerKontakt, setNoviTrenerKontakt] = useState('');
+
+
     const getAuthHeaders = () => {
         const token = sessionStorage.getItem('token');
         return {
@@ -23,6 +32,56 @@ export default function TrenerProfil() {
             'Authorization': token ? `Bearer ${token}` : ''
         };
     };
+
+    const otvoriModalTrener = () => {
+        setNoviTrenerIme("");
+        setNoviTrenerPrezime("");
+        setNoviTrenerKorisnickoime("");
+        setNoviTrenerMail("");
+        setNoviTrenerSifra("");
+        setNoviTrenerKontakt("");
+        setPrikaziModalTrener(true);
+    };
+
+    const zatvoriModalTrener = () => {
+        setPrikaziModalTrener(false);
+    };
+
+    const handleDodajTrenera = async (e) => {
+        e.preventDefault();
+        const sacuvaniKorisnik = JSON.parse(sessionStorage.getItem('korisnik'));
+        const korisnickoIme = sacuvaniKorisnik?.korisnickoIme;
+        if(!korisnickoIme){
+            return;
+        }
+        const dto = {
+            ime: noviTrenerIme,
+            prezime: noviTrenerPrezime,
+            korisnickoIme: noviTrenerKorisnickoime,
+            sifra: noviTrenerSifra,
+            email: noviTrenerMail,
+            kontakt: noviTrenerKontakt
+        }
+
+        try{
+            const res = await fetch(`http://localhost:8080/api/treneri?korisnickoIme=${korisnickoIme}`, {
+                method: 'POST',
+                headers: getAuthHeaders(),
+                body: JSON.stringify(dto)
+            });
+
+            if(!res.ok){
+                throw new Error("Sistem ne moze da sacuva novog trenera");
+                
+            }
+
+            alert('Novi trener je uspešno dodat.')
+            zatvoriModalTrener();
+
+        }catch(err){
+            alert(err.message || 'Došlo je do greške pri kreiranju novog trenera');
+        }
+    }
 
     const ucitajProfil = async () => {
         const sacuvaniKorisnik = sessionStorage.getItem('korisnik');
@@ -212,6 +271,9 @@ export default function TrenerProfil() {
                             </div>
                             ) : (<p>Nemate unetih specijalizacija.</p>)}
                             <div class='dodaj-spec'>
+                                <button class='dodaj-trenera' onClick={otvoriModalTrener}>
+                                    ➕ Dodaj novog trenera
+                                </button>
                                 <button class='dodaj-btn' onClick={otvoriModal}>
                                     📜Dodaj specijalizaciju
                                 </button>
@@ -278,9 +340,52 @@ export default function TrenerProfil() {
                                     setNacinUnosa("");
                                     setPoruka("");
                                 }}>Otkaži</button>
-                                <button type='submit' class='btn-sacuvaj'>Sačuvaj</button>
+                                <button type='submit' class='btn-sacuvaj' onClick={otvoriModalTrener}>Sačuvaj</button>
                             </div>
                             
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {prikaziModalTrener && (
+                <div className='modal-container'>
+                    <div className='modal-content'>
+                        <div className='modal-header'>
+                            <h3>Dodavanje novog trenera</h3>
+                            <button className='btn-zatvori' onClick={zatvoriModalTrener}>❌</button>
+                        </div>
+                        
+                        <form onSubmit={handleDodajTrenera}>
+                            <div className='form-group'>
+                                <label>Ime</label>
+                                <input type='text' placeholder='Unesite ime' value={noviTrenerIme} onChange={(e) => setNoviTrenerIme(e.target.value)} required />
+                            </div>
+                            <div className='form-group'>
+                                <label>Prezime</label>
+                                <input type='text' placeholder='Unesite prezime' value={noviTrenerPrezime} onChange={(e) => setNoviTrenerPrezime(e.target.value)} required />
+                            </div>
+                            <div className='form-group'>
+                                <label>Korisničko ime</label>
+                                <input type='text' placeholder='Unesite korisničko ime' value={noviTrenerKorisnickoime} onChange={(e) => setNoviTrenerKorisnickoime(e.target.value)} required />
+                            </div>
+                            <div className='form-group'>
+                                <label>Email adresa</label>
+                                <input type='email' placeholder='Unesite email' autoComplete="off" value={noviTrenerMail} onChange={(e) => setNoviTrenerMail(e.target.value)} required />
+                            </div>
+                            <div className='form-group'>
+                                <label>Lozinka</label>
+                                <input type='password' placeholder='Unesite šifru' autoComplete="new-password" value={noviTrenerSifra} onChange={(e) => setNoviTrenerSifra(e.target.value)} required />
+                            </div>
+                            <div className='form-group'>
+                                <label>Kontakt telefon</label>
+                                <input type='text' placeholder='Unesite kontakt telefon' value={noviTrenerKontakt} onChange={(e) => setNoviTrenerKontakt(e.target.value)} />
+                            </div>
+
+                            <div className='modal-btns'>
+                                <button type='button' className='btn-otkazi' onClick={zatvoriModalTrener}>Otkaži</button>
+                                <button type='submit' className='btn-sacuvaj'>Sačuvaj</button>
+                            </div>
                         </form>
                     </div>
                 </div>

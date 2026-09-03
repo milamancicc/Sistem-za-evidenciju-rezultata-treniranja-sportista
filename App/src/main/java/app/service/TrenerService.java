@@ -17,6 +17,8 @@ import app.dto.TrenerDto;
 import app.repository.SpecijalizacijaRepository;
 import app.repository.TrenerRepository;
 import app.security.PasswordHash;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
@@ -94,6 +96,17 @@ public class TrenerService {
         if(dto.getEmail()== null || dto.getEmail().isBlank())
             throw new IllegalArgumentException("Email trenera je obavezno.");
         
+    }
+    
+    public List<TrenerDto> izlistajSve(){
+        List<Trener> entities = trenerRepository.izlistajSve();
+        if(entities == null)
+            return null;
+        List<TrenerDto> dtos = new ArrayList<>();
+        for(Trener t: entities){
+            dtos.add(trenerConverter.toDto(t));
+        }
+        return dtos;
     }
     
     

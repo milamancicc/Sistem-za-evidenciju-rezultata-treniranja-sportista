@@ -39,9 +39,19 @@ public class SportistaService {
             StarosnaKategorija starosnaKategorija = odrediStarosnuKategoriju(dto.getDatumRodjenja());
             dto.setStarosnaKategorija(starosnaKategorija);
             dto.setTipKorisnika(TipKorisnika.SPORTISTA);
-            String hasiranaSifra = PasswordHash.createHash(dto.getSifra());
             Sportista entity = sportistaConverter.toEntity(dto);
-            entity.setSifra(hasiranaSifra);
+            if(dto.getId() != null){
+                Sportista stari = sportistaRepository.nadjiPoId(dto.getId());
+                if(stari != null){
+                    if(dto.getSifra() == null || dto.getSifra().isEmpty()){
+                        entity.setSifra(stari.getSifra());
+                    }else{
+                        entity.setSifra(PasswordHash.createHash(dto.getSifra()));
+                    }
+                }
+            }else{
+                entity.setSifra(PasswordHash.createHash(dto.getSifra()));
+            }
             Sportista sacuvani = sportistaRepository.sacuvajSportistu(entity);
             return sportistaConverter.toDto(sacuvani);
         }catch(IllegalArgumentException e){

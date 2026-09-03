@@ -474,7 +474,7 @@ export default function TrenerSportisti() {
                                     setMestoPorekla('');
                                     setPoruka('');
                                 }}>
-                                    Otkaži
+                                    Obriši
                                 </button>
                                 <button type='submit' class='btn-sacuvaj'>
                                     Sačuvaj

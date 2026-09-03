@@ -286,7 +286,7 @@ export default function TrenerVezbe() {
                                 </select>
                             </div>
                             <div class='modal-btns' >
-                                <button type='button' class='btn-otkazi' onClick={() => {setNazivVezbe(''); setOpisVezbe(''); setJedinicaMere('SEKUNDA')}}>Otkaži</button>
+                                <button type='button' class='btn-otkazi' onClick={() => {setNazivVezbe(''); setOpisVezbe(''); setJedinicaMere('SEKUNDA')}}>Obriši</button>
                                 <button type='submit' class='btn-sacuvaj'>Sačuvaj vežbu</button>
                             </div>
                         </form>
@@ -326,7 +326,7 @@ export default function TrenerVezbe() {
                                 </select>
                             </div>
                             <div class='modal-btns'>
-                                <button type='button' class='btn-otkazi' onClick={() => {setVrednostNorme(''); setPolNorme('MUSKI'); setStarosnaKategorija('PIONIR');}}>Otkaži</button>
+                                <button type='button' class='btn-otkazi' onClick={() => {setVrednostNorme(''); setPolNorme('MUSKI'); setStarosnaKategorija('PIONIR');}}>Obriši</button>
                                 <button type='submit' class='btn-sacuvaj'>Sačuvaj normu</button>
                            </div>
                         </form>

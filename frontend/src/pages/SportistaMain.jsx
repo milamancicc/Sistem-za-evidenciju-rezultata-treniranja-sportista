@@ -14,6 +14,8 @@ export default function SportistaMain() {
 
     const [imenaTrenera, setImenaTrenera] = useState({});
 
+    const [treneri, setTreneri] = useState([]);
+
     const [trenutnaStrana, setTrenutnaStrana] = useState(1);
     const [evidencijaPoStrani] = useState(5);
 
@@ -24,6 +26,24 @@ export default function SportistaMain() {
             'Authorization': token ? `Bearer ${token}` : ''
         };
     };
+
+    const fetchTreneri = async() => {
+        try{
+            const res = await fetch(`http://localhost:8080/api/treneri`, {
+                headers: getAuthHeaders()
+            });
+            if(res.ok){
+                const data = await res.json();
+                console.log(data);
+                
+                setTreneri(data);
+                return;
+            }
+        }catch(err){
+            console.error("Greska pri ucitavanju trenera");
+            
+        }
+    }
 
     const fetchTrenera = async(id) => {
         if(!id)
@@ -76,6 +96,7 @@ export default function SportistaMain() {
 
         }
         ucitajEvidencije();
+        fetchTreneri();
     }, [korisnik?.id]);
 
     const indexOfLastToDo = trenutnaStrana * evidencijaPoStrani;
@@ -94,6 +115,86 @@ export default function SportistaMain() {
         )
     })
 
+    const [idTrenera, setIdTrenera] = useState('');
+    const [datum, setDatum] = useState('');
+    const [prosaoTestiranje, setProsaoTestiranje] = useState('');
+    const [rezultatTestiranja, setRezultatTestiranja] = useState('');
+    const [poruka, setPoruka] = useState('')
+    
+    const handleReset = () => {
+        setIdTrenera('');
+        setDatum('');
+        setProsaoTestiranje('');
+        setRezultatTestiranja('');
+        setPoruka('');
+        const ucitajEvidencije = async () => {
+            try{
+                const res = await fetch(`http://localhost:8080/api/evidencije/pretraga?idSportiste=${korisnik.id}`, {
+                    headers: getAuthHeaders()
+                });
+
+                if(!res.ok){
+                    const tekst = await res.text();
+                    throw new Error(tekst || "Greska pri ucitavanju evidencija.");
+                }
+                const data = await res.json();
+                setEvidencije(data);
+                setGreska('');
+                setTrenutnaStrana(1);
+
+                const jedinstveniId = [...new Set(data.map(e => e.trenerId).filter(Boolean))];
+                const novaMapaImena = {};
+                for(const id of jedinstveniId){
+                    const punoIme = await fetchTrenera(id);
+                    novaMapaImena[id] = punoIme;
+                }
+                setImenaTrenera(novaMapaImena);
+            }catch(err){
+                console.error('Greska pri preuzimanju evidencija:', err.message);
+                setGreska('Greška prilikom učitavanja evidencija');
+                
+            }
+
+        }
+        ucitajEvidencije();
+    }
+
+    const pretraziPoKriterijumima = async (e) => {
+        e.preventDefault();
+
+        try{
+            const params = new URLSearchParams();
+            if(korisnik?.id) params.append('idSportiste', korisnik.id);
+            if(idTrenera) params.append('idTrenera', idTrenera);
+            if(datum) params.append('datum', datum);
+            if(prosaoTestiranje !== '') params.append('prosaoTestiranje', prosaoTestiranje);
+            if(rezultatTestiranja) params.append('rezultatTestiranja', rezultatTestiranja);
+
+            const res = await fetch(`http://localhost:8080/api/evidencije/pretraga?${params.toString()}`, {
+                headers: getAuthHeaders()
+            });
+
+            if(!res.ok){
+                if(res.status === 404){
+                    setEvidencije([]);
+                    setPoruka('Ne postoje evidencije po traženim kriterijumima.');
+                    setTrenutnaStrana(1);
+                    return;
+                }
+                throw new Error("Greska pri pretrazi evidencija sa servera");
+                
+            }
+            const data = await res.json();
+            setEvidencije(data);
+            setPoruka('');
+            setTrenutnaStrana(1);
+
+        }catch(err){
+            console.error('Greska tokom pretrage:', err);
+            setGreska(err.message);
+        }
+    }
+
     return(
         <div class='sportista-main-page'>
             
@@ -105,10 +206,29 @@ export default function SportistaMain() {
                 </section>
             </header>
                 <h3>Moje evidencije testiranja</h3>
+                <form class='pretraga-forma' onSubmit={pretraziPoKriterijumima}>
+                        <p>Filtriraj</p>
+                        <select value={idTrenera} onChange={(e) => setIdTrenera(e.target.value)}>
+                            <option value=''>Izaberi trenera</option>
+                            {treneri.map((t) => (
+                                <option key={t.id} value={t.idKorisnika}>{t.ime} {t.prezime}</option>
+                            ))}
+                        </select>
+                        <label>Od:</label>
+                        <input type='date' value={datum} onChange={(e) => setDatum(e.target.value)}/>
+                        <select value={prosaoTestiranje} onChange={(e) => {setProsaoTestiranje(e.target.value)}}>
+                            <option value=''>Prošao test(Da/Ne)</option>
+                            <option value='true'>Da</option>
+                            <option value='false'>Ne</option>
+                        </select>
+                        <input type='number' step='0.1' placeholder='Min rezultat(%)' max='100' value={rezultatTestiranja} onChange={(e) => {setRezultatTestiranja(e.target.value); if(e.target.value >= 70) setProsaoTestiranje(true); if(e.target.value < 70) setProsaoTestiranje(false); if(!e.target.value)setProsaoTestiranje('')}}></input>
+                        <button type='submit' class='btn-pretrazi'>🔎Pretraži</button>
+                        <button type='button' onClick={handleReset} class='btn-reset'>Prikaži sve</button>
+                    </form>
                 <p class='info-evid'>Kliknite na željenu evidenciju da vidite detalje</p>
-                {greska && <div class='greska'>{greska}</div>}
-                {!greska && (evidencije.length === 0 ? (
-                    <p class='nema-evidencija'>Nema pronađenih evidencija za Vas.</p>
+                {/* {greska && <div class='greska'>{greska}</div>} */}
+                {greska && (evidencije.length === 0 ? (
+                    <p class='nema-evidencija'>{poruka || `Nema pronađenih evidencija za Vas.`}</p>
                 ) : (
                     <>
                     <table class='tabela-evidencije'>

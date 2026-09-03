@@ -11,6 +11,22 @@ export default function SportistaInfo() {
     const [mesto, setMesto] = useState('');
     const [klub, setKlub] = useState('');
 
+    const [klubovi, setKlubovi] = useState([]);
+
+    const ucitajSveKlubove = async () => {
+        try {
+            const res = await fetch(`http://localhost:8080/api/klubovi`, {
+                headers: getAuthHeaders()
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setKlubovi(data);
+            }
+        } catch (err) {
+            console.error("Greška pri učitavanju klubova: ", err);
+        }
+    };
+
     const getAuthHeaders = () => {
         const token = sessionStorage.getItem('token');
         return {
@@ -72,9 +88,16 @@ export default function SportistaInfo() {
                         return res.json();
                     })
                     .then((data) => {
-                        setKorisnik({
+                        const aktivanKorisnik = {
                             ...data,
                             id: data.idKorisnika
+                        };
+                        setKorisnik(aktivanKorisnik);
+                        setFormaData({
+                            kontakt: '',
+                            tezina: '',
+                            visina: '',
+                            idKluba: ''
                         });
                     })
                     .catch((err) => console.error("Greška pri sinhronizaciji: ", err));
@@ -84,9 +107,42 @@ export default function SportistaInfo() {
         }
     };
 
+    const handleSacuvajIzmene = async (e) => {
+        e.preventDefault();
+        try {
+            const id = JSON.parse(sessionStorage.getItem('korisnik')).id;
+            const payload = {
+                ...korisnik,
+                kontakt: formaData.kontakt,
+                tezina: formaData.tezina ? parseFloat(formaData.tezina) : null,
+                visina: formaData.visina ? parseFloat(formaData.visina) : null,
+                idKluba: formaData.idKluba ? parseInt(formaData.idKluba) : null
+            };
+            
+            const res = await fetch(`http://localhost:8080/api/sportisti/${id}`, {
+                method: 'PUT',
+                headers: getAuthHeaders(),
+                body: JSON.stringify(payload)
+            });
+            if(!res.ok) {
+                const poruka = await res.text();
+                throw new Error(poruka || "Greška prilikom izmene sportiste.");
+            }
+            const azuriraniSportista = await res.json();
+            setKorisnik({
+                ...azuriraniSportista,
+                id: azuriraniSportista.idKorisnika
+            });
+            setPrikaziModal(false);
+            } catch (err) {
+            console.error(err);
+            alert("Došlo je do greške: " + err.message);
+        }
+    };
+
     useEffect(() => {
         ucitajProfil();
-        
+        ucitajSveKlubove();
     }, []);
 
 
@@ -98,6 +154,15 @@ export default function SportistaInfo() {
             ucitajKlub(korisnik?.idKluba)
         }
     }, [korisnik])
+    
+
+    const [prikaziModal, setPrikaziModal] = useState(false);
+    const [formaData, setFormaData] =useState({
+        kontakt: korisnik?.kontakt || '',
+        tezina: korisnik?.tezina || '',
+        visina: korisnik?.visina || '',
+        idKluba: korisnik?.idKluba || ''
+    })
 
 
     const podaci = detalji || korisnik;
@@ -155,11 +220,64 @@ export default function SportistaInfo() {
                             </div>
                             <div class='info-item'>
                                 <label>Klub</label>
-                                <p>{klub}</p>
+                                <p>{klub ? klub : 'Nije unet'}</p>
+                            </div>
+                            <div class='info-item'>
+                                <button class='izmeni' onClick={() => {
+                                    console.log(korisnik);
+                                    
+                                    setFormaData({
+                                        kontakt: korisnik?.kontakt || '',
+                                        tezina: korisnik?.tezina || '',
+                                        visina: korisnik?.visina || '',
+                                        idKluba: korisnik?.idKluba || ''
+                                    })
+                                    setPrikaziModal(true)}}>✏️</button>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {prikaziModal && (
+                    <form class='modal-form' onSubmit={handleSacuvajIzmene}>
+                        <div class='modal-content'>
+                            <h3>Izmeni informacije</h3>
+                            <div>
+                                <label>Kontakt telefon: </label>
+                                <input type='text' value={formaData.kontakt} onChange={(e) => setFormaData({...formaData, kontakt:e.target.value})}/>
+                            </div>
+                            <div>
+                                <label>Težina (kg): </label><br/>
+                                <input type='number' step='0.1' min='0' value={formaData.tezina} onChange={(e) => setFormaData({...formaData, tezina: e.target.value})}/>
+                            </div>
+                            <div>
+                                <label>Visina (cm): </label><br/>
+                                <input type='number' step='0.1' min='0' value={formaData.visina} onChange={(e) => setFormaData({...formaData, visina:e.target.value})}/>
+                            </div>
+                            <div>
+                                <label>Klub: </label>
+                                <select 
+                                    value={formaData.idKluba} 
+                                    onChange={(e) => setFormaData({...formaData, idKluba: e.target.value})}
+                                >
+                                    <option value="">Izaberi klub</option>
+                                    {klubovi.map((k) => (
+                                        <option key={k.idKluba} value={k.idKluba}>
+                                            {k.naziv}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div>
+                                <button type='submit'>💾Sačuvaj</button>
+                                <button type='button' onClick={() => {
+                                    setPrikaziModal(false);
+                                    
+                                }}>❌Otkaži</button>
+                            </div>
+                        </div>
+                    </form>
+                )}
             </main>
         </div>
     )

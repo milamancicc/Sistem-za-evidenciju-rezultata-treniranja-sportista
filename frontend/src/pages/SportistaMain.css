@@ -145,3 +145,19 @@ h3{
     box-shadow: 0 2px 4px #034f3a4d;
 }
 
+.btn-pretrazi{
+     background-color: #034f3a;
+}
+
+.btn-pretrazi:hover{
+    background-color: #03815d !important;
+}
+
+.btn-reset{
+    background-color: #034f3a;
+}
+
+.btn-reset:hover{
+    background-color: #495057c6 !important;
+    color: white !important;
+}

@@ -133,4 +133,18 @@ public class TrenerRepository {
         }
     }
     
+    public List<Trener> izlistajSve(){
+        EntityManager em = emf.createEntityManager();
+        try{
+            String query = "SELECT t FROM Trener t ";
+            return em.createQuery(query, Trener.class)
+                    .getResultList();
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }finally{
+            em.close();
+        }
+    }
+    
 }

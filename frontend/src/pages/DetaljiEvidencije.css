@@ -178,6 +178,13 @@
     line-height: 1.4;
 }
 
+
+.komentar-tekst{
+    
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-line;
+}
 .greska-container{
     padding: 10px;
     display: flex;
@@ -292,6 +299,8 @@ h2 p:hover{
     border-bottom: 2px solid #e2e8f0;
     padding-bottom: 8px;
 }
+
+
 
 .arrow{
     rotate: calc(180);

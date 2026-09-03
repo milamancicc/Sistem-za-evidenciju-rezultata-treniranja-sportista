@@ -22,3 +22,18 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
+
+.izmeni{
+    font-size: 1rem;
+    padding: 10px;
+    background-color: transparent;
+    display: inline;
+    align-self: center;
+    border: 1px solid #787a79;
+    border-radius: 20px;
+
+}
+
+.izmeni:hover{
+    background-color: #033f2e71;
+}

@@ -337,10 +337,10 @@ export default function TrenerProfil() {
                                     setNoviNazivSpec("");
                                     setOpisSpecijalizacije("");
                                     setGodinaPostizanja(new Date().getFullYear());
-                                    setNacinUnosa("");
+                                    setNacinUnosa("postojeca");
                                     setPoruka("");
-                                }}>Otkaži</button>
-                                <button type='submit' class='btn-sacuvaj' onClick={otvoriModalTrener}>Sačuvaj</button>
+                                }}>Obriši</button>
+                                <button type='submit' class='btn-sacuvaj' >Sačuvaj</button>
                             </div>
                             
                         </form>

@@ -107,15 +107,24 @@ export default function DetaljiEvidencije(){
     const izmeniStavku = async (e) => {
         e.preventDefault();
         try{
+            const payload ={
+                vezbaId: stavka.vezbaId,
+                ostvareniRezultat: stavka.ostvareniRezultat === '' ? null : parseFloat(stavka.ostvareniRezultat),
+                komentar: stavka.komentar
+            }
+            
             const res = await fetch(`http://localhost:8080/api/evidencije/${id}/stavke/${stavka.rb}`, {
                 method: 'PUT',
                 headers: getAuthHeaders(),
-                body: JSON.stringify(stavka)
+                body: JSON.stringify(payload)
             });
             if(!res.ok){
-                const response = await res.json();
+                const response = await res.text();
                 const greska = response.errors?.[0]?.defaultMessage
                 throw new Error(greska);}
+            const reloaded = await res.json();
+            setEvidencija(reloaded);
+            setStavke(reloaded.stavke);
             setStavka(null);
             fetchEvidencijaDetalji();
         }catch(err){
@@ -205,10 +214,10 @@ export default function DetaljiEvidencije(){
                                     </div>
                                     {(s.komentar) && (
                                         <p class='komentar'>
-                                            <strong>Komentar:</strong> {s.komentar}
+                                            <strong>Komentar:</strong><span class='komentar-tekst'>{s.komentar}</span>
                                         </p>
                                     )}
-                                    <span><button class='btn-izmeni-stavku' onClick={() => setStavka(s)}>✏️</button><button class='btn-obrisi-stavku' onClick={() => obrisiStavku(s.rb)}>🗑️</button></span>
+                                    <span><button class='btn-izmeni-stavku' onClick={() => setStavka({...s, vezbaId:s.vezbaId})}>✏️</button><button class='btn-obrisi-stavku' onClick={() => obrisiStavku(s.rb)}>🗑️</button></span>
                                 </div>
 
                             ))}
@@ -260,7 +269,7 @@ export default function DetaljiEvidencije(){
                             <h3>Izmeni stavku #{stavka.rb}</h3>
                             <div>
                                 <label>Ostvareni rezultat: </label>
-                                <input type='number' step='0.01' min = "0" value={stavka.ostvareniRezultat} onChange={(e) => setStavka({...stavka, ostvareniRezultat:parseFloat(e.target.value)})}/>
+                                <input type='number' step='0.01' min = "0" value={stavka.ostvareniRezultat} onChange={(e) => setStavka({...stavka, ostvareniRezultat:e.target.value === '' ? '' : e.target.value})}/>
                             </div>
                             <div>
                                 <label>Komentar: </label><br/>

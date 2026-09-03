@@ -197,38 +197,6 @@
     transform: scale(0.98);
 }
 
-/* .dodaj-spec{
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-}
-
-.dodaj-btn{
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background-color: #1e293b;
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(49,130,206,0.2);
-    transition: all 0.2s ease-in-out;
-}
-
-.dodaj-btn:hover{
-    background-color: #2b6cb0;
-    box-shadow: 0 4px 8px rgba(49,130,206,0.3);
-    transform: translateY(-1px);
-}
-
-.dodaj-btn:active{
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(49, 130, 206, 0.2);
-} */
 
 .modal-container{
     position: fixed;
@@ -265,6 +233,7 @@
     margin: 0;
     color: #0f172a;
     font-size: 1.25rem;
+    border-bottom: none !important;
 }
 
 .btn-zatvori{

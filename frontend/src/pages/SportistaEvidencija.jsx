@@ -187,7 +187,7 @@ export default function SportistaEvidencija() {
                                     </div>
                                     {s.komentar && (
                                         <p class='komentar'>
-                                            <strong>Komentar:</strong>{s.komentar}
+                                            <strong>Komentar:</strong><span class='komentar-tekst'>{s.komentar}</span>
                                         </p>
                                     )}
                                 </div>

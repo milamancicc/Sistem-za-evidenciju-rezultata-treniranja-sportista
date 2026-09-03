@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -89,6 +90,22 @@ public class SportistaController {
             return ResponseEntity.ok(dto);
         }catch(RuntimeException e){
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<?> izmeniSportistu(@PathVariable("id") Long id, @RequestBody SportistaDto dto){
+        try{
+            if(dto == null)
+                return ResponseEntity.badRequest().body("Podaci o sportisti ne mogu biti prazni");
+            dto.setId(id);
+            SportistaDto izmenjen = sportistaService.sacuvajSportistu(dto);
+            return ResponseEntity.ok(izmenjen);
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Doslo je do greske prilikom izmene sportiste");
         }
     }
 }

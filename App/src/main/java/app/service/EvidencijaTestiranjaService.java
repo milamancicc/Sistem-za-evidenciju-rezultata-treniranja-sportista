@@ -166,7 +166,7 @@ public class EvidencijaTestiranjaService {
         if(evidencijaTestiranja == null)
             throw new RuntimeException("Evidencija testiranja sa ID-jem: " + idTestiranja + " ne postoji.");
         StavkaTestiranja st = evidencijaTestiranja.getStavke().stream()
-                .filter(s-> s.getId().getRb() == rb && s.getId().getEvidencijaId() == idTestiranja)
+                .filter(s-> s.getId().getRb() == rb)
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Stavka sa rednim brojem " + rb + " ne postoji u evidenciji."));
 

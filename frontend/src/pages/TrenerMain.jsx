@@ -586,8 +586,8 @@ export default function TrenerMain(){
                             <option value='false'>Ne</option>
                         </select>
                         <input type='number' step='0.1' placeholder='Min rezultat(%)' max='100' value={rezultatTestiranja} onChange={(e) => {setRezultatTestiranja(e.target.value); if(e.target.value >= 70) setProsaoTestiranje(true); if(e.target.value < 70) setProsaoTestiranje(false); if(!e.target.value)setProsaoTestiranje('')}}></input>
-                        <button type='submit' class='btn-pretrazi'>🔎Pretraži</button>
-                        <button type='button' onClick={handleReset} class='btn-reset'>Prikaži sve</button>
+                        <button type='submit' class='btn-pretrazi1'>🔎Pretraži</button>
+                        <button type='button' onClick={handleReset} class='btn-reset1'>Prikaži sve</button>
                     </form>
                     {greska && <div class='greska-message'>{greska}</div>}
 

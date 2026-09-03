@@ -343,6 +343,7 @@ export default function TrenerMain(){
         const sacuvaniKorisnik = sessionStorage.getItem('korisnik');
         if(!sacuvaniKorisnik){
             setGreska('Korisnik nije prijavljen');
+            navigate('/')
             return;
         }
         try{
@@ -376,6 +377,12 @@ export default function TrenerMain(){
             if(!response.ok){
                 if(response.status === 404){
                     setEvidencije([]);
+                    return;
+                }
+                if(response.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
                     return;
                 }
                 throw new Error("Neuspešno preuzimanje evidencija testiranja.");
@@ -460,6 +467,12 @@ export default function TrenerMain(){
                 headers: getAuthHeaders()
             });
             if(!res.ok){
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 alert('Greška pri brisanju evidencije.');
             }
             fetchEvidencije(korisnik.id);
@@ -479,6 +492,13 @@ export default function TrenerMain(){
             if(res.ok){
                 const data = await res.json();
                 setSportisti(data);
+            } else{
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
             }
         }catch(err){
             console.error('Greska pri ucitavanju sportista:', err);
@@ -513,6 +533,12 @@ export default function TrenerMain(){
                     setEvidencije([]);
                     setPoruka('Ne postoje evidencije po traženim kriterijumima.');
                     setTrenutnaStrana(1);
+                    return;
+                }
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
                     return;
                 }
                 throw new Error("Greska pri pretrazi evidencija sa servirea");

@@ -5,6 +5,7 @@
 package app.security;
 
 import app.service.AktivniKorisniciService;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,17 +34,24 @@ public class JwtFilter extends OncePerRequestFilter{
     
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authHeader = request.getHeader("Authorization");
-        if(authHeader != null && authHeader.startsWith("Bearer ")){
-            String token = authHeader.substring(7);
-            if(jwtUtil.validateToken(token)){
-                String korisnickoIme = jwtUtil.extractKorisnickoIme(token);
-                aktivniKorisniciService.zabeleziAktivnost(korisnickoIme);
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(korisnickoIme, null, Collections.emptyList());
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+        try{
+            String authHeader = request.getHeader("Authorization");
+            if(authHeader != null && authHeader.startsWith("Bearer ")){
+                String token = authHeader.substring(7);
+                if(jwtUtil.validateToken(token)){
+                    String korisnickoIme = jwtUtil.extractKorisnickoIme(token);
+                    aktivniKorisniciService.zabeleziAktivnost(korisnickoIme);
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(korisnickoIme, null, Collections.emptyList());
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
+            filterChain.doFilter(request, response);
+        }catch(ExpiredJwtException e){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\": \"Token je istekao\"}");
         }
-        filterChain.doFilter(request, response);
+        
     }
     
 }

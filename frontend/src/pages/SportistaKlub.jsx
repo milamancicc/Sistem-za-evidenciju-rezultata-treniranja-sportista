@@ -23,6 +23,12 @@ export default function SportistaKlub(){
                 headers: getAuthHeaders()
             });
             if(!res.ok){
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 throw new Error("Greska pri preuzimanju imena mesta");
             }
             const data = await res.json();
@@ -46,7 +52,15 @@ export default function SportistaKlub(){
                     headers: getAuthHeaders()
                 })
                     .then((res) => {
-                        if (!res.ok) throw new Error("Neuspešno preuzimanje profila sportiste.");
+                        if (!res.ok){ 
+                            if(res.status === 401){
+                                sessionStorage.clear();
+                                alert('Sesija je istekla.')
+                                navigate('/');
+                                return;
+                            }
+                            throw new Error("Neuspešno preuzimanje profila sportiste.");
+                        }
                         return res.json();
                     })
                     .then((data) => {

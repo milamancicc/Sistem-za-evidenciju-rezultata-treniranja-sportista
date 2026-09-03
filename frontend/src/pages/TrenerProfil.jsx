@@ -71,6 +71,12 @@ export default function TrenerProfil() {
             });
 
             if(!res.ok){
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 throw new Error("Sistem ne moze da sacuva novog trenera");
                 
             }
@@ -96,8 +102,15 @@ export default function TrenerProfil() {
                     headers: getAuthHeaders()
                 })
                     .then((res) => {
-                        if(!res.ok)
+                        if(!res.ok){
                             throw new Error("Neuspešno preuzimanje profila.");
+                            if(res.status === 401){
+                                sessionStorage.clear();
+                                alert('Sesija je istekla.')
+                                navigate('/');
+                                return;
+                            }
+                        }
                         return res.json();
                             
                     })
@@ -161,8 +174,15 @@ export default function TrenerProfil() {
                     headers: getAuthHeaders(),
                     body: JSON.stringify({naziv:noviNazivSpec, opis: opisSpecijalizacije})
                 });
-                if(!resSpec.ok)
+                if(!resSpec.ok){
+                    if(resSpec.status === 401){
+                        sessionStorage.clear();
+                        alert('Sesija je istekla.')
+                        navigate('/');
+                        return;
+                    }
                     throw new Error("Sistem ne može da sačuva novu specijalizaciju.");
+                }
                 const sacuvanaSpec = await resSpec.json();
                 specId = sacuvanaSpec.idSpecijalizacije;
                     
@@ -183,6 +203,12 @@ export default function TrenerProfil() {
                 body: JSON.stringify(dto)
             });
             if(!resSP.ok){
+                if(resSP.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 const porukaSaServera = await resSP.text();
                 throw new Error(porukaSaServera || "Sistem ne moze da sacuva specijalisticki podatak.");
                 
@@ -203,6 +229,12 @@ export default function TrenerProfil() {
                 headers: getAuthHeaders()
             });
             if(!res.ok){
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 const porukaGreske = await res.text();
                 throw new Error(porukaGreske || 'Sistem ne može da obriše specijalistički podatak.');
                 

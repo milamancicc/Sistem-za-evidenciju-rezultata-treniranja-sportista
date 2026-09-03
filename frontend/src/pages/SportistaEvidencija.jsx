@@ -98,6 +98,13 @@ export default function SportistaEvidencija() {
             if(res.ok){
                 const trener = await res.json();
                 setImeTrenera(`${trener.ime} ${trener.prezime}`);
+            }else{
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
             }
         }catch(err){
             console.error("Greska pri ucitavanju trenera: ", err);
@@ -112,6 +119,13 @@ export default function SportistaEvidencija() {
                     headers: getAuthHeaders()
                 })
                 if(!res.ok){
+
+                    if(res.status === 401){
+                        sessionStorage.clear();
+                        alert('Sesija je istekla.')
+                        navigate('/');
+                        return;
+                    }
                     throw new Error("Neuspesno preuzimanje detalja evidencije");
                     
                 }

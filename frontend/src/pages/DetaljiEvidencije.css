@@ -156,6 +156,20 @@
     align-items: center;
 }
 
+h4 p{
+    font-size: 0.8rem;
+    background: #5e606319;
+    border-radius: 12px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05);
+    gap: 3px;
+}
+
+h4 p strong{
+    text-transform: lowercase;
+    
+    font-weight: 650;
+}
+
 .vrednosti-item .label{
     font-size: 1rem;
     color: #a0aec0;

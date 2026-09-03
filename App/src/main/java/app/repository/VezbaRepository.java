@@ -66,6 +66,7 @@ public class VezbaRepository {
         EntityManager em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
+            em.createQuery("DELETE FROM Norma n WHERE n.vezba.idVezbe = :idVezbe").setParameter("idVezbe", id).executeUpdate();
             Vezba vezba = em.find(Vezba.class, id);
             if(vezba != null)
                 em.remove(vezba);

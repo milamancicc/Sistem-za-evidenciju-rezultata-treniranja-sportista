@@ -56,8 +56,16 @@ export default function DetaljiEvidencije(){
             const res = await fetch(`http://localhost:8080/api/vezbe`, {
                 headers: getAuthHeaders(),
             });
-            if(!res.ok)
+            if(!res.ok){
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 throw new Error("Greska pri ucitavanju vezbi");
+                
+            }
             const data = await res.json();
             setVezbe(data);
                 
@@ -73,8 +81,16 @@ export default function DetaljiEvidencije(){
                 method: 'DELETE',
                 headers: getAuthHeaders()
             });
-            if(!res.ok)
+            if(!res.ok){
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 throw new Error(await res.text());
+                
+            }
             fetchEvidencijaDetalji();
         }catch(err){
             console.error("Greška pri brisanju stavke: ", err);
@@ -90,8 +106,15 @@ export default function DetaljiEvidencije(){
             
             
             if(!res.ok){
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 const greskaSaServera = await res.text();
                 throw new Error(greskaSaServera);
+                
                 
             }
             const data = await res.json();
@@ -119,9 +142,17 @@ export default function DetaljiEvidencije(){
                 body: JSON.stringify(payload)
             });
             if(!res.ok){
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 const response = await res.text();
                 const greska = response.errors?.[0]?.defaultMessage
-                throw new Error(greska);}
+                throw new Error(greska);
+                
+            }
             const reloaded = await res.json();
             setEvidencija(reloaded);
             setStavke(reloaded.stavke);
@@ -142,6 +173,12 @@ export default function DetaljiEvidencije(){
                 body: JSON.stringify(novaStavka)
             });
              if(!res.ok){
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 throw new Error(await res.text());
                 
              }
@@ -200,7 +237,7 @@ export default function DetaljiEvidencije(){
                                         <span class='rb'>#{s.rb}</span>
                                         <span class={`status ${s.prosaoTest ? 'polozeno' : 'palo'}`}>{s.prosaoTest ? 'Prošao test' : 'Pao test'}</span>
                                     </div>
-                                    <h4 class='vezba'>{s.vezbaNaziv}</h4>
+                                    <h4 class='vezba'>{s.vezbaNaziv} <p>Merna jedinica: <strong>{vezbe.find((v) => v.idVezbe === s.vezbaId).jedinicaMere === 'BROJPONAVLJANJA' ? 'broj ponavljanja' : vezbe.find((v) => v.idVezbe === s.vezbaId).jedinicaMere}</strong></p></h4>
 
                                     <div class='vrednosti'>
                                         <div class='vrednosti-item'>

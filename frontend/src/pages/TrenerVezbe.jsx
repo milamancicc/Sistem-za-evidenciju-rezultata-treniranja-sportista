@@ -66,6 +66,12 @@ export default function TrenerVezbe() {
                 zatvoriModalVezba();
                 ucitajVezbe();
             }else{
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 setPoruka('Greška pri čuvanju vežbe.');
             }
         }catch(err){
@@ -95,6 +101,12 @@ export default function TrenerVezbe() {
                 zatvoriModalNorma();
                 vezbe.forEach(v => ucitajNormeZaVezbu(v.idVezbe));
             }else{
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 setPoruka('Greška pri čuvanju norme.');
             }
         }catch(err){
@@ -137,6 +149,13 @@ export default function TrenerVezbe() {
             if(res.ok){
                 const data = await res.json();
                 setVezbe(data);
+            }else{
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
             }
         }catch(err){
             console.error('Greška pri učitavanju vežbi: ', err);
@@ -152,6 +171,13 @@ export default function TrenerVezbe() {
             if(res.ok){
                 const data = await res.json();
                 setNorme(prev => ({...prev, [id]: data}));
+            }else{
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
             }
         }catch(err){
             console.error('Greska pri ucitavanju normi');
@@ -169,6 +195,12 @@ export default function TrenerVezbe() {
                 ucitajVezbe();
             }
             else{
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 alert('Greška pri brisanju vežbe.');
             }
         }catch(err){
@@ -189,6 +221,12 @@ export default function TrenerVezbe() {
                 ucitajNormeZaVezbu(idVezbe);
             }
             else{
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 alert('Greška pri brisanju norme.');
             }
         }catch(err){
@@ -306,7 +344,7 @@ export default function TrenerVezbe() {
                         <form onSubmit={handleDodajNormu}>
                             <div class='form-group'>
                                 <label>Ciljna norma ({izabranaVezbaZaNormaModal?.jedinicaMere === 'SEKUNDA' ? 'sekunde' : (izabranaVezbaZaNormaModal?.jedinicaMere === 'MINUT' ? 'minuti' : (izabranaVezbaZaNormaModal?.jedinicaMere === 'METAR' ? 'metar' : (izabranaVezbaZaNormaModal?.jedinicaMere === 'KILOGRAM' ? 'kilogram' : 'broj ponavljanja')))})</label>
-                                <input type='number' step='0.01' value={vrednostNorme} onChange={(e) => setVrednostNorme(e.target.value)} required/>
+                                <input type='number' min='0' step='0.01' value={vrednostNorme} onChange={(e) => setVrednostNorme(e.target.value)} required/>
                             </div>
                             <div class='form-group'>
                                 <label>Pol</label>

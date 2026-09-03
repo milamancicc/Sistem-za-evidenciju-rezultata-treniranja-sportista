@@ -54,6 +54,13 @@ const NovaEvidencija = () => {
             if(res.ok){
                 const data = await res.json();
                 setSportisti(data);
+            }else{
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
             }
         }catch(err){
             console.error('Greska pri ucitavaju sportista:', err);
@@ -66,8 +73,15 @@ const NovaEvidencija = () => {
             const res = await fetch('http://localhost:8080/api/vezbe', {
                 headers: getAuthHeaders()
             });
-            if(!res.ok)
+            if(!res.ok){
                 throw new Error("Greska pri ucitavanju vezbi");
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
+            }
             const data = await res.json();
             setVezbe(data);
                 
@@ -105,6 +119,12 @@ const NovaEvidencija = () => {
                 setNovaStavka({vezbaId:'', ostvareniRezultat:'', komentar:''});
                 setPrikaziModalDodaj(false);
             }else{
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 const greska = await res.text();
                 alert('Greska sa servera: ', greska);
             }
@@ -117,8 +137,8 @@ const NovaEvidencija = () => {
 
     const handleSacuvajEvidenciju = async (e) => {
         e.preventDefault();
-        if(!sportistaId || !datum){
-            alert('Molimo izaberite sportistu i datum testiranja.');
+        if(!datum){
+            alert('Molimo izaberite datum testiranja.');
             return;
         }
         if(stavke.length === 0){
@@ -147,13 +167,17 @@ const NovaEvidencija = () => {
             if(res.ok){
                 navigate('/trener-main');
             }else{
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 const greska = await res.text();
-                alert('Greska pri cuvanju evidencije: '+ greska);
+                alert( greska);
             }
         }catch(err){
             console.error('Greska pri slanju evidencije:', err);
-            console.log(err);
-            
         }
     }
 

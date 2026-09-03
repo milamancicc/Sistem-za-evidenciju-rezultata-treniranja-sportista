@@ -62,6 +62,12 @@ export default function TrenerSportisti() {
                 setMestoPorekla(novoMesto.idMesta);
                 setNovoMestoNaziv('');
             }else{
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 alert('Greška pri dodavanju mesta.');
             }
         }catch(err){
@@ -99,6 +105,12 @@ export default function TrenerSportisti() {
                 setNoviKlubEmail('');
                 setNoviKlubKontakt('');
             }else{
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 alert('Greška pri dodavanju novog kluba.');
             }
         }catch(err){
@@ -113,6 +125,12 @@ export default function TrenerSportisti() {
                 headers: getAuthHeaders()
             });
             if(!res.ok){
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 throw new Error("Greška pri komunikaciji sa serverom.");
                 
             }
@@ -132,6 +150,13 @@ export default function TrenerSportisti() {
             if(res.ok){
                 const data = await res.json();
                 setKlubovi(data);
+            }else{
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
             }
         }catch(err){
             console.error(err);
@@ -147,6 +172,13 @@ export default function TrenerSportisti() {
             if(res.ok){
                 const data = await res.json();
                 setMesta(data);
+            }else{
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
             }
         }catch(err){
             console.error(err);
@@ -213,6 +245,12 @@ export default function TrenerSportisti() {
                 ucitajSportiste();
                 ucitajProfil();
             }else{
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 alert('Došlo je do greške pri brisanju sa servera.');
             }
         }catch(err){
@@ -267,6 +305,12 @@ export default function TrenerSportisti() {
                 body: JSON.stringify(noviSportista)
             });
             if(!res.ok){
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 const greska = await res.text();
                 throw new Error(greska);
                 
@@ -391,7 +435,7 @@ export default function TrenerSportisti() {
                                     {klubovi.map((k) => (
                                         <option key={k.idKluba} value={k.idKluba}>{k.naziv}</option>
                                     ))}
-                                    <option value='novi-klub'>Dodaj klub</option>
+                                    <option value='novi-klub'>+Dodaj novi klub</option>
                                 </select>
                             </div>
 

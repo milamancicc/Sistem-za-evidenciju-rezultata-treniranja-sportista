@@ -73,6 +73,12 @@ export default function SportistaMain() {
                 });
 
                 if(!res.ok){
+                    if(res.status === 401){
+                        sessionStorage.clear();
+                        alert('Sesija je istekla.')
+                        navigate('/');
+                        return;
+                    }
                     const tekst = await res.text();
                     throw new Error(tekst || "Greska pri ucitavanju evidencija.");
                 }
@@ -134,6 +140,12 @@ export default function SportistaMain() {
                 });
 
                 if(!res.ok){
+                    if(res.status === 401){
+                        sessionStorage.clear();
+                        alert('Sesija je istekla.')
+                        navigate('/');
+                        return;
+                    }
                     const tekst = await res.text();
                     throw new Error(tekst || "Greska pri ucitavanju evidencija.");
                 }
@@ -179,6 +191,12 @@ export default function SportistaMain() {
                     setEvidencije([]);
                     setPoruka('Ne postoje evidencije po traženim kriterijumima.');
                     setTrenutnaStrana(1);
+                    return;
+                }
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
                     return;
                 }
                 throw new Error("Greska pri pretrazi evidencija sa servera");
@@ -227,7 +245,7 @@ export default function SportistaMain() {
                     </form>
                 <p class='info-evid'>Kliknite na željenu evidenciju da vidite detalje</p>
                 {/* {greska && <div class='greska'>{greska}</div>} */}
-                {greska && (evidencije.length === 0 ? (
+                {(evidencije.length === 0 ? (
                     <p class='nema-evidencija'>{poruka || `Nema pronađenih evidencija za Vas.`}</p>
                 ) : (
                     <>

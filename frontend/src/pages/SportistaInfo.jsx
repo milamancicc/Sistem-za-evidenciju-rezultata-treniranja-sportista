@@ -21,6 +21,13 @@ export default function SportistaInfo() {
             if (res.ok) {
                 const data = await res.json();
                 setKlubovi(data);
+            }else{
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
             }
         } catch (err) {
             console.error("Greška pri učitavanju klubova: ", err);
@@ -42,6 +49,12 @@ export default function SportistaInfo() {
                 headers: getAuthHeaders()
             });
             if(!res.ok){
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 throw new Error("Greska pri preuzimanju imena mesta");
             }
             const data = await res.json();
@@ -59,6 +72,12 @@ export default function SportistaInfo() {
                 headers: getAuthHeaders()
             });
             if(!res.ok){
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 throw new Error("Greska pri preuzimanju imena mesta");
             }
             const data = await res.json();
@@ -84,7 +103,15 @@ export default function SportistaInfo() {
                     headers: getAuthHeaders()
                 })
                     .then((res) => {
-                        if (!res.ok) throw new Error("Neuspešno preuzimanje profila sportiste.");
+                        if (!res.ok){
+                            if(res.status === 401){
+                                sessionStorage.clear();
+                                alert('Sesija je istekla.')
+                                navigate('/');
+                                return;
+                            }
+                            throw new Error("Neuspešno preuzimanje profila sportiste.");
+                        }
                         return res.json();
                     })
                     .then((data) => {
@@ -125,6 +152,12 @@ export default function SportistaInfo() {
                 body: JSON.stringify(payload)
             });
             if(!res.ok) {
+                if(res.status === 401){
+                    sessionStorage.clear();
+                    alert('Sesija je istekla.')
+                    navigate('/');
+                    return;
+                }
                 const poruka = await res.text();
                 throw new Error(poruka || "Greška prilikom izmene sportiste.");
             }

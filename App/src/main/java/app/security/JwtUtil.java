@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 public class JwtUtil {
     
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private final long EXPIRATION_TIME = 10000;
+    private final long EXPIRATION_TIME = 3600000;
     public String generateToken(String korisnickoIme, String uloga){
         return Jwts.builder()
                 .setSubject(korisnickoIme)

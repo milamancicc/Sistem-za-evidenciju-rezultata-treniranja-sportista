@@ -7,6 +7,7 @@ package app.dto;
 import app.domain.Pol;
 import app.domain.StarosnaKategorija;
 import app.domain.TipKorisnika;
+import jakarta.validation.constraints.Min;
 import java.time.LocalDate;
 
 /**
@@ -24,7 +25,9 @@ public class SportistaDto {
     private String kontakt;
     private TipKorisnika tipKorisnika;
     private LocalDate datumRodjenja;
+    @Min(value = 0, message = "Visina mora biti veca od nule.")
     private Double visina;
+    @Min(value = 0, message = "Tezina mora biti veca od nule.")
     private Double tezina;
     private Pol pol;
     private StarosnaKategorija starosnaKategorija;

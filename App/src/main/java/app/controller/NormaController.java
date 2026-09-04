@@ -6,12 +6,15 @@ package app.controller;
 
 import app.dto.NormaDto;
 import app.service.NormaService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,11 +44,13 @@ public class NormaController {
     
     
     @PostMapping
-    public ResponseEntity<?> dodajNormu(@RequestBody NormaDto dto){
+    public ResponseEntity<?> dodajNormu(@Valid @RequestBody NormaDto dto){
         try{
             NormaDto sacuvana = normaService.dodajNormu(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(sacuvana);
         }catch(Exception e){
+            if(e.getMessage()!= null && e.getMessage().contains("1062"))
+                return ResponseEntity.badRequest().body("Norma za izabranu vežbu, pol i starosnu kategoriju već postoji.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Greska pri cuvanju norme: " + e.getMessage());
         }
     }
@@ -58,5 +63,11 @@ public class NormaController {
         }catch(Exception e){
             return ResponseEntity.badRequest().body("Greska pri brisanju norme: " + e.getMessage());
         }
+    }
+    
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleValidation(MethodArgumentNotValidException ex){
+        String greska = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        return ResponseEntity.badRequest().body(greska);
     }
 }

@@ -126,7 +126,8 @@ const NovaEvidencija = () => {
                     return;
                 }
                 const greska = await res.text();
-                alert('Greska sa servera: ', greska);
+                alert('Greska sa servera: '+ greska);
+                
             }
         }catch(err){
             console.error('Greska pri proracunu stavke:', err);

@@ -30,7 +30,6 @@ public class StavkaTestiranja {
     private EvidencijaTestiranja evidencijaTestiranja;
     
     @Column
-    @Min(value = 0, message = "Ostvareni rezultat ne sme biti manji od nule")
     private double ostvareniRezultat;
     
     @Column

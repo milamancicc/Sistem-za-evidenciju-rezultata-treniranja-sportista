@@ -211,6 +211,7 @@
     align-items: center;
     z-index: 1000;
     animation: fadeIn 0.2s ease-out;
+    overflow-y: auto;
 }
 .modal-content{
     background-color: white;
@@ -218,6 +219,7 @@
     width: 100%;
     max-width: 500px;
     padding: 24px 30px;
+    
 }
 
 .modal-header{

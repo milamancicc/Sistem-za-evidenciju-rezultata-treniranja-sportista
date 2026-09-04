@@ -107,7 +107,8 @@ export default function TrenerVezbe() {
                     navigate('/');
                     return;
                 }
-                setPoruka('Greška pri čuvanju norme.');
+                const greska = await res.text();
+                setPoruka('Greška pri čuvanju norme: ' + greska);
             }
         }catch(err){
             setPoruka('Serverska greška.');
@@ -125,6 +126,7 @@ export default function TrenerVezbe() {
         setNazivVezbe('');
         setOpisVezbe('');
         setJedinicaMere('SEKUNDA');
+        setPoruka('')
     }
 
     const otvoriModalNorma = (vezba) => {
@@ -139,6 +141,7 @@ export default function TrenerVezbe() {
         setPolNorme('MUSKI');
         setStarosnaKategorija('PIONIR');
         setVrednostNorme('');
+        setPoruka('')
     }
 
     const ucitajVezbe = async () => {
@@ -338,13 +341,13 @@ export default function TrenerVezbe() {
                     <div class='modal-card'>
                         <div class='modal-header'>
                             <h3>Nova norma za vežbu: {izabranaVezbaZaNormaModal?.naziv}</h3>
-                            <button class='btn-zatvori' onClick={zatvoriModalNorma}>❌</button>
+                            <button class='btn-zatvori' onClick={zatvoriModalNorma }>❌</button>
                         </div>
                         {poruka && <div class='poruka'>{poruka}</div>}
                         <form onSubmit={handleDodajNormu}>
                             <div class='form-group'>
                                 <label>Ciljna norma ({izabranaVezbaZaNormaModal?.jedinicaMere === 'SEKUNDA' ? 'sekunde' : (izabranaVezbaZaNormaModal?.jedinicaMere === 'MINUT' ? 'minuti' : (izabranaVezbaZaNormaModal?.jedinicaMere === 'METAR' ? 'metar' : (izabranaVezbaZaNormaModal?.jedinicaMere === 'KILOGRAM' ? 'kilogram' : 'broj ponavljanja')))})</label>
-                                <input type='number' min='0' step='0.01' value={vrednostNorme} onChange={(e) => setVrednostNorme(e.target.value)} required/>
+                                <input type='number' step='0.01' value={vrednostNorme} onChange={(e) => setVrednostNorme(e.target.value)} required/>
                             </div>
                             <div class='form-group'>
                                 <label>Pol</label>
@@ -364,7 +367,7 @@ export default function TrenerVezbe() {
                                 </select>
                             </div>
                             <div class='modal-btns'>
-                                <button type='button' class='btn-otkazi' onClick={() => {setVrednostNorme(''); setPolNorme('MUSKI'); setStarosnaKategorija('PIONIR');}}>Obriši</button>
+                                <button type='button' class='btn-otkazi' onClick={() => {setVrednostNorme(''); setPolNorme('MUSKI'); setStarosnaKategorija('PIONIR'); setPoruka('')}}>Obriši</button>
                                 <button type='submit' class='btn-sacuvaj'>Sačuvaj normu</button>
                            </div>
                         </form>

@@ -16,8 +16,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -85,7 +87,7 @@ public class EvidencijaTestiranjaController {
     }
     
     @PutMapping("/{idTestiranja}/stavke/{rb}")
-    public ResponseEntity<?> izmeniStavku(@PathVariable("idTestiranja")Long idTestiranja, @PathVariable("rb") int rb, @Valid @RequestBody StavkaTestiranjaDto stavkaTestiranjaDto){
+    public ResponseEntity<?> izmeniStavku(@PathVariable("idTestiranja")Long idTestiranja,@Valid @PathVariable("rb") int rb, @Valid @RequestBody StavkaTestiranjaDto stavkaTestiranjaDto){
         try{
             EvidencijaTestiranjaDto reloaded = evidencijaTestiranjaService.izmeniStavku(idTestiranja, rb, stavkaTestiranjaDto);
             return ResponseEntity.ok(reloaded);
@@ -143,5 +145,11 @@ public class EvidencijaTestiranjaController {
         }catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+    
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleValidation(MethodArgumentNotValidException ex){
+        String greska = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        return ResponseEntity.badRequest().body(greska);
     }
 }

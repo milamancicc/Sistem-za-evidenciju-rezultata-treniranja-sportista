@@ -148,8 +148,7 @@ export default function DetaljiEvidencije(){
                     navigate('/');
                     return;
                 }
-                const response = await res.text();
-                const greska = response.errors?.[0]?.defaultMessage
+                const greska = await res.text();
                 throw new Error(greska);
                 
             }
@@ -159,6 +158,7 @@ export default function DetaljiEvidencije(){
             setStavka(null);
             fetchEvidencijaDetalji();
         }catch(err){
+            alert(err)
             console.error("Greška pri izmeni stavke: ", err.message);
             
         }
@@ -179,7 +179,8 @@ export default function DetaljiEvidencije(){
                     navigate('/');
                     return;
                 }
-                throw new Error(await res.text());
+                const greska = await res.text();
+                throw new Error(greska);
                 
              }
              const reloaded = await res.json();
@@ -189,8 +190,8 @@ export default function DetaljiEvidencije(){
              setStavke(reloaded.stavke)
             //  fetchEvidencijaDetalji();
         }catch(err){
-            console.error('Greska pri dodavanju stavke: ', err);
-            alert('Greška pri dodavanju stavke: '+ err.message);
+            alert(err)
+            console.error("Greška pri izmeni stavke: ", err.message);
         }
     }
 
@@ -281,7 +282,7 @@ export default function DetaljiEvidencije(){
                                 </div>
                                 <div class='form-group'>
                                     <label>Ostvareni rezultat:</label>
-                                    <input type='number' min ="0" step='0.01' value={novaStavka?.ostvareniRezultat} onChange={(e) => setNovaStavka({...novaStavka, ostvareniRezultat: e.target.value})} required/>
+                                    <input type='number' step='0.01' value={novaStavka?.ostvareniRezultat} onChange={(e) => setNovaStavka({...novaStavka, ostvareniRezultat: e.target.value})} required/>
                                 </div>
                                 <div class='form-group'>
                                     <label>Komentar:</label>
@@ -306,7 +307,7 @@ export default function DetaljiEvidencije(){
                             <h3>Izmeni stavku #{stavka.rb}</h3>
                             <div>
                                 <label>Ostvareni rezultat: </label>
-                                <input type='number' step='0.01' min = "0" value={stavka.ostvareniRezultat} onChange={(e) => setStavka({...stavka, ostvareniRezultat:e.target.value === '' ? '' : e.target.value})}/>
+                                <input type='number' step='0.01' value={stavka.ostvareniRezultat} onChange={(e) => setStavka({...stavka, ostvareniRezultat:e.target.value === '' ? '' : e.target.value})}/>
                             </div>
                             <div>
                                 <label>Komentar: </label><br/>

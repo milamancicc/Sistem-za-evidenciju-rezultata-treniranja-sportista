@@ -6,6 +6,7 @@ package app.dto;
 
 import app.domain.Pol;
 import app.domain.StarosnaKategorija;
+import jakarta.validation.constraints.Min;
 
 /**
  *
@@ -13,6 +14,7 @@ import app.domain.StarosnaKategorija;
  */
 public class NormaDto {
     private Long idNorme;
+    @Min(value = 0, message = "Norma mora biti veca ili jednaka nuli.")
     private double norma;
     private Pol pol;
     private StarosnaKategorija starosnaKategorija;
